@@ -11,6 +11,12 @@
 			"style": {
 				"navigationBarTitleText": "业务审批"
 			}
+		},
+		{
+			"path": "pages/expenses/expenses",
+			"style": {
+				"navigationBarTitleText": "财务报销"
+			}
 		}
 	],
 	"globalStyle": {

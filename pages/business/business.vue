@@ -72,6 +72,10 @@
 				pageData: [],
 				title: '什么鬼'
 			}
+		},
+		methods :{
+			getData () {
+			}
 		}
 	}
 </script>

@@ -2,15 +2,11 @@ import Vue from 'vue'
 import App from './App'
 import store from './store'
 
-import apiPath from './unit/apiPath'
-import api from './unit/api'
-
-
-const api = api.getApp();
+import api from './util/index'
 
 Vue.prototype.$store = store
-Vue.prototype.$apiPath = apiPath.realApi
 
+Vue.prototype.$api = api
 Vue.config.productionTip = false
 
 App.mpType = 'app'
