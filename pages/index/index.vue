@@ -1,17 +1,14 @@
 <template>
 	<view class="content">
-        <HeaderNav />
+        <header-nav />
 		<view class="page-body">
 		</view>
 	</view>
 </template>
 
 <script>
-	import HeaderNav from '@/components/header/header'
+	
 	export default {
-		components: {
-			HeaderNav
-		},
 		data() {
 			return {
 				title: 'Hello'

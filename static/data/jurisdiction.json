@@ -2,8 +2,8 @@
 	{
 		"name": "业务审批",
 		"root": "../business/business",
-		"jurisdiction": false,
-		"id": "1"
+		"jurisdiction": true,
+		"id": ""
 	},
 	{
 		"name": "权限审批",
