@@ -1,5 +1,5 @@
-import ApiPath from './util/apiPath'
-import Api from './util/api'
+import ApiPath from './apiPath'
+import Api from './api'
 
 const Root = ApiPath.baseUrl + ApiPath.baseApiName
 
