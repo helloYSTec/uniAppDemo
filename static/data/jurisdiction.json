@@ -31,9 +31,8 @@
 	},
 	{
 		"name": "财务报销",
-		"root": "/",
+		"root": "page/expenses/expenses",
 		"jurisdiction": true,
 		"id": ""
 	}
-	
 ]
