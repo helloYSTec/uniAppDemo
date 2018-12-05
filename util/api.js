@@ -1,4 +1,4 @@
-App({
+export default {
    /** 
     * 自定义post,get函数，返回Promise
     * @param {String}      url 接口网址
@@ -58,4 +58,4 @@ App({
 		 });
    return promise;
    },
-)}
+}

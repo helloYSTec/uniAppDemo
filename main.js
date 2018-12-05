@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import App from './App'
-import apiPath from './unit/apiPath.js'
-import api from './unit/api.js'
-const api = api.getApp();
+import apiPath from './util/apiPath.js'
+import api from './util/api.js'
 Vue.prototype.$apiPath = apiPath.realApi
 Vue.config.productionTip = false
 
