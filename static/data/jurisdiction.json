@@ -2,7 +2,7 @@
 	{
 		"name": "业务审批",
 		"root": "../business/business",
-		"jurisdiction": false,
+		"jurisdiction": true,
 		"id": ""
 	},
 	{

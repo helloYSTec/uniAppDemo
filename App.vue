@@ -15,11 +15,31 @@
 
 <style>
 	@import "./common/uni.css";
+	@import "./static/font/iconfont.css";
+	* {
+		box-sizing: border-box;	
+	}
+	ul {
+		padding: 0;
+		margin: 0;
+	}
+	li {
+		list-style: none;
+	}
 	page {
-		background-color:#F4F5F6;
+		background-color: #f2f2f2;
 		height: 100%;
-		font-size:28upx;
+		font-size: 28upx;
 		line-height: 1.8;
+	}
+	.page-body {
+		margin-top: 110upx;
+		padding-top: 20upx;
+		background-color: #f2f2f2;
+		color: #333;
+	}
+	.open-ico:before {
+		content: "\E60A";
 	}
 	/*每个页面公共css */
 /* 	* {
