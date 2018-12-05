@@ -3,36 +3,36 @@
 		"name": "业务审批",
 		"root": "../business/business",
 		"jurisdiction": false,
-		"id": ""
+		"id": "1"
 	},
 	{
 		"name": "权限审批",
 		"root": "/1",
 		"jurisdiction": false,
-		"id": ""
+		"id": "2"
 	},
 	{
 		"name": "数据校验",
 		"root": "/2",
 		"jurisdiction": false,
-		"id": ""
+		"id": "3"
 	},
 	{
 		"name": "通知提醒",
 		"root": "/3",
 		"jurisdiction": false,
-		"id": ""
+		"id": "4"
 	},
 	{
 		"name": "业务查询",
 		"root": "/4",
 		"jurisdiction": false,
-		"id": ""
+		"id": "5"
 	},
 	{
 		"name": "财务报销",
-		"root": "page/expenses/expenses",
+		"root": "../expenses/expenses",
 		"jurisdiction": true,
-		"id": ""
+		"id": "6"
 	}
 ]

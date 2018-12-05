@@ -65,9 +65,44 @@ var dateUtils = {
 		return new Date(a[0], a[1] - 1, a[2], a[3], a[4], a[5]);
 	}
 };
-
+function dateEmpty(val) {
+  if (val == "&nbsp;" || val == "null") {
+    return "";
+  } else if (val == "待审核") {
+    return "财务审核";
+  } else {
+    return val;
+  }
+};
+function processState(el){
+	switch(el){
+		case 1000:
+		return '未提交';
+		break;
+		case 2000:
+		return '办理中';
+		break;
+		case 3000:
+		return '回退';
+		break;
+		case 4000:
+		return '移交';
+		break;
+		case 9000:
+		return '办结';
+		break;
+		case 9999:
+		return '删除';
+		break;
+		case '':
+		return '无状态';
+		break;
+	}
+}
 module.exports = {
 	formatTime: formatTime,
 	formatLocation: formatLocation,
-	dateUtils: dateUtils
+	dateUtils: dateUtils,
+	dateEmpty: dateEmpty,
+	processState: processState
 }
