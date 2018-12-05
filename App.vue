@@ -1,4 +1,5 @@
 <script>
+	
 	export default {
 		onLaunch: function () {
 			console.log('App Launch')
@@ -13,8 +14,9 @@
 </script>
 
 <style>
+	@import "./common/uni.css";
 	/*每个页面公共css */
-	* {
+/* 	* {
 		box-sizing: border-box;
 		
 	}
@@ -34,5 +36,5 @@
 		background-color: #f2f2f2;
 		color: #333;
 		font-size: .7rem;
-	}
+	} */
 </style>

@@ -80,6 +80,7 @@
 	.base-info {
 		margin-top: 1rem;
 		background-color: #fff;
+		padding-bottom: 1rem;
 	}
 	.content-title {
 		height: 3.8rem;
