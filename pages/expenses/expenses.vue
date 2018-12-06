@@ -136,7 +136,7 @@
 		},
 		methods:{
 			goExpensesDetail(item){
-				console.log(item)
+				// console.log(item)
 				uni.navigateTo({
 					url: "../detail/expenseDetail?FINANCEPROINST_ID="+item.FINANCEPROINST_ID+"&ACCEPT_TYPE="+item.ACCEPT_TYPE+"&NOWACTDEF_IDS="+item.NOWACTDEF_IDS+"&FINANCEPROINST_NEXTID="+item.FINANCEPROINST_NEXTID+"&ACTDEF_NAME="+item.ACTDEF_NAME
 				});
