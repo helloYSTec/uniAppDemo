@@ -32,18 +32,18 @@
 							<div class="card-top">
 								<div>
 									<p class="product-name">标题</p>
-									<p class="product-detail"><i class="ico ico-cate"></i>货号</p>
+									<p class="product-detail"><i class="ico ico-cate"></i>1024110023230</p>
 								</div>
 								<div>
-									<p class="product-detail"><text class="unit-text-b1"></text>售价 <text class="product-price"></text></p>
-									<p class="product-detail">单位 | <text class="product-status"></text></p>
+									<p class="product-detail lh28"><text class="unit-text-b1">售价</text> <b class="product-price">￥20.00</b></p>
+									<p class="product-detail">100 | 瓶 | <b class="product-status">有效</b></p>
 								</div>
 							</div>
 							<ul class="card-detail">
-								<li>进货价格：<text class="uni-text-gray"></text></li>
-								<li>是否散装：<text class="uni-text-gray"></text></li>
-								<li>称重方式：<text class="uni-text-gray"></text></li>
-								<li>生效时间：<text class="uni-text-gray"></text></li>
+								<li>进货价格：<text class="uni-text-gray">16.00</text></li>
+								<li>是否散装：<text class="uni-text-gray">否</text></li>
+								<li>称重方式：<text class="uni-text-gray">计价</text></li>
+								<li>生效时间：<text class="uni-text-gray">2018-12-03  20:30:00</text></li>
 							</ul>
 						</div>
 						
@@ -59,13 +59,13 @@
 					<ul class="process-box uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
 						<li>
 							<div class="process-status">
-								<i class="ico-s" :class="stauts===0 ? 'ico-bh' : (status===1 ? 'ico-yj' : 'ico-tg')"></i>
-								<text :class="stauts===0 ? 'uni-text-red' : (status===1 ? 'uni-text-blue' : 'uni-text-green')">{{text}}</text>
+								<i class="ico-s" :class="status===0 ? 'ico-bh' : (status===1 ? 'ico-yj' : 'ico-tg')"></i>
+								<text :class="status===0 ? 'uni-text-red' : (status===1 ? 'uni-text-blue' : 'uni-text-green')">{{text}}</text>
 							</div>
 							<div class="process-adv">
 								<div>
-									<text class="process-role">审核人员：</text>
-									<text>日期</text>
+									<text class="process-role">审核人员：王林</text>
+									<text>2018.12.30 20:30</text>
 								</div>
 								<p class="">审核意见</p>
 							</div>
@@ -97,6 +97,9 @@
 
 <style scoped>
 	@import '../../common/ico.css';
+	.lh28 {
+		line-height: 54upx;
+	}
 	.base-info {
 		background-color: #fff;
 	}
@@ -132,15 +135,24 @@
 		padding: 20upx 0 15upx 20upx;
 		font-weight: bolder;
 	}
+	.card-title:after {
+
+
+		 border-width:100upx 100upx 0 0;
+		border-style: solid;
+		border-color: #fba344 transparent  transparent transparent;/*透明 透明 透明 灰*/
+		
+		content: '';
+		width: 0;
+		height: 0;
+	}
 	.base-body {
 		font-size: 24upx;
 		color: #777;
 		padding: 15upx 20upx;
 	}
 	.base-body + .base-body {
-		
 		border-top: 1upx dashed #eee;
-		
 	}
 	.button-box {
 		padding-top: 20upx;
@@ -183,18 +195,19 @@
 		/* height: 3rem; */
 		display: flex;
 		justify-content: space-between;
-		padding: 20upx;
+		padding: 20upx 20upx 16upx 20upx;
 	}
 	.card-top .product-name {
 		font-weight: bolder;
 		font-size: 30upx;
 	}	
 	.product-detail {
-		color: #666;
-		font-size: 26upx;
+		color: #696969;
+		font-size: 24upx;
 	}
 	.product-price {
 		color: #ee8437;
+		margin-left: 10upx;
 	}
 	.product-status {
 		color: #6dbf9c;
@@ -203,12 +216,12 @@
 		border-top: 1upx dashed #eee;
 		display: flex;
 		flex-wrap: wrap;
-		padding: 20upx;
+		padding: 0 20upx 20upx 20upx;
 	}
 	.card-detail li {
 		padding-top: 20upx;
 		line-height: 30upx;
-		width: 33%;
+		flex: 33.3%;
 		font-size: 20upx;
 	}
 	.process-box {
