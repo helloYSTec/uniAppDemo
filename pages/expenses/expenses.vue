@@ -1,31 +1,33 @@
 <template>
 	<view id="expenses">
-		<text class="infoP">财务报销</text>
-		<view v-bind:class="{zd:zd}">
-			<view class="content" v-for="(item,i) in FinanceList" :key="i" @tap="bill(item)">
-				  <p class="contentName">{{$util.dateEmpty(item.ACCEPT_NAME)}}</p>
-				  <!-- <p class="contentState" :class="s[i]">{{item.APPLY_TYPE | dateStatefo}}</p>       -->
-				  <img v-if='item.FINANCEPROINST_NEXTID === 2000 || item.FINANCEPROINST_NEXTID === 4000|| item.FINANCEPROINST_NEXTID === 9000' class="typeImg" src="../../static/img/examine.png" alt="">
-				  <img v-if='item.FINANCEPROINST_NEXTID === 1000 || item.FINANCEPROINST_NEXTID === 3000 || item.FINANCEPROINST_NEXTID === ""' class="typeImg" src="../../static/img/Conclusion.png" alt="">
-				  <p class="typeText">{{$util.processState(item.FINANCEPROINST_NEXTID)}}</p>
-				  <view class="content-box">
-					<span class="L-icon">L</span>
-					<span class="contentText">{{item.PRODEF_NAME}}</span>
-				  </view>
-				  <view class="content-box">
-					<span class="B-icon"></span>
-					<span class="content-span">当前环节：{{item.ACTDEF_NAME || '已办结'}}</span>
-				  </view>
-				  <view class="content-box">
-					<span class="G-icon"></span>
-					<span class="content-span">申请人员：{{$util.dateEmpty(item.STAFF_NAME)}}</span>
-				  </view>
-				  <view class="content-box">
-					<span class="R-icon"></span>
-					<span class="content-span">申请时间：{{$util.dateEmpty(item.FINANCEPROINST_CREATEDATE)}}</span>
-				  </view>
+		<header-nav />
+		<view class="page-body">
+			<view v-bind:class="{zd:zd}">
+				<view class="content" v-for="(item,i) in FinanceList" :key="i" @tap="bill(item)">
+						<p class="contentName">{{$util.dateEmpty(item.ACCEPT_NAME)}}</p>
+						<!-- <p class="contentState" :class="s[i]">{{item.APPLY_TYPE | dateStatefo}}</p>       -->
+						<img v-if='item.FINANCEPROINST_NEXTID === 2000 || item.FINANCEPROINST_NEXTID === 4000|| item.FINANCEPROINST_NEXTID === 9000' class="typeImg" src="../../static/img/examine.png" alt="">
+						<img v-if='item.FINANCEPROINST_NEXTID === 1000 || item.FINANCEPROINST_NEXTID === 3000 || item.FINANCEPROINST_NEXTID === ""' class="typeImg" src="../../static/img/Conclusion.png" alt="">
+						<p class="typeText">{{$util.processState(item.FINANCEPROINST_NEXTID)}}</p>
+						<view class="content-box">
+						<span class="L-icon">L</span>
+						<span class="contentText">{{item.PRODEF_NAME}}</span>
+						</view>
+						<view class="content-box">
+						<span class="B-icon A-icon"></span>
+						<span class="content-span">当前环节：{{item.ACTDEF_NAME || '已办结'}}</span>
+						</view>
+						<view class="content-box">
+						<span class="G-icon A-icon"></span>
+						<span class="content-span">申请人员：{{$util.dateEmpty(item.STAFF_NAME)}}</span>
+						</view>
+						<view class="content-box">
+						<span class="R-icon A-icon"></span>
+						<span class="content-span">申请时间：{{$util.dateEmpty(item.FINANCEPROINST_CREATEDATE)}}</span>
+						</view>
+				</view>
 			</view>
-      </view>
+		</view>
 	</view>
 </template>
 
@@ -96,22 +98,22 @@
 	
 </script>
 
-<style scoped>
+<style scoped lang="stylus">
 	.zd .content:first-child{
 		border: 1px solid #fb9154;
 	}
-	.content {
-	  margin-left: 30upx;
-	  margin-right: 30upx;
-	  background-color: #fff;
-	  box-shadow: 0px 1px 8px 0.2px #e2e2e2;
-	  margin-bottom: 20upx;
-	  position: relative;
-	  padding: 30upx;
+	.content{
+		margin-left: 30upx;
+		margin-right: 30upx;
+		background-color: #fff;
+		box-shadow: 0px 1px 8px 0.2px #e2e2e2;
+		margin-bottom: 20upx;
+		position: relative;
+		padding: 30upx;
 	}
 	.contentName {
 	  width: 330upx;
-	  font-size: 14px;
+	  font-size: 28upx;
 	  height: 60upx;
 	  overflow: hidden;
       text-overflow: ellipsis;
@@ -125,57 +127,49 @@
 	}
 	.content-box{
 		display: flex;
+		font-size: 24upx;
+		align-items: center;
 	}
 	.typeText {
 	  color: #fff;
 	  position: absolute;
 	  top: 0rem;
-	  right: 0.75rem;
+	  right: 0.8rem;
 	  width: 103upx;
-	  font-size: 12px;;
+	  font-size: 24upx;;
 	  text-align: center;
 	}
 	.L-icon {
 	  display: block;
 	  background-color: #9c9c9c;
-	  width: 0.5rem;
-	  height: 0.5rem;
-	  line-height: 0.5rem;
-	  border-radius: 0.5rem;
+	  width: 22upx;
+	  height: 22upx;
+	  line-height: 22upx;
+	  border-radius: 22upx;
 	  text-align: center;
 	  color: #fff;
-	  margin: 0.25rem 0.25rem 0 0;
+	  margin: 0 11upx 0 0;
 	}
 	.contentText {
 	  display: block;
 	  color: #636363;
 	}
-	.B-icon {
+	.A-icon{
 	  display: block;
+	  width: 16upx;
+	  height: 16upx;
+	  line-height: 16upx;
+	  border-radius: 16upx;
+	  margin: 0 16upx 0 4upx;
+	}
+	.B-icon {
 	  background-color:#74abfe;
-	  width: 0.35rem;
-	  height: 0.35rem;
-	  line-height: 0.35rem;
-	  border-radius: 0.35rem;
-	  margin: 0.25rem 0.4rem 0 0.075rem;
 	}
 	.G-icon {
-	  display: block;
 	  background-color: #44bea3;
-	  width: 0.35rem;
-	  height: 0.35rem;
-	  line-height: 0.35rem;
-	  border-radius: 0.35rem;
-	  margin: 0.25rem 0.4rem 0 0.075rem;
 	}
 	.R-icon {
-	  display: block;
 	  background-color: #fc9153;
-	  width: 0.35rem;
-	  height: 0.35rem;
-	  line-height: 0.35rem;
-	  border-radius: 0.35rem;
-	  margin: 0.25rem 0.4rem 0 0.075rem;
 	}
 	.content-span {
 	  color: #636363;
