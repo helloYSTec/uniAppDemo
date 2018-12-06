@@ -3,7 +3,7 @@
 		<header-nav />
 		<view class="page-body">
 			<view v-bind:class="{zd:zd}">
-				<view class="content" v-for="(item,i) in FinanceList" :key="i" @tap="bill(item)">
+				<view class="content" v-for="(item,i) in FinanceList" :key="i" @tap="goExpensesDetail(item)">
 						<p class="contentName">{{$util.dateEmpty(item.ACCEPT_NAME)}}</p>
 						<!-- <p class="contentState" :class="s[i]">{{item.APPLY_TYPE | dateStatefo}}</p>       -->
 						<img v-if='item.FINANCEPROINST_NEXTID === 2000 || item.FINANCEPROINST_NEXTID === 4000|| item.FINANCEPROINST_NEXTID === 9000' class="typeImg" src="../../static/img/examine.png" alt="">
@@ -32,51 +32,98 @@
 </template>
 
 <script>
+	import table_data from "../../common/data.js"
 	export default {
 		data () {
 			return {
 				FinanceList:[
 					{
-						ACCEPT_CODE: "201812-401204-0001",
-						ACCEPT_NAME: "智慧项目经费预算",
-						ACCEPT_TYPE: 401204,
-						ACTDEF_NAME: "经办人申请",
+						ACCEPT_CODE: "201811-401202-0046",
+						ACCEPT_NAME: "山东泰安服务区现在调研考察，是否智慧服务区的效果会比浙江的更好。学习对方优势。",
+						ACCEPT_TYPE: 401202,
+						ACTDEF_NAME: "部门经理意见",
 						DEPT_ID: 1000,
 						DEPT_NAME: "浙江省交通投资集团实业发展有限公司",
-						FINANCEPROINST_CREATEDATE: "2018/12/1 21:45:50",
+						FINANCEPROINST_CREATEDATE: "2018/11/28 15:45:59",
 						FINANCEPROINST_DESC: "",
 						FINANCEPROINST_ENDDATE: "",
-						FINANCEPROINST_ID: 748,
-						FINANCEPROINST_NEXTID: 1000,
-						NOWACTDEF_IDS: "473830",
-						NOWSTAFF_ID: 1,
-						NOWSTAFF_NAME: "系统开发者",
-						PRODEF_ID: 307,
-						PRODEF_NAME: "经费预算申请",
-						PROINST_ID: 171878,
+						FINANCEPROINST_ID: 637,
+						FINANCEPROINST_NEXTID: 2000,
+						NOWACTDEF_IDS: "469910",
+						NOWSTAFF_ID: 5603,
+						NOWSTAFF_NAME: "胡书香",
+						PRODEF_ID: 305,
+						PRODEF_NAME: "差旅费报销",
+						PROINST_ID: 171484,
 						STAFF_ID: 1,
 						STAFF_NAME: "系统开发者",
 						USER_ID: 1,
 						USER_NAME: "系统开发者"
 					},
 					{
-						ACCEPT_CODE: "201812-401205-0001",
-						ACCEPT_NAME: "旧电脑报废",
-						ACCEPT_TYPE: 401205,
-						ACTDEF_NAME: "经办人申请",
+						ACCEPT_CODE: "201811-401201-0080",
+						ACCEPT_NAME: "阿尔镜头",
+						ACCEPT_TYPE: 401201,
+						ACTDEF_NAME: "部门经理意见",
 						DEPT_ID: 1000,
 						DEPT_NAME: "浙江省交通投资集团实业发展有限公司",
-						FINANCEPROINST_CREATEDATE: "2018/12/1 21:43:46",
+						FINANCEPROINST_CREATEDATE: "2018/11/26 22:27:33",
+						FINANCEPROINST_DESC: "暗黑界",
+						FINANCEPROINST_ENDDATE: "",
+						FINANCEPROINST_ID: 531,
+						FINANCEPROINST_NEXTID: 2000,
+						NOWACTDEF_IDS: "469234",
+						NOWSTAFF_ID: 5603,
+						NOWSTAFF_NAME: "胡书香",
+						PRODEF_ID: 304,
+						PRODEF_NAME: "费用报销",
+						PROINST_ID: 171117,
+						STAFF_ID: 1,
+						STAFF_NAME: "系统开发者",
+						USER_ID: 1,
+						USER_NAME: "系统开发者"
+					},
+					{
+						ACCEPT_CODE: "201811-401206-0013",
+						ACCEPT_NAME: "省外实施",
+						ACCEPT_TYPE: 401206,
+						ACTDEF_NAME: "部门经理意见",
+						DEPT_ID: 1000,
+						DEPT_NAME: "浙江省交通投资集团实业发展有限公司",
+						FINANCEPROINST_CREATEDATE: "2018/11/30 22:29:16",
 						FINANCEPROINST_DESC: "",
 						FINANCEPROINST_ENDDATE: "",
-						FINANCEPROINST_ID: 747,
-						FINANCEPROINST_NEXTID: 1000,
-						NOWACTDEF_IDS: "473831",
+						FINANCEPROINST_ID: 737,
+						FINANCEPROINST_NEXTID: 2000,
+						NOWACTDEF_IDS: "471654",
 						NOWSTAFF_ID: 1,
 						NOWSTAFF_NAME: "系统开发者",
-						PRODEF_ID: 308,
-						PRODEF_NAME: "固定资产处理",
-						PROINST_ID: 171877,
+						PRODEF_ID: 331,
+						PRODEF_NAME: "差旅费超标准",
+						PROINST_ID: 171853,
+						STAFF_ID: 1,
+						STAFF_NAME: "系统开发者",
+						USER_ID: 1,
+						USER_NAME: "系统开发者"
+					},
+					{
+						ACCEPT_CODE: "201811-401101-0013",
+						ACCEPT_NAME: "行政部门办公用品申请",
+						ACCEPT_TYPE: 401101,
+						ACTDEF_NAME: "申请部门意见",
+						DEPT_ID: 1000,
+						DEPT_NAME: "浙江省交通投资集团实业发展有限公司",
+						FINANCEPROINST_CREATEDATE: "2018/11/30 22:46:39",
+						FINANCEPROINST_DESC: "",
+						FINANCEPROINST_ENDDATE: "",
+						FINANCEPROINST_ID: 738,
+						FINANCEPROINST_NEXTID: 2000,
+						NOWACTDEF_IDS: "471656",
+						NOWSTAFF_ID: 1,
+						NOWSTAFF_NAME: "系统开发者",
+						PRODEF_ID: 301,
+						PRODEF_NAME: "行政资产申请",
+						PROINST_ID: 171854,
 						STAFF_ID: 1,
 						STAFF_NAME: "系统开发者",
 						USER_ID: 1,
@@ -89,7 +136,18 @@
 		computed:{
 		},
 		methods:{
-		
+			goExpensesDetail(item){
+				if(item.FINANCEPROINST_NEXTID !== 1000){
+					table_data.table_data.forEach((data,index) => {
+						console.log(1111)
+						if(data.type === item.ACCEPT_TYPE) {
+							uni.navigateTo({
+								url: '../detail/travelExpenseDetail'
+							});
+						}
+					})
+				}
+			}
 		},
 		onLoad () {
 			
@@ -127,7 +185,7 @@
 	}
 	.content-box{
 		display: flex;
-		font-size: 24upx;
+		font-size: 22upx;
 		align-items: center;
 	}
 	.typeText {
@@ -136,7 +194,7 @@
 	  top: 0rem;
 	  right: 0.8rem;
 	  width: 103upx;
-	  font-size: 24upx;;
+	  font-size: 22upx;;
 	  text-align: center;
 	}
 	.L-icon {

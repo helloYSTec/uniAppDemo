@@ -17,6 +17,12 @@
 			"style": {
 				"navigationBarTitleText": "财务报销"
 			}
+		},
+		{
+			"path": "pages/detail/travelExpenseDetail",
+			"style": {
+				"navigationBarTitleText": "差旅费报销单"
+			}
 		}
 	],
 	"globalStyle": {
