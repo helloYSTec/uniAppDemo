@@ -61,6 +61,7 @@
 	color: #999;
 	border-bottom: 1upx solid #eee;
 	border-top: 1upx solid #eee;
+	z-index: 1;
 	
 }
 .nav-unit {
