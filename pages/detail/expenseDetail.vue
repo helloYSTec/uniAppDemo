@@ -13,6 +13,9 @@
 			return {
 				
 			};
+		},
+		onLoad(option) {
+			console.log(option)
 		}
 	}
 </script>

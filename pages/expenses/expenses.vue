@@ -32,7 +32,6 @@
 </template>
 
 <script>
-	import table_data from "../../common/data.js"
 	export default {
 		data () {
 			return {
@@ -137,16 +136,11 @@
 		},
 		methods:{
 			goExpensesDetail(item){
-				if(item.FINANCEPROINST_NEXTID !== 1000){
-					table_data.table_data.forEach((data,index) => {
-						console.log(1111)
-						if(data.type === item.ACCEPT_TYPE) {
-							uni.navigateTo({
-								url: '../detail/travelExpenseDetail'
-							});
-						}
-					})
-				}
+				console.log(item)
+				uni.navigateTo({
+					url: "../detail/expenseDetail?FINANCEPROINST_ID="+item.FINANCEPROINST_ID+"&ACCEPT_TYPE="+item.ACCEPT_TYPE+"&NOWACTDEF_IDS="+item.NOWACTDEF_IDS+"&FINANCEPROINST_NEXTID="+item.FINANCEPROINST_NEXTID+"&ACTDEF_NAME="+item.ACTDEF_NAME
+				});
+					
 			}
 		},
 		onLoad () {
