@@ -90,9 +90,20 @@ form {
 	font-size:24upx; 
 	color:#888;
 }
-
+.uni-text-red {
+	color: #fa6262
+}
+.uni-text-green {
+	color: #62bd84
+}
+.uni-text-blue {
+	color: #63a0e5
+}
+.unit-text-b1 {
+	color: #b1b1b1;
+}
 .uni-text-gray{
-	color: #ccc;
+	color: #696969;
 }
 .uni-text-small {
 	font-size:24upx;

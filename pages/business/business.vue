@@ -7,16 +7,16 @@
 				<view class="main-card">
 					<div class="card-title">{{title}}</div>
 					<div class="base-body">
-						<text class="ico1">申请人:</text>
+						<i class="ico ico-user"></i><text>申请人:</text>
 					</div>
 					<div class="base-body">
-						<text class="ico2">创建日期:</text>
+						<i class="ico ico-date"></i><text class="ico2">创建日期:</text>
 					</div>
 				</view>
 				<view class="button-box">
-					<button>移交</button>
-					<button>审核</button>
-					<button>驳回</button>
+					<button><i class="ico ico-yijiao"></i> 移交</button>
+					<button><i class="ico ico-shenhe"></i> 审核</button>
+					<button><i class="ico ico-bohui"></i> 驳回</button>
 				</view>
 			</view>
 			
@@ -32,18 +32,18 @@
 							<div class="card-top">
 								<div>
 									<p class="product-name">标题</p>
-									<p class="product-detail">货号</p>
+									<p class="product-detail"><i class="ico ico-cate"></i>货号</p>
 								</div>
 								<div>
-									<p class="product-detail">售价</p>
-									<p class="product-detail">单位</p>
+									<p class="product-detail"><text class="unit-text-b1"></text>售价 <text class="product-price"></text></p>
+									<p class="product-detail">单位 | <text class="product-status"></text></p>
 								</div>
 							</div>
 							<ul class="card-detail">
-								<li>进货价格：</li>
-								<li>是否散装：</li>
-								<li>称重方式：</li>
-								<li>生效时间：</li>
+								<li>进货价格：<text class="uni-text-gray"></text></li>
+								<li>是否散装：<text class="uni-text-gray"></text></li>
+								<li>称重方式：<text class="uni-text-gray"></text></li>
+								<li>生效时间：<text class="uni-text-gray"></text></li>
 							</ul>
 						</div>
 						
@@ -59,14 +59,15 @@
 					<ul class="process-box uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
 						<li>
 							<div class="process-status">
-								状态
+								<i class="ico-s" :class="stauts===0 ? 'ico-bh' : (status===1 ? 'ico-yj' : 'ico-tg')"></i>
+								<text :class="stauts===0 ? 'uni-text-red' : (status===1 ? 'uni-text-blue' : 'uni-text-green')">{{text}}</text>
 							</div>
 							<div class="process-adv">
 								<div>
 									<text class="process-role">审核人员：</text>
 									<text>日期</text>
 								</div>
-								<p>审核意见</p>
+								<p class="">审核意见</p>
 							</div>
 						</li>
 					</ul>
@@ -82,7 +83,9 @@
 			return {
 				pageData: [],
 				title: '什么鬼',
-				cardShow: true
+				cardShow: true,
+				status: 1,
+				text: '通过'
 			}
 		},
 		methods :{
@@ -184,10 +187,17 @@
 	}
 	.card-top .product-name {
 		font-weight: bolder;
+		font-size: 30upx;
 	}	
 	.product-detail {
 		color: #666;
 		font-size: 26upx;
+	}
+	.product-price {
+		color: #ee8437;
+	}
+	.product-status {
+		color: #6dbf9c;
 	}
 	.card-detail {
 		border-top: 1upx dashed #eee;
@@ -223,6 +233,7 @@
 	.process-role {
 		width: 330upx;
 		display: inline-block;
+		color: #333;
 	}
 	
 	.uni-list-cell:after {
