@@ -99,7 +99,7 @@ function processState(el){
 		break;
 	}
 }
-function businessStatus (val) {
+function businessStatus (val) { // 业务审批列表状态判断
   switch (val) {
     case "0":
       return "删除";
@@ -141,5 +141,6 @@ module.exports = {
 	formatLocation: formatLocation,
 	dateUtils: dateUtils,
 	dateEmpty: dateEmpty,
-	processState: processState
+	processState: processState,
+	businessStatus: businessStatus
 }
