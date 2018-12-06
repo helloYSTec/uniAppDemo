@@ -99,6 +99,43 @@ function processState(el){
 		break;
 	}
 }
+function businessStatus (val) {
+  switch (val) {
+    case "0":
+      return "删除";
+      break;
+    case "1":
+      return "正常";
+      break;
+    case "1000":
+      return "待受理";
+      break;
+    case "2000":
+      return "待审核";
+      break;
+    case "3000":
+      return "待复审";
+      break;
+    case "9000":
+      return "已审结";
+      break;
+    case "100100":
+      return "商品新增";
+      break;
+    case "100200":
+      return "信息修改";
+      break;
+    case "100201":
+      return "商品调价";
+      break;
+    case "DOCUMENT":
+      return "发文通知";
+      break;
+    case "MACHINE":
+      return "生效提醒";
+      break;
+  }
+}
 module.exports = {
 	formatTime: formatTime,
 	formatLocation: formatLocation,
