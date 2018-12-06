@@ -5,12 +5,15 @@
 			<view class="base-info">
 				<view class="content-title">{{title}}</view>
 				<view class="main-card">
-					<div class="card-title">{{title}}</div>
-					<div class="base-body">
-						<i class="ico ico-user"></i><text>申请人:</text>
+					<div class="card-title">
+						<h4>{{title}}</h4>
+						<div class="card-status">待审核</div>
 					</div>
 					<div class="base-body">
-						<i class="ico ico-date"></i><text class="ico2">创建日期:</text>
+						<i class="ico ico-user"></i><span class="item-title">申请人：</span><text>王某某</text>
+					</div>
+					<div class="base-body">
+						<i class="ico ico-date"></i><span class="item-title">创建日期： </span><text>2018-12-03 20:30:00</text>
 					</div>
 				</view>
 				<view class="button-box">
@@ -22,8 +25,7 @@
 			
 			<view class="page-title">新增商品详情</view>
 			
-			<view class="base-info">
-				<div class="uni-list-cell uni-collapse">
+			<div class="uni-list-cell uni-collapse base-info">
 					<div class="cat-box uni-list-cell-navigate" :class="cardShow ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow =!cardShow">
 						<b>类别</b>
 					</div>
@@ -46,10 +48,74 @@
 								<li>生效时间：<text class="uni-text-gray">2018-12-03  20:30:00</text></li>
 							</ul>
 						</div>
-						
+					</div>
+					<div class="uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
+						<div class="main-card">
+							<div class="card-top">
+								<div>
+									<p class="product-name">标题</p>
+									<p class="product-detail"><i class="ico ico-cate"></i>1024110023230</p>
+								</div>
+								<div>
+									<p class="product-detail lh28"><text class="unit-text-b1">售价</text> <b class="product-price">￥20.00</b></p>
+									<p class="product-detail">100 | 瓶 | <b class="product-status">有效</b></p>
+								</div>
+							</div>
+							<ul class="card-detail">
+								<li>进货价格：<text class="uni-text-gray">16.00</text></li>
+								<li>是否散装：<text class="uni-text-gray">否</text></li>
+								<li>称重方式：<text class="uni-text-gray">计价</text></li>
+								<li>生效时间：<text class="uni-text-gray">2018-12-03  20:30:00</text></li>
+							</ul>
+						</div>
 					</div>
 				</div>
-			</view>
+			
+			<div class="uni-list-cell uni-collapse base-info">
+				<div class="cat-box uni-list-cell-navigate" :class="cardShow ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow =!cardShow">
+					<b>类别</b>
+				</div>
+				<div class="uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
+					<div class="main-card">
+						<div class="card-top">
+							<div>
+								<p class="product-name">标题</p>
+								<p class="product-detail"><i class="ico ico-cate"></i>1024110023230</p>
+							</div>
+							<div>
+								<p class="product-detail lh28"><text class="unit-text-b1">售价</text> <b class="product-price">￥20.00</b></p>
+								<p class="product-detail">100 | 瓶 | <b class="product-status">有效</b></p>
+							</div>
+						</div>
+						<ul class="card-detail">
+							<li>进货价格：<text class="uni-text-gray">16.00</text></li>
+							<li>是否散装：<text class="uni-text-gray">否</text></li>
+							<li>称重方式：<text class="uni-text-gray">计价</text></li>
+							<li>生效时间：<text class="uni-text-gray">2018-12-03  20:30:00</text></li>
+						</ul>
+					</div>
+				</div>
+				<div class="uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
+					<div class="main-card">
+						<div class="card-top">
+							<div>
+								<p class="product-name">标题</p>
+								<p class="product-detail"><i class="ico ico-cate"></i>1024110023230</p>
+							</div>
+							<div>
+								<p class="product-detail lh28"><text class="unit-text-b1">售价</text> <b class="product-price">￥20.00</b></p>
+								<p class="product-detail">100 | 瓶 | <b class="product-status">有效</b></p>
+							</div>
+						</div>
+						<ul class="card-detail">
+							<li>进货价格：<text class="uni-text-gray">16.00</text></li>
+							<li>是否散装：<text class="uni-text-gray">否</text></li>
+							<li>称重方式：<text class="uni-text-gray">计价</text></li>
+							<li>生效时间：<text class="uni-text-gray">2018-12-03  20:30:00</text></li>
+						</ul>
+					</div>
+				</div>
+			</div>
 			
 			<view class="base-info">
 				<div class="uni-list-cell uni-collapse">
@@ -57,6 +123,19 @@
 						<b>类别</b>
 					</div>
 					<ul class="process-box uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
+						<li>
+							<div class="process-status">
+								<i class="ico-s" :class="status===0 ? 'ico-bh' : (status===1 ? 'ico-yj' : 'ico-tg')"></i>
+								<text :class="status===0 ? 'uni-text-red' : (status===1 ? 'uni-text-blue' : 'uni-text-green')">{{text}}</text>
+							</div>
+							<div class="process-adv">
+								<div>
+									<text class="process-role">审核人员：王林</text>
+									<text>2018.12.30 20:30</text>
+								</div>
+								<p class="">审核意见</p>
+							</div>
+						</li>
 						<li>
 							<div class="process-status">
 								<i class="ico-s" :class="status===0 ? 'ico-bh' : (status===1 ? 'ico-yj' : 'ico-tg')"></i>
@@ -126,30 +205,48 @@
 	.main-card {
 		border: 1upx solid #dcdcdc;
 		border-radius: 10upx;
-		box-shadow: 1upx 1upx 1upx #EEEEEE;
+		box-shadow: 1upx 1upx 1upx #dcdcdc;
 		margin-left: 30upx;
 		margin-right: 30upx;
-		
 	}
 	.card-title {
-		padding: 20upx 0 15upx 20upx;
-		font-weight: bolder;
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
 	}
-	.card-title:after {
-
-
-		 border-width:100upx 100upx 0 0;
-		border-style: solid;
-		border-color: #fba344 transparent  transparent transparent;/*透明 透明 透明 灰*/
-		
-		content: '';
-		width: 0;
-		height: 0;
+	.card-title h4 {
+		padding: 20upx 0 15upx 20upx;
+	}
+	.card-status {
+		background: url('../../static/img/bg_orig.png') no-repeat left top;
+		background-size: contain;
+		color: #fff;
+		width: 120upx;
+		height: 80upx;
+		font-size: 20upx;
+		text-align: right;
+		position: relative;
+		top: -1upx;
+		padding-right: 10upx;
 	}
 	.base-body {
 		font-size: 24upx;
-		color: #777;
+		display: flex;
+		justify-content: flex-start;
 		padding: 15upx 20upx;
+	}
+	.item-title {
+		color: #777;
+		width: 120upx;
+		text-align: justify;
+		height: 40upx;
+		/* white-space: nowrap; */
+	}
+	
+	.item-title:after{
+		display: inline-block ;
+		content: ''; 
+		padding-left: 100%; 
 	}
 	.base-body + .base-body {
 		border-top: 1upx dashed #eee;
@@ -232,11 +329,27 @@
 		display: flex;
 		align-items: flex-start;
 		justify-content: space-between;
+		position: relative;
+	}
+	.process-box li + li {
+		margin-top: 36upx;
 	}
 	.process-status {
 		width: 80upx;
 		margin-right: 50upx;
 		font-size: 24upx;
+	}
+	.process-box li .process-status:after {
+		content: '';
+		height: 90upx;
+		width: 1upx;
+		border-left: 1upx dashed #ddd;
+		position: absolute;
+		left: 20upx;
+		bottom: -44upx;
+	}
+	.process-box li:nth-last-child(1) .process-status:after {
+		height: 0;
 	}
 	.process-adv {
 		width: 530upx;
