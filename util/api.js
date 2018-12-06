@@ -1,3 +1,6 @@
+import ApiPath from './apiPath'
+import Store from '../store/store'
+const Root = Store.state.requsetUrl + ApiPath.baseApiName
 export default {
    /** 
     * 自定义post,get函数，返回Promise
@@ -6,14 +9,14 @@ export default {
     * +-------------------
     * @return {Promise}    promise 返回promise供后续操作
     */
-   post : function(url, data){
+   post : function(data){
       var promise = new Promise((resolve, reject) => {
          //init
          var that = this;
          var postData = data;
          //网络请求
          uni.request({
-            url: url,
+            url: Root,
             data: postData,
             method: 'POST',
             header: { 'content-type': 'application/x-www-form-urlencoded' },
@@ -32,14 +35,14 @@ export default {
       });
       return promise;
    },
-   get : function(url, data){
+   get : function(data){
 		 var promise = new Promise((resolve, reject) => {
 				//init
 			var that = this;
 			var postData = data;
 			//网络请求
 			uni.request({
-				url: url,
+				url: Root,
 				data: postData,
 				method: 'GET',
 				// header: { 'content-type': 'application/x-www-form-urlencoded' },
