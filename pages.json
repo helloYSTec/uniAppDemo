@@ -19,7 +19,7 @@
 			}
 		},
 		{
-			"path": "pages/detail/travelExpenseDetail",
+			"path": "pages/detail/expenseDetail",
 			"style": {
 				"navigationBarTitleText": "差旅费报销单"
 			}

@@ -1,9 +1,6 @@
 <template>
-	<view class="travel-expense-detail">
-		<header-nav />
-		<view class="page-body">
-			
-		</view>
+	<view>
+		111111
 	</view>
 </template>
 
