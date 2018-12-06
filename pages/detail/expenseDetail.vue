@@ -2,8 +2,8 @@
 	<view class="expense-detail">
 		<header-nav />
 		<view class="page-body">
-			<template v-if="expenseData.ACCEPT_TYPE==='401202'">
-				<travel-expense></travel-expense>
+			<template v-if="expenseParam.ACCEPT_TYPE==='401202'">
+				<travel-expense :expenseData="expenseData"></travel-expense>
 			</template>
 		</view>
 	</view>
@@ -14,7 +14,8 @@
 	export default {
 		data() {
 			return {
-				expenseData:{} // 获取expenses页面参数
+				expenseData: [] , // 页面数据
+				expenseParam: {}, // 页面参数
 			};
 		},
 		methods:{
@@ -23,21 +24,23 @@
 				this.$api.post({
 						action_type: 'GetExpenseDetail',
 						action_data: 'o6rT6vuvZRSWKlsiu6N1zuqKSLUI',
-						FINANCEPROINST_ID: this.$route.query['FINANCEPROINST_ID'], //业务内码
-						OPERATION_TYPE:this.$route.query['ACCEPT_TYPE'], //业务类型
-						FINANCEPROINST_NEXTID: this.$route.query['FINANCEPROINST_NEXTID'] //流程状态
-				}).then( res=>{
-					console.log(res)
+						FINANCEPROINST_ID: this.expenseParam.FINANCEPROINST_ID, //业务内码
+						OPERATION_TYPE:this.expenseParam.ACCEPT_TYPE, //业务类型
+						FINANCEPROINST_NEXTID: this.expenseParam.FINANCEPROINST_NEXTID //流程状态
+				}).then(res=>{
+					this.expenseData = res.data
+					console.log(typeof this.expenseData)
 				})
 			}
 		},
 		components:{
 			travelExpense
 		},
-		onLoad(option) {
-			this.expenseData = option;
+		created() {
 			this.getExpenseData()
-			console.log(option)
+		},
+		onLoad(option) {
+			this.expenseParam = option;
 		}
 	}
 </script>

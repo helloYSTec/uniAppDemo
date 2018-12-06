@@ -20,19 +20,22 @@ export default {
             data: postData,
             method: 'POST',
             header: { 'content-type': 'application/x-www-form-urlencoded' },
-            success: function (res) {//服务器返回数据
-               if (res && (res.status ===200 || res.status ===304 || res.status===400)) {
+            success: function (res) {
+							//服务器返回数据
+               if (res && (res.statusCode ===200 || res.statusCode ===304 || res.statusCode===400)) {
                   resolve( res );
                } else {
 				   //返回错误提示信息
-                  reject( res.data.info );
+                  reject( res.data.errMsg );
                }
             },
             error: function (e) {
                reject('网络出错');
             }
          })
-      });
+      }).catch(function(reason) {
+					console.log('catch:', reason);
+				});
       return promise;
    },
    get : function(data){
@@ -47,7 +50,7 @@ export default {
 				method: 'GET',
 				// header: { 'content-type': 'application/x-www-form-urlencoded' },
 				success: function (res) {//服务器返回数据
-					if (res && (res.status ===200 || res.status ===304 || res.status===400)) {
+					if (res && (res.statusCode ===200 || res.statusCode ===304 || res.statusCode===400)) {
 					resolve( res );
 					} else {
 						//返回错误提示信息
@@ -58,7 +61,9 @@ export default {
 					reject('网络出错');
 				}
 			})
-		 });
+		 }).catch(function(reason) {
+					console.log('catch:', reason);
+				});
    return promise;
    }
 }
