@@ -1,6 +1,5 @@
 <template>
-	<!-- <view class="content" v-for="(item,i) in listData" :key="i" @tap="goExpensesDetail(item)"> -->
-		<div class="content">
+		<div class="content" @tap='goExpensesDetail'>
 			<p class="contentName">{{$util.dateEmpty(item.ACCEPT_NAME)}}</p>
 				<img v-if='item.FINANCEPROINST_NEXTID === 2000 || item.FINANCEPROINST_NEXTID === 4000|| item.FINANCEPROINST_NEXTID === 9000' class="typeImg" src="../../static/img/examine.png" alt="">
 				<img v-if='item.FINANCEPROINST_NEXTID === 1000 || item.FINANCEPROINST_NEXTID === 3000 || item.FINANCEPROINST_NEXTID === ""' class="typeImg" src="../../static/img/Conclusion.png" alt="">
@@ -22,8 +21,6 @@
 				<span class="content-span">申请时间：{{$util.dateEmpty(item.FINANCEPROINST_CREATEDATE)}}</span>
 			</view>
 		</div>
-		
-	<!-- </view> -->
 </template>
 
 <script>
@@ -40,8 +37,8 @@
 			}
 		},
 		methods: {
-			goExpensesDetail: function () {
-				this.$emit('goExpensesDetail', this.item)
+			goExpensesDetail () {
+				this.$emit('goDetail', this.item)
 			}
 		}
 	}
