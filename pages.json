@@ -23,6 +23,12 @@
 			"style": {
 				"navigationBarTitleText": "差旅费报销单"
 			}
+		},
+		{
+			"path": "pages/detail/businessDetail",
+			"style": {
+				"navigationBarTitleText": "业务审批"
+			}
 		}
 	],
 	"globalStyle": {
