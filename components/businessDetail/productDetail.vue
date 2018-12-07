@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<view>
 		<header-nav />
 		<view class="page-body">
 			<view class="base-info">
@@ -120,7 +120,7 @@
 			<view class="base-info">
 				<div class="uni-list-cell uni-collapse">
 					<div class="cat-box uni-list-cell-navigate" :class="cardShow ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow =!cardShow">
-						<b>类别</b>
+						<b>审批流程</b>
 					</div>
 					<div class="process-box uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
 						<processUnit />

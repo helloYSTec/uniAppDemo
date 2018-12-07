@@ -3,122 +3,91 @@
 		<header-nav />
 		<view class="page-body">
 			<view v-bind:class="{zd:zd}">
-				<list-unit v-for="(item,i) in FinanceList" :key="i" @goDetail="goDetail" :item="item"></list-unit>
+				<list-unit class="content" v-for="(item, i) in list" :key="i" @goDetail="goDetail" :item='item'></list-unit>
 			</view>
+			<uni-load-more :loadingType="loadingType" :contentText="contentText"></uni-load-more>
 		</view>
 	</view>
 </template>
 
 <script>
-	import ListUnit from '../../components/listUnit/listUnit.vue'
+	import listUnit from '../../components/listUnit/businessListUnit.vue'
+	import uniLoadMore from '../../components/uniComponents/uni-load-more.vue'
 	export default {
-		components: {
-			ListUnit
-		},
 		data () {
 			return {
-				FinanceList:[
-					{
-						ACCEPT_CODE: "201811-401202-0046",
-						ACCEPT_NAME: "山东泰安服务区现在调研考察，是否智慧服务区的效果会比浙江的更好。学习对方优势。",
-						ACCEPT_TYPE: 401202,
-						DEPT_ID: 1000,
-						DEPT_NAME: "浙江省交通投资集团实业发展有限公司",
-						FINANCEPROINST_CREATEDATE: "2018/11/28 15:45:59",
-						FINANCEPROINST_DESC: "",
-						FINANCEPROINST_ENDDATE: "",
-						FINANCEPROINST_ID: 637,
-						FINANCEPROINST_NEXTID: 2000,
-						NOWACTDEF_IDS: "469910",
-						NOWSTAFF_ID: 5603,
-						NOWSTAFF_NAME: "胡书香",
-						PRODEF_ID: 305,
-						PRODEF_NAME: "差旅费报销",
-						PROINST_ID: 171484,
-						STAFF_ID: 1,
-						STAFF_NAME: "系统开发者",
-						USER_ID: 1,
-						USER_NAME: "系统开发者"
-					},
-					{
-						ACCEPT_CODE: "201811-401201-0080",
-						ACCEPT_NAME: "阿尔镜头",
-						ACCEPT_TYPE: 401201,
-						DEPT_ID: 1000,
-						DEPT_NAME: "浙江省交通投资集团实业发展有限公司",
-						FINANCEPROINST_CREATEDATE: "2018/11/26 22:27:33",
-						FINANCEPROINST_DESC: "暗黑界",
-						FINANCEPROINST_ENDDATE: "",
-						FINANCEPROINST_ID: 531,
-						FINANCEPROINST_NEXTID: 2000,
-						NOWACTDEF_IDS: "469234",
-						NOWSTAFF_ID: 5603,
-						NOWSTAFF_NAME: "胡书香",
-						PRODEF_ID: 304,
-						PRODEF_NAME: "费用报销",
-						PROINST_ID: 171117,
-						STAFF_ID: 1,
-						STAFF_NAME: "系统开发者",
-						USER_ID: 1,
-						USER_NAME: "系统开发者"
-					},
-					{
-						ACCEPT_CODE: "201811-401206-0013",
-						ACCEPT_NAME: "省外实施",
-						ACCEPT_TYPE: 401206,
-						DEPT_ID: 1000,
-						DEPT_NAME: "浙江省交通投资集团实业发展有限公司",
-						FINANCEPROINST_CREATEDATE: "2018/11/30 22:29:16",
-						FINANCEPROINST_DESC: "",
-						FINANCEPROINST_ENDDATE: "",
-						FINANCEPROINST_ID: 737,
-						FINANCEPROINST_NEXTID: 2000,
-						NOWACTDEF_IDS: "471654",
-						NOWSTAFF_ID: 1,
-						NOWSTAFF_NAME: "系统开发者",
-						PRODEF_ID: 331,
-						PRODEF_NAME: "差旅费超标准",
-						PROINST_ID: 171853,
-						STAFF_ID: 1,
-						STAFF_NAME: "系统开发者",
-						USER_ID: 1,
-						USER_NAME: "系统开发者"
-					},
-					{
-						ACCEPT_CODE: "201811-401101-0013",
-						ACCEPT_NAME: "行政部门办公用品申请",
-						ACCEPT_TYPE: 401101,
-						DEPT_ID: 1000,
-						DEPT_NAME: "浙江省交通投资集团实业发展有限公司",
-						FINANCEPROINST_CREATEDATE: "2018/11/30 22:46:39",
-						FINANCEPROINST_DESC: "",
-						FINANCEPROINST_ENDDATE: "",
-						FINANCEPROINST_ID: 738,
-						FINANCEPROINST_NEXTID: 2000,
-						NOWACTDEF_IDS: "471656",
-						NOWSTAFF_ID: 1,
-						NOWSTAFF_NAME: "系统开发者",
-						PRODEF_ID: 301,
-						PRODEF_NAME: "行政资产申请",
-						PROINST_ID: 171854,
-						STAFF_ID: 1,
-						STAFF_NAME: "系统开发者",
-						USER_ID: 1,
-						USER_NAME: "系统开发者"
-					}
-				],
-				zd: false
+				pageList: [],
+				list: [],
+				loadingType: 0,
+				zd: false,
+				contentText: {
+					contentdown: "上拉显示更多",
+					contentrefresh: "正在加载...",
+					contentnomore: "没有更多数据了"
+				},
+				totalLength: 0,
+				pageRow: 10 // 每次下拉更新数据条数
 			}
 		},
-		computed:{
+		components: {
+			listUnit,
+			uniLoadMore
 		},
-		methods:{
+		methods: {
 			goDetail (item) {
+				console.log(item)
 				uni.navigateTo({
 					url: "../detail/businessDetail?FINANCEPROINST_ID="+item.FINANCEPROINST_ID+"&ACCEPT_TYPE="+item.ACCEPT_TYPE+"&NOWACTDEF_IDS="+item.NOWACTDEF_IDS+"&FINANCEPROINST_NEXTID="+item.FINANCEPROINST_NEXTID+"&ACTDEF_NAME="+item.ACTDEF_NAME
 				});
 					
+			},
+			getList () {
+				let _this = this
+				let json = {
+					action_type: 'GetAllHighWayProinst',
+					ChangePrice: '0',
+					PROINST_ID: '0,1',
+					action_data: 'oLBr30oH1UhVQRcj2XIMxtSlIxQE'
+				}
+				this.$api.post(json).then(res => {
+					_this.pageList  = res.data.ALLHIGHWAYPROINST
+					_this.totalLength = _this.pageList.length
+					_this.getPage()
+					console.log(res.data)
+				})
+			},
+			getPage () {
+				let list = [];
+				let originList = this.pageList
+				for (let i = 1; i < 11; i++) {
+					list.push(originList[i]);
+				}
+				this.list = list;
 			}
+		},
+		onReachBottom() { // 页面上拉触底事件的处理函数
+			let _this = this
+			if (_this.loadingType !== 0) {
+				return;
+			}
+			_this.loadingType = 1;
+			let list = [],
+				maxItem = _this.list.length - 1,
+				length = maxItem + _this.pageRow;
+			for (let i = maxItem + 1; i < length; i++) {
+				list.push(_this.pageList[i]);
+			}
+			setTimeout(() => {
+				if (length > _this.totalLength) {
+					_this.loadingType = 2;
+					return;
+				}
+				_this.list = _this.list.concat(list);
+				_this.loadingType = 0;
+			}, 800);
+		},
+		created () {
+			this.getList()
 		},
 		onLoad () {
 			
@@ -127,8 +96,9 @@
 	
 </script>
 
-<style scoped lang="stylus">
+<style scoped>
 	.zd .content:first-child{
 		border: 1px solid #fb9154;
 	}
+	
 </style>
