@@ -2,9 +2,8 @@
 	<view class="expense-detail">
 		<header-nav />
 		<view class="page-body">
-			<template v-if="expenseData.ACCEPT_TYPE==='401202'">
-				<productDetail />
-			</template>
+			<productDetail />
+			<template v-if="expenseData.ACCEPT_TYPE==='401202'"> </template>
 		</view>
 	</view>
 </template>
@@ -24,7 +23,7 @@
 						action_type: 'GetExpenseDetail',
 						action_data: 'o6rT6vuvZRSWKlsiu6N1zuqKSLUI',
 						FINANCEPROINST_ID: this.$route.query['FINANCEPROINST_ID'], //业务内码
-						OPERATION_TYPE:this.$route.query['ACCEPT_TYPE'], //业务类型
+						OPERATION_TYPE: this.$route.query['ACCEPT_TYPE'], //业务类型
 						FINANCEPROINST_NEXTID: this.$route.query['FINANCEPROINST_NEXTID'] //流程状态
 				}).then( res=>{
 					console.log(res)
@@ -36,7 +35,7 @@
 		},
 		onLoad(option) {
 			this.expenseData = option;
-			this.getExpenseData()
+			this.getData()
 			console.log(option)
 		}
 	}
