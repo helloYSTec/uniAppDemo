@@ -74,6 +74,7 @@ function dateEmpty(val) {
     return val;
   }
 };
+
 function processState(el){
 	switch(el){
 		case 1000:
@@ -98,11 +99,98 @@ function processState(el){
 		return '无状态';
 		break;
 	}
+};
+//图片转64位码
+function getBase64 (img, w, h) {
+  function getBase64Image(img,width,height) {//width、height调用时传入具体像素值，控制大小 ,不传则默认图像大小
+    var canvas = document.createElement("canvas")
+    canvas.width = width ? width : img.width
+    canvas.height = height ? height : img.height
+
+    var ctx = canvas.getContext("2d")
+    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+    var dataURL = canvas.toDataURL()
+    return dataURL
+  }
+  var image = new Image()
+  image.crossOrigin = ''
+  image.src = img
+  if(img){
+    function changePromise (resolve, reject) {
+    image.onload =function (){
+      resolve(getBase64Image(image, w, h))//将base64传给done上传处理
+    }
+  }
+    return new Promise(changePromise)//问题要让onload完成后再return
+  }
+};
+
+function acceptState(val){
+  switch(val){
+    case 401101:
+      return '行政资产申请';
+      break;
+    case 401102:
+      return '公务接待审批';
+      break;
+    case 401201:
+      return '费用报销审批';
+      break;
+    case 401202:
+      return '差旅费报销';
+      break;
+    case 401203:
+      return '工程款支付';
+      break;
+    case 401204:
+      return '经费预算申请';
+      break;
+    case 401205:
+      return '固定资产处理';
+      break;
+    case 401301:
+      return '内部转账审批';
+      break;
+    case 401302:
+      return '大额支付';
+      break;
+    case 401303:
+      return '支票领用审批';
+      break;
+    case 401304:
+      return '领付款申请';
+      break;
+    case 401207:
+      return '公务交通费用';
+      break;
+    case 401206:
+      return '差旅费超标准';
+      break;
+  }
+};
+function cutDate(date){
+  if(date){
+    var dd = new Date(date);
+    var type = 'YYYY年MM月DD日', daynum = 0
+    dd.setDate(dd.getDate() + daynum) // 获取AddDayCount天后的日期
+    var y = dd.getFullYear()
+    var m = (dd.getMonth() + 1) < 10 ? '0' + (dd.getMonth() + 1) : (dd.getMonth() + 1) // 获取当前月份的日期，不足10补0
+    var d = dd.getDate() < 10 ? '0' + dd.getDate() : dd.getDate() // 获取当前几号，不足10补0
+    var h = dd.getHours() < 10 ? '0' + dd.getHours() : dd.getHours()
+    var mi = dd.getMinutes() < 10 ? '0' + dd.getMinutes() : dd.getMinutes()
+    var s = dd.getSeconds() < 10 ? '0' + dd.getSeconds() : dd.getSeconds()
+    return type.replace('YYYY', y).replace('MM', m).replace('DD', d).replace('hh', h).replace('mm', mi).replace('ss', s)
+  }else{
+    return ''
+  }
 }
 module.exports = {
 	formatTime: formatTime,
 	formatLocation: formatLocation,
 	dateUtils: dateUtils,
 	dateEmpty: dateEmpty,
-	processState: processState
+	processState: processState,
+	getBase64: getBase64,
+	acceptState: acceptState,
+	cutDate: cutDate
 }

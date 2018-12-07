@@ -3,7 +3,7 @@
 		<header-nav />
 		<view class="page-body">
 			<template v-if="expenseParam.ACCEPT_TYPE==='401202'">
-				<travel-expense :expenseData="expenseData"></travel-expense>
+				<travel-expense></travel-expense>
 			</template>
 		</view>
 	</view>
@@ -14,7 +14,6 @@
 	export default {
 		data() {
 			return {
-				expenseData: [] , // 页面数据
 				expenseParam: {}, // 页面参数
 			};
 		},
@@ -28,8 +27,9 @@
 						OPERATION_TYPE:this.expenseParam.ACCEPT_TYPE, //业务类型
 						FINANCEPROINST_NEXTID: this.expenseParam.FINANCEPROINST_NEXTID //流程状态
 				}).then(res=>{
-					this.expenseData = res.data
-					console.log(typeof this.expenseData)
+					// console.log(res.data)
+					this.$store.commit('changeExpenseData', res.data)
+					// console.log(this.expenseData.FinanceProinstList[0])
 				})
 			}
 		},
@@ -37,10 +37,10 @@
 			travelExpense
 		},
 		created() {
-			this.getExpenseData()
 		},
 		onLoad(option) {
 			this.expenseParam = option;
+			this.getExpenseData()
 		}
 	}
 </script>
