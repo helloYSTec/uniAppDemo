@@ -7,13 +7,12 @@
 		<div class="process-adv">
 			<div>
 				<text class="process-role">审核人员：{{item.APPROVED_STAFF}}</text>
-				<text>{{item.APPROVED_DATE}}</text>
+				<text>{{getTime(item.APPROVED_DATE)}}</text>
 			</div>
 			<p>审核意见：{{item.APPROVED_INFO}}</p>
 		</div>
 	</div>
 </template>
-
 <script>
 	export default {
 		props: {
@@ -22,6 +21,12 @@
 				type: Object
 			}
 		},
+		methods: {
+			getTime(time) {
+				let arr = time.split(':').slice(0,-1)
+				return arr.join(':').replace(/\//ig,'.')
+			}
+		}
 		
 	}
 </script>
