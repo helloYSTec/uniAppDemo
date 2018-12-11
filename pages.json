@@ -10,7 +10,7 @@
 		{
 			"path": "pages/business/business",
 			"style": {
-				"navigationBarTitleText": "业务审批",
+				"navigationBarTitleText": "商品审批",
 				"enablePullDownRefresh": true
 			}
 		},
@@ -30,7 +30,7 @@
 		{
 			"path": "pages/detail/businessDetail",
 			"style": {
-				"navigationBarTitleText": "业务审批"
+				"navigationBarTitleText": "商品审批详情"
 			}
 		}
 	],

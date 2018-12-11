@@ -1,178 +1,246 @@
 <template>
 	<view>
-		<header-nav />
-		<view class="page-body">
-			<view class="base-info">
-				<view class="content-title">{{title}}</view>
-				<view class="main-card">
-					<div class="card-title">
-						<h4>{{title}}</h4>
-						<div class="card-status">待审核</div>
-					</div>
-					<div class="base-body">
-						<i class="ico ico-user"></i><span class="item-title">申请人：</span><text>王某某</text>
-					</div>
-					<div class="base-body">
-						<i class="ico ico-date"></i><span class="item-title">创建日期： </span><text>2018-12-03 20:30:00</text>
-					</div>
-				</view>
-				<view class="button-box">
-					<button><i class="ico ico-yijiao"></i> 移交</button>
-					<button><i class="ico ico-shenhe"></i> 审核</button>
-					<button><i class="ico ico-bohui"></i> 驳回</button>
-				</view>
+		<view class="base-info">
+			<view class="content-title">{{baseData.PRODEF_NAME}}</view>
+			<view class="main-card">
+				<div class="card-title">
+					<h4>{{baseData.SERVERPART_NAME}}</h4>
+					<div class="card-status">{{$util.businessStatus(baseData.HIGHWAYPROINST_NEXTID)}}</div>
+				</div>
+				<div class="base-body">
+					<i class="ico ico-user"></i><span class="item-title">申请人：</span><text>{{baseData.STAFF_NAME}}</text>
+				</div>
+				<div class="base-body">
+					<i class="ico ico-date"></i><span class="item-title">创建日期： </span><text>{{baseData.HIGHWAYPROINST_CREATEDATE}}</text>
+				</div>
 			</view>
-			
-			<view class="page-title">新增商品详情</view>
-			
-			<div class="uni-list-cell uni-collapse base-info">
-					<div class="cat-box uni-list-cell-navigate" :class="cardShow ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow =!cardShow">
-						<b>类别</b>
-					</div>
-					<div class="uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
-						<div class="main-card">
-							<div class="card-top">
-								<div>
-									<p class="product-name">标题</p>
-									<p class="product-detail"><i class="ico ico-cate"></i>1024110023230</p>
-								</div>
-								<div>
-									<p class="product-detail lh28"><text class="unit-text-b1">售价</text> <b class="product-price">￥20.00</b></p>
-									<p class="product-detail">100 | 瓶 | <b class="product-status">有效</b></p>
-								</div>
-							</div>
-							<ul class="card-detail">
-								<li>进货价格：<text class="uni-text-gray">16.00</text></li>
-								<li>是否散装：<text class="uni-text-gray">否</text></li>
-								<li>称重方式：<text class="uni-text-gray">计价</text></li>
-								<li>生效时间：<text class="uni-text-gray">2018-12-03  20:30:00</text></li>
-							</ul>
+			<popModel
+			 :popData="popData"
+			 @showPop="showPop"
+			 @closePop='closePop'
+			 />
+			<!-- <view class="button-box">
+
+				<button @tap="showPop(1)"><i class="ico ico-yijiao"></i> 移交</button>
+				<button @tap="showPop(2)"><i class="ico ico-shenhe"></i> 审核</button>
+				<button @tap="showPop(3)"><i class="ico ico-bohui"></i> 驳回</button>
+			</view> -->
+		</view>
+		
+		<view class="page-title">{{$util.businessStatus(baseData.ACCEPT_CODE)}}详情</view>
+		
+		<div class="uni-list-cell uni-collapse base-info" v-for="(item,index) in cateArr" :key="index">
+			<div class="cat-box uni-list-cell-navigate" :class="commodityTree[item].cardShow ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="commodityTree[item].cardShow = !commodityTree[item].cardShow">
+				<b>{{item}}</b>
+			</div>
+			<div class="uni-collapse-content" :class="commodityTree[item].cardShow ? 'uni-active' : ''" v-show="commodityTree[item].cardShow">
+				<div class="main-card" v-for="proUnit in commodityTree[item].child" :key="proUnit.COMMODITY_ID">
+					<div class="card-top">
+						<div>
+							<p class="product-name">{{proUnit.COMMODITY_NAME}}</p>
+							<p class="product-detail"><i class="ico ico-cate"></i>{{proUnit.COMMODITY_BARCODE}}</p>
+						</div>
+						<div>
+							<p class="product-detail lh28"><text class="unit-text-b1">售价</text> <b class="product-price">￥{{proUnit.COMMODITY_CURRPRICE}}</b></p>
+							<p class="product-detail">{{proUnit.COMMODITY_RULE}} | {{proUnit.COMMODITY_UNIT}} | <b class="product-status">{{proUnit.COMMODITY_STATE===1 ? '有效': '无效'}}</b></p>
 						</div>
 					</div>
-					<div class="uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
-						<div class="main-card">
-							<div class="card-top">
-								<div>
-									<p class="product-name">标题</p>
-									<p class="product-detail"><i class="ico ico-cate"></i>1024110023230</p>
-								</div>
-								<div>
-									<p class="product-detail lh28"><text class="unit-text-b1">售价</text> <b class="product-price">￥20.00</b></p>
-									<p class="product-detail">100 | 瓶 | <b class="product-status">有效</b></p>
-								</div>
-							</div>
-							<ul class="card-detail">
-								<li>进货价格：<text class="uni-text-gray">16.00</text></li>
-								<li>是否散装：<text class="uni-text-gray">否</text></li>
-								<li>称重方式：<text class="uni-text-gray">计价</text></li>
-								<li>生效时间：<text class="uni-text-gray">2018-12-03  20:30:00</text></li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			
-			<div class="uni-list-cell uni-collapse base-info">
-				<div class="cat-box uni-list-cell-navigate" :class="cardShow ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow =!cardShow">
-					<b>类别</b>
-				</div>
-				<div class="uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
-					<div class="main-card">
-						<div class="card-top">
-							<div>
-								<p class="product-name">标题</p>
-								<p class="product-detail"><i class="ico ico-cate"></i>1024110023230</p>
-							</div>
-							<div>
-								<p class="product-detail lh28"><text class="unit-text-b1">售价</text> <b class="product-price">￥20.00</b></p>
-								<p class="product-detail">100 | 瓶 | <b class="product-status">有效</b></p>
-							</div>
-						</div>
-						<ul class="card-detail">
-							<li>进货价格：<text class="uni-text-gray">16.00</text></li>
-							<li>是否散装：<text class="uni-text-gray">否</text></li>
-							<li>称重方式：<text class="uni-text-gray">计价</text></li>
-							<li>生效时间：<text class="uni-text-gray">2018-12-03  20:30:00</text></li>
-						</ul>
-					</div>
-				</div>
-				<div class="uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
-					<div class="main-card">
-						<div class="card-top">
-							<div>
-								<p class="product-name">标题</p>
-								<p class="product-detail"><i class="ico ico-cate"></i>1024110023230</p>
-							</div>
-							<div>
-								<p class="product-detail lh28"><text class="unit-text-b1">售价</text> <b class="product-price">￥20.00</b></p>
-								<p class="product-detail">100 | 瓶 | <b class="product-status">有效</b></p>
-							</div>
-						</div>
-						<ul class="card-detail">
-							<li>进货价格：<text class="uni-text-gray">16.00</text></li>
-							<li>是否散装：<text class="uni-text-gray">否</text></li>
-							<li>称重方式：<text class="uni-text-gray">计价</text></li>
-							<li>生效时间：<text class="uni-text-gray">2018-12-03  20:30:00</text></li>
-						</ul>
-					</div>
+					<ul :class="(baseData.ACCEPT_CODE!=='100200' && baseData.ACCEPT_CODE!=='100201') ? 'card-detail': (getChange[proUnit.COMMODITY_ID] ? 'card-change-detail' : 'no-show')" >
+						<template v-if="(baseData.ACCEPT_CODE!=='100200' && baseData.ACCEPT_CODE!=='100201')">
+							<li>进货价格：<text class="uni-text-gray">{{proUnit.COMMODITY_ORIPRICE}}</text></li>
+							<li>是否散装：<text class="uni-text-gray">{{proUnit.ISBULL ? '是' : '否'}}</text></li>
+							<li>称重方式：<text class="uni-text-gray">{{proUnit.F_METERINGMETHOD}}</text></li>
+						</template>
+						<template v-else>
+							<li v-for='(changeItem, i) in getChange[proUnit.COMMODITY_ID]' :key="i">
+								{{changeItem.changeName}}调整:
+								<text class="uni-text-gray">{{changeItem.nowV}}</text>
+								<text class="through-line">{{changeItem.org}}</text>
+							</li>
+						</template>
+						<li v-if="baseData.HIGHWAYPROINST_NEXTID==='9000'">生效时间：<text class="uni-text-gray">{{proUnit.OPERATE_DATE}}</text></li>
+					</ul>
 				</div>
 			</div>
-			
-			<view class="base-info">
-				<div class="uni-list-cell uni-collapse">
-					<div class="cat-box uni-list-cell-navigate" :class="cardShow ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow =!cardShow">
-						<b>审批流程</b>
-					</div>
-					<div class="process-box uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
-						<processUnit />
-						<!-- <li>
-							<div class="process-status">
-								<i class="ico-s" :class="status===0 ? 'ico-bh' : (status===1 ? 'ico-yj' : 'ico-tg')"></i>
-								<text :class="status===0 ? 'uni-text-red' : (status===1 ? 'uni-text-blue' : 'uni-text-green')">{{text}}</text>
-							</div>
-							<div class="process-adv">
-								<div>
-									<text class="process-role">审核人员：王林</text>
-									<text>2018.12.30 20:30</text>
-								</div>
-								<p class="">审核意见</p>
-							</div>
-						</li>
-						<li>
-							<div class="process-status">
-								<i class="ico-s" :class="status===0 ? 'ico-bh' : (status===1 ? 'ico-yj' : 'ico-tg')"></i>
-								<text :class="status===0 ? 'uni-text-red' : (status===1 ? 'uni-text-blue' : 'uni-text-green')">{{text}}</text>
-							</div>
-							<div class="process-adv">
-								<div>
-									<text class="process-role">审核人员：王林</text>
-									<text>2018.12.30 20:30</text>
-								</div>
-								<p class="">审核意见</p>
-							</div>
-						</li> -->
-					</div>
+		</div>
+		<view class="base-info">
+			<div class="uni-list-cell uni-collapse">
+				<div class="cat-box uni-list-cell-navigate" :class="cardShow ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow =!cardShow">
+					<b>审批流程</b>
 				</div>
-			</view>
+				<div class="process-box uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
+					<processUnit v-for="item in approveList" :item="item" :key="item.APPROVED_DATE"/>
+				</div>
+			</div>
 		</view>
+		
+		
 	</view>
 </template>
 
-<script>	
-	import processUnit from '../../components/auditingProcess/item.vue'
+<script>
+	const json = {
+		COMMODITYTYPE_NAME: '类别',
+		COMMODITY_NAME: '品名',
+		COMMODITY_BARCODE: '条码',
+		COMMODITY_UNIT: '单位',
+		COMMODITY_RULE: '规格',
+		COMMODITY_ORI: '产地',
+		COMMODITYTYPE_GRADE: '等级',
+		COMMODITY_CURRPRICE: '售价',
+		COMMODITY_PURCHASEPRICE: '进价',
+		COMMODITY_STATE: '状态',
+		BUSINESSTYPE: '业态',
+		ISBULK: '是否散装',
+		METERINGMETHOD: '称重方式',
+	}
+	import processUnit from '../auditingProcess/item.vue'
+	import popModel from '../auditingPop/popModel.vue'
 	export default {
+		props: {
+			baseData: {
+				required: true,
+				type: Object
+			},
+			approveList: {
+				required: true,
+				type: Array
+			},
+			commodityTree: {
+				required: true,
+				type: Object
+			},
+			commodityList: { // 商品
+				required: true,
+				type: Array
+			},
+			// cateArr: {
+			// 	required: true,
+			// 	type: Array
+			// }
+		},
 		components: {
-			processUnit
+			processUnit,
+			popModel
+		},
+		computed: {
+			getChange () {
+				let _this = this
+				let itemName = Object.keys(json);
+				let changeItem = {}
+				_this.commodityList.forEach(item => {
+					itemName.forEach(el => {
+						let fName ='F_'+ el
+						if (item[el]!==item[fName]) {
+							if (!changeItem[item.COMMODITY_ID]) {
+								changeItem[item.COMMODITY_ID] = []
+							}
+							changeItem[item.COMMODITY_ID].push({
+								changeName: json[el],
+								org: item[fName],
+								nowV: item[el]
+							})
+						}
+					})
+				})
+				return changeItem
+			},
+			cateArr() {
+				let _this = this
+				return Object.keys(_this.commodityTree)
+			}
 		},
 		data () {
 			return {
 				pageData: [],
-				title: '什么鬼',
 				cardShow: true,
-				status: 1,
-				text: '通过'
+				popData: {
+					title: '',
+					button:'',
+					selectData: [],
+					userData: [],
+					popShow: false
+				}
 			}
 		},
 		methods :{
+			closePop (val) {
+				this.popData.popShow = false;
+			},
+			showPop (value) {
+				let _this = this
+				let popData = {
+					title: '',
+					button:'',
+					selectData: [],
+					userData: [],
+					popShow: false
+				}
+				switch (value) {
+					case 1:
+						popData.title= "请选择移交人员"
+						popData.button= "移交"
+						_this.getTransferUser(_this.baseData.NOWACTDEF_ID)
+						break;
+					case 2: 
+						popData.title= "请确认审核当前业务到下一个环节"
+						popData.button= "审核"
+						_this.getHighNextActDef(value)
+						break;
+					default:
+						popData.title= "请确认驳回当前业务到下一个环节" 
+						popData.button= "驳回"
+						_this.getHighNextActDef(value)
+						break;
+				}
+				popData.popShow = true
+				popData.type = value
+				_this.popData = popData
+				
+			},
+			getHighNextActDef(type) { // 获取下一环节
+				let _this = this
+				this.$api.get({
+					action_type: 'GetHighNextActDef',
+					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
+					HIGHWAYPROINST_NEXTID: _this.baseData.HIGHWAYPROINST_NEXTID
+				}).then((res)=> {
+					console.log(res)
+					let name = ['ActDef_Name', 'ActDef_ID'] //默认审核
+					if (type===3) { // 否则回退
+						name = ['ActInst_Name', 'ActInst_ID']
+					}
+					res.data.NextActDefList.forEach(el => {
+						_this.popData.selectData.push({
+							label: el[name[0]],
+							value: el[name[1]]
+						})
+					})
+				})
+			},
+			getTransferUser(nextId) { // 获取人员信息
+				let _this = this
+				this.$api.get({
+					action_type: 'GetTransferUser',
+					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
+					NextACTDEF_IDS: nextId
+				}).then((res)=> {
+					console.log(res.data.TransferUserList)
+					res.data.TransferUserList.forEach(el => {
+						// debugger
+						_this.popData.userData.push({
+
+							label: el.USER_NAME,
+							value: el.USER_ID
+						})
+					})
+					console.log(_this.popData.userData)
+					
+				})
+			}
+		},
+		created (){
+
 		},
 		onLoad (options) {
 			console.log(options)
@@ -182,6 +250,9 @@
 
 <style scoped>
 	@import '../../common/ico.css';
+	.no-show {
+		display: none;
+	}
 	.lh28 {
 		line-height: 54upx;
 	}
@@ -211,9 +282,12 @@
 	.main-card {
 		border: 1upx solid #dcdcdc;
 		border-radius: 10upx;
-		box-shadow: 1upx 1upx 1upx #dcdcdc;
+		box-shadow: 0 2upx 4upx rgba(0, 0, 0, 0.16); 
 		margin-left: 30upx;
 		margin-right: 30upx;
+	}
+	.main-card +.main-card {
+		margin-top: 20upx;
 	}
 	.card-title {
 		display: flex;
@@ -257,7 +331,7 @@
 	.base-body + .base-body {
 		border-top: 1upx dashed #eee;
 	}
-	.button-box {
+/*	.button-box {
 		padding-top: 20upx;
 		display: flex;
 		padding-bottom: 40upx;
@@ -275,7 +349,7 @@
 		background-size: contain;
 		color: #fff;
 		line-height: 70upx;
-	}
+	}*/
 	.page-title {
 		padding: 15upx 0 15upx 30upx;
 		font-size: 26upx;
@@ -301,7 +375,10 @@
 		padding: 20upx 20upx 16upx 20upx;
 	}
 	.card-top .product-name {
-		font-weight: bolder;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    overflow: hidden;
+	    width: 434upx;
 		font-size: 30upx;
 	}	
 	.product-detail {
@@ -326,6 +403,24 @@
 		line-height: 30upx;
 		flex: 33.3%;
 		font-size: 20upx;
+	}
+	.card-change-detail {
+		border-top: 1upx dashed #eee;
+		padding: 0 20upx 20upx 20upx;
+		display: flex;
+		flex-wrap: wrap;
+		/*flex-direction: column;*/
+	}
+	.card-change-detail li {
+		padding-top: 20upx;
+		line-height: 30upx;
+		font-size: 20upx;
+		padding-right: 20upx;
+	}
+	.card-change-detail .through-line {
+		text-decoration: line-through;
+		color: #cbcbcb;
+		margin-left: 10upx;
 	}
 	.process-box {
 		padding: 0 30upx;
