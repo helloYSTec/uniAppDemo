@@ -33,7 +33,13 @@
 		},
 		data () {
 			return {
-				
+				ExpenseBill: {},
+				FinanceProinstList:{},
+				ApproveList:[],
+				PassportList:{},
+				ImageList:[],
+				ExpenseDetail:[],
+				isExamine: false
 			}
 		},
 		methods: {

@@ -24,7 +24,7 @@
 		{
 			"path": "pages/detail/expenseDetail",
 			"style": {
-				"navigationBarTitleText": "差旅费报销单"
+				"navigationBarTitleText": "财务报销"
 			}
 		},
 		{
