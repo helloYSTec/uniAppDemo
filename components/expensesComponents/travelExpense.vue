@@ -81,6 +81,7 @@
               <img style="float:right;margin-right:0.1rem;" @click="passOrReject('reject')" v-show="isExamine" src="../../static/img/bohui_logo.png" width="30%" />
           </view> -->
         </view>
+	   
 	   <view class="contentTwo-head jiantouChange" style="overflow: hidden;padding-top:1.2rem;" v-bind:class="{isOpen:!show1,isClose:show1}" >
         <h3 style="position: absolute; top: 6px;left: 20px;font-size:0.7rem;" >行程详情</h3>
         <span class="financial-reimbursement-iconfont financial-reimbursement-jiantou8 jiantou" @click="showTravelDetails1()" v-bind:class="{rotate:show1}" style="position: absolute; top:5px;right: 20px;font-size:0.7rem;"></span>
@@ -123,7 +124,7 @@
             </view>
         </view>
     </view>
-    <view class="contentTwo-head jiantouChange" style="overflow: hidden;padding-top:1.2rem;" v-bind:class="{isOpen:!show2,isClose:show2}" >
+       <view class="contentTwo-head jiantouChange" style="overflow: hidden;padding-top:1.2rem;" v-bind:class="{isOpen:!show2,isClose:show2}" >
         <h3 style="position: absolute; top: 6px;left: 20px;font-size:0.7rem;" >其他费用</h3>
         <span class="financial-reimbursement-iconfont financial-reimbursement-jiantou8 jiantou" @click="showTravelDetails2()" v-bind:class="{rotate:show2}" style="position: absolute; top:5px;right: 20px;font-size:0.7rem;"></span>
         <view   style="width:100%;border:1px solid rgb(234, 234, 234); box-shadow: 0px 1px 8px rgb(234, 234, 234) ; border-radius: 7px;margin-top:15px;">
