@@ -1,6 +1,6 @@
 [
 	{
-		"name": "业务审批",
+		"name": "商品审批",
 		"root": "../business/business",
 		"jurisdiction": true,
 		"id": ""

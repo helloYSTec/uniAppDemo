@@ -37,20 +37,18 @@
 			goDetail (item) {
 				console.log(item)
 				uni.navigateTo({
-					url: "../detail/businessDetail?FINANCEPROINST_ID="+item.FINANCEPROINST_ID+"&ACCEPT_TYPE="+item.ACCEPT_TYPE+"&NOWACTDEF_IDS="+item.NOWACTDEF_IDS+"&FINANCEPROINST_NEXTID="+item.FINANCEPROINST_NEXTID+"&ACTDEF_NAME="+item.ACTDEF_NAME
+					url: "../detail/businessDetail?HIGHWAYPROINST_ID="+item.HIGHWAYPROINST_ID+"&HIGHWAYPROINST_NEXTID="+item.HIGHWAYPROINST_NEXTID
 				});
 					
 			},
 			getList () {
 				let _this = this
 				let json = {
-					action_type: 'GetAllHighWayProinst',
-					ChangePrice: '0',
-					PROINST_ID: '0,1',
-					action_data: 'oLBr30oH1UhVQRcj2XIMxtSlIxQE'
+					action_type: 'GetHighWayProinstList',
+					action_data: '4583E56BACB489F5'
 				}
 				this.$api.post(json).then(res => {
-					_this.pageList  = res.data.ALLHIGHWAYPROINST
+					_this.pageList  = res.data.HighwayPoinstList
 					_this.totalLength = _this.pageList.length
 					_this.getPage()
 					console.log(res.data)
@@ -59,7 +57,7 @@
 			getPage () {
 				let list = [];
 				let originList = this.pageList
-				for (let i = 1; i < 11; i++) {
+				for (let i = 0; i < 11; i++) {
 					list.push(originList[i]);
 				}
 				this.list = list;

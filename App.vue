@@ -10,24 +10,21 @@
 		methods: {
 			getLocation () {
 				let _this = this
-				_this.appId = _this.$route.query['appid']
+				_this.appid = _this.$route.query['appid']
 				let type = _this.$route.query['type']
 				
 				switch(type) {
 					case 1: 
 						_this.WechatLogin()
 						break;
-					default:
-						break;
 				}
 			},
 			WechatLogin() {
 				let _this = this
-				let code = this.$route.query['code']
+				let code = this.$route.query['code'] || myClass.getQueryString('code')
 				if (!code) {
-					let urls = location.href;
-					location.href =
-					  "http://mall.eshangtech.com/wxpush.html?appid="+_this.appid+"&scope=snsapi_userinfo&state=&redirect_uri="+escape(urls)
+					let local = location.href;
+					let postUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + _this.appid + '&redirect_uri=' + encodeURIComponent(local) + '&response_type=code&scope=snsapi_base&state=1#wechat_redirect'
 				} else {
 					uni.request({
 						url: 'http://mall.eshangtech.com:8010',
@@ -49,6 +46,26 @@
 					})
 				}
 			},
+			getAppId() {
+				let _this = this
+				uni.request({
+					url: 'http://mall.eshangtech.com:6060',
+					method: 'GET',
+					data: {
+						action_type: 'GetWechatInfo',
+						RegisterType: 4,
+						action_data: code
+						
+					},
+					success: (res) => {
+						_this.appid = res.data.WechatInfoObject[0].appid
+					},
+					fail: (res) => {
+						console.log(res);
+					}
+					
+				})
+			}
 		},
 		created () {
 			

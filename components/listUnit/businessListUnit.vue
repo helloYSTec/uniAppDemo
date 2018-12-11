@@ -6,7 +6,7 @@
 		<p class="typeText">{{$util.businessStatus(item.HIGHWAYPROINST_NEXTID)}}</p>
 		<view class="content-box">
 			<span class="L-icon">L</span>
-			<span class="contentText">{{item.DEPT_NAME}}</span>
+			<span class="contentText">{{item.PRODEF_NAME}}</span>
 		</view>
 		<view class="content-box">
 			<span class="G-icon A-icon"></span>

@@ -1,15 +1,15 @@
 <template>
 	<div class="prosess-unit">
 		<div class="process-status">
-			<i class="ico-s" :class="status===0 ? 'ico-bh' : (status===1 ? 'ico-yj' : 'ico-tg')"></i>
-			<text :class="status===0 ? 'uni-text-red' : (status===1 ? 'uni-text-blue' : 'uni-text-green')">{{text}}</text>
+			<i class="ico-s" :class="item.APPROVED_TYPE===2 ? 'ico-bh' : (item.APPROVED_TYPE===1 ? 'ico-yj' : 'ico-tg')"></i>
+			<text :class="item.state===2 ? 'uni-text-red' : (item.APPROVED_TYPE===1 ? 'uni-text-blue' : 'uni-text-green')">{{item.APPROVED_TYPE}}</text>
 		</div>
 		<div class="process-adv">
 			<div>
-				<text class="process-role">审核人员：王林</text>
-				<text>2018.12.30 20:30</text>
+				<text class="process-role">审核人员：{{item.APPROVED_STAFF}}</text>
+				<text>{{item.APPROVED_DATE}}</text>
 			</div>
-			<p class="">审核意见</p>
+			<p>审核意见：{{item.APPROVED_INFO}}</p>
 		</div>
 	</div>
 </template>
@@ -18,7 +18,7 @@
 	export default {
 		props: {
 			item:{
-				required: false,
+				required: true,
 				type: Object
 			}
 		},
