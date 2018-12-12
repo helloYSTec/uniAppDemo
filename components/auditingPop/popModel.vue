@@ -1,23 +1,22 @@
 <template>
 	<view>
 		<view class="button-box">
-				
-			<button @tap="showPop(1)"><i class="ico ico-yijiao"></i> 移交</button>
-			<button @tap="showPop(2)"><i class="ico ico-shenhe"></i> 审核</button>
-			<button @tap="showPop(3)"><i class="ico ico-bohui"></i> 驳回</button>
+			<span @tap="showPop(4000)"><i class="iconfont icon-yijiao"></i> 移交</span>
+			<span @tap="showPop(2000)"><i class="iconfont icon-shenhe"></i> 审核</span>
+			<span @tap="showPop(3000)"><i class="iconfont icon-bohui"></i> 驳回</span>
 		</view>
 		<uni-popup :show="popData.popShow" v-on:hidePopup="closePop">
 			<div class="pop-content">
 				<div class="pop-title">{{popData.title}}</div>
-				<textarea class="popText" value="拟同意" v-if="popData.type!==1" v-model="saveData.APPROVED_INFO"></textarea>
-				<div class="textUnit" v-if="popData.selectData>0">
-					业务转出到：<span @tap="selectData('selectData')">请选择 <i class="uni-icon uni-icon-arrowright"></i></span>
+				<textarea class="popText" value="拟同意" v-if="popData.type!==4000" v-model="saveData.APPROVED_INFO"></textarea>
+				<div class="textUnit" v-if="popData.type===2000">
+					业务转出到：<span @tap="selectData('selectData')">{{saveData.NextSTAFF_Name}} <i class="uni-icon uni-icon-arrowright"></i></span>
 				</div>
 				<div class="textUnit">
-					指定经办人：<span @tap="selectData('userData')">请选择 <i  class="uni-icon uni-icon-arrowright"></i></span>
+					指定经办人：<span @tap="selectData('userData')">{{saveData.NOWACTINST_Name}} <i  class="uni-icon uni-icon-arrowright"></i></span>
 				</div>
 				<view >
-					<button class="pop-btn" @tap="saveData">{{popData.button}}</button>
+					<button class="pop-btn" @tap="postData">{{popData.button}}</button>
 				</view>
 				
 			</div>
@@ -54,6 +53,9 @@
 				pickerValueArray: [],
 				pickerValueDefault: [0],
 				saveData: {
+					NextSTAFF_Name: '请选择',
+					NOWACTINST_Name: '请选择',
+					HIGHWAYPROINST_NEXTID: '',
 					NextSTAFF_ID:'',
 					NOWACTINST_IDS:'',
 					APPROVED_INFO:''
@@ -65,28 +67,32 @@
         },
         methods: {
         	showPop (type) {
-        		this.choseType = type
+        		this.saveData.HIGHWAYPROINST_NEXTID = type
         		this.$emit('showPop',type)
         	},
             closePop() {
 				this.$emit('closePop', false)
             },
 			selectData (val) {
+        		this.choseType = val
 				this.pickerValueArray = this.popData[val]
 				this.$refs.mpvuePicker.show()
 			},
 			onConfirm(e) {
 				if (this.choseType==='selectData') {
-					this.saveData.NextSTAFF_ID = e.value
+					this.saveData.NextSTAFF_ID = e.e.value[0]
+					this.saveData.NextSTAFF_Name = e.label
 					this.$emit('getTransferUser',e.value[0])
+				}else {
+					this.saveData.NOWACTINST_IDS = e.value[0]
+					this.saveData.NOWACTINST_Name = e.label
 				}
-				this.saveData = JSON.stringify(e)
 			},
 			onCancel(e) {
 				console.log(e)
 			},
-			saveData() {
-				this.$emit('saveData', this.saveData)
+			postData() {
+				this.$emit('postData', this.saveData)
 			}
         }
     }
@@ -97,20 +103,22 @@
 		padding-top: 20upx;
 		display: flex;
 		padding-bottom: 40upx;
+		justify-content: space-around;
 	}
-	.button-box button:after {
-		border: 0;
+	.button-box span {
+		font-size: 24upx;
+		display: flex;
+		flex-direction: column;
+		background-color: #fff;
+		text-align: center;
 	}
-	.button-box button {
-		font-size: .7rem;
-		width: 198upx;
-		background-image: url('../../static/img/button1.png');
-		background-position: center;
-		background-repeat: no-repeat;
-		height: 77upx;
-		background-size: contain;
-		color: #fff;
-		line-height: 70upx;
+	.button-box span i:before {
+		height: 90upx;
+		width: 90upx;
+		border-radius: 45upx;
+		background-color: #fff;
+		box-shadow: 0upx 2upx 4upx #cbcbcb;
+		color: #999;
 	}
     .pop-content {
 		width: 95%;

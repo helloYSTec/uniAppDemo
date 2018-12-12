@@ -85,7 +85,8 @@
 <style>
 	@import "./common/uni.css";
 	@import "./common/ico.css";
-	@import "./static/font/iconfont.css";
+	/*@import "./static/font/iconfont.css";*/
+	
 	* {
 		box-sizing: border-box;	
 	}
@@ -133,4 +134,5 @@
 		color: #333;
 		font-size: .7rem;
 	} */
+	@import "./static/icon/iconfont.css";
 </style>

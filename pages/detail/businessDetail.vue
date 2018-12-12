@@ -31,7 +31,6 @@
 						HIGHWAYPROINST_NEXTID: this.$route.query['HIGHWAYPROINST_NEXTID'], // 流程状态
 				}).then( res=>{
 					let _data =res.data
-					console.log(res.data)
 					_this.baseData = _data.HighWayRoinst[0]
 					_this.approveList = _data.ApproveList
 					_this.commodityList = _data.CommodityList

@@ -18,13 +18,9 @@
 			 :popData="popData"
 			 @showPop="showPop"
 			 @closePop='closePop'
+			 @postData='postData'
 			 />
-			<!-- <view class="button-box">
-
-				<button @tap="showPop(1)"><i class="ico ico-yijiao"></i> 移交</button>
-				<button @tap="showPop(2)"><i class="ico ico-shenhe"></i> 审核</button>
-				<button @tap="showPop(3)"><i class="ico ico-bohui"></i> 驳回</button>
-			</view> -->
+			
 		</view>
 		
 		<view class="page-title">{{$util.businessStatus(baseData.ACCEPT_CODE)}}详情</view>
@@ -113,7 +109,7 @@
 			commodityList: { // 商品
 				required: true,
 				type: Array
-			},
+			}
 			// cateArr: {
 			// 	required: true,
 			// 	type: Array
@@ -177,12 +173,12 @@
 					popShow: false
 				}
 				switch (value) {
-					case 1:
+					case 4000:
 						popData.title= "请选择移交人员"
 						popData.button= "移交"
 						_this.getTransferUser(_this.baseData.NOWACTDEF_ID)
 						break;
-					case 2: 
+					case 2000: 
 						popData.title= "请确认审核当前业务到下一个环节"
 						popData.button= "审核"
 						_this.getHighNextActDef(value)
@@ -237,10 +233,32 @@
 					console.log(_this.popData.userData)
 					
 				})
+			},
+			postData (data) {
+				let _this = this
+				let arr = {
+					action_type: 'SubmitApproveInfo',
+					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
+					NOWACTINST_IDS: _this.baseData.NOWACTINST_IDS,
+					HIGHWAYPROINST_NEXTID: data.HIGHWAYPROINST_NEXTID,
+					NextACTDEF_IDS: data.NextACTDEF_IDS,
+					NextSTAFF_ID: data.NextSTAFF_ID,
+					APPROVED_INFO: data.APPROVED_INFO,
+				}
+				this.$api.post(arr).then((res)=> {
+					let _data = res.data.ResultObject
+					_this.popData = {
+						title: '',
+						button:'',
+						selectData: [],
+						userData: [],
+						popShow: false
+					}
+					if (_data.ResultCode===200) {
+					}
+					console.log(_data.ResultDesc)
+				})
 			}
-		},
-		created (){
-
 		},
 		onLoad (options) {
 			console.log(options)
@@ -331,25 +349,6 @@
 	.base-body + .base-body {
 		border-top: 1upx dashed #eee;
 	}
-/*	.button-box {
-		padding-top: 20upx;
-		display: flex;
-		padding-bottom: 40upx;
-	}
-	button:after {
-		border: 0;
-	}
-	button {
-		font-size: .7rem;
-		width: 198upx;
-		background-image: url('../../static/img/button1.png');
-		background-position: center;
-		background-repeat: no-repeat;
-		height: 77upx;
-		background-size: contain;
-		color: #fff;
-		line-height: 70upx;
-	}*/
 	.page-title {
 		padding: 15upx 0 15upx 30upx;
 		font-size: 26upx;
@@ -369,7 +368,6 @@
 		font-weight: bolder;
 	}
 	.card-top {
-		/* height: 3rem; */
 		display: flex;
 		justify-content: space-between;
 		padding: 20upx 20upx 16upx 20upx;
@@ -409,12 +407,11 @@
 		padding: 0 20upx 20upx 20upx;
 		display: flex;
 		flex-wrap: wrap;
-		/*flex-direction: column;*/
 	}
 	.card-change-detail li {
 		padding-top: 20upx;
 		line-height: 30upx;
-		font-size: 20upx;
+		font-size: 24upx;
 		padding-right: 20upx;
 	}
 	.card-change-detail .through-line {
@@ -423,10 +420,8 @@
 		margin-left: 10upx;
 	}
 	.process-box {
-		padding: 0 30upx;
+		padding: 0 20upx 0 30upx;
 	}
-	
-	
 	.uni-list-cell:after {
 		height: 0;
 	}
