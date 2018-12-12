@@ -81,52 +81,54 @@
               <img style="float:right;margin-right:0.1rem;" @click="passOrReject('reject')" v-show="isExamine" src="../../static/img/bohui_logo.png" width="30%" />
           </view> -->
         </view>
-	   
-	   <view class="contentTwo-head jiantouChange" style="overflow: hidden;padding-top:1.2rem;" v-bind:class="{isOpen:!show1,isClose:show1}" >
-        <h3 style="position: absolute; top: 6px;left: 20px;font-size:0.7rem;" >行程详情</h3>
-        <span class="financial-reimbursement-iconfont financial-reimbursement-jiantou8 jiantou" @click="showTravelDetails1()" v-bind:class="{rotate:show1}" style="position: absolute; top:5px;right: 20px;font-size:0.7rem;"></span>
-        <view class="expenseDetail" style="padding-top:20px;" v-for="(item) in ExpenseDetail" :key="item.EXPENSEDETAIL_ID">
-
-            <view style="width:100%; height:105px;border:1px solid rgb(234, 234, 234); box-shadow: 0px 1px 8px rgb(234, 234, 234) ; border-radius: 7px;">
-              <view style="width:96%; height:64px;border-bottom:1px dashed rgb(234, 234, 234); box-sizing:border-box;margin-left:2%; margin-top:2px;">
-                <view style="width:100%; height:30px;line-height:30px; margin-top:10px;">
-                  <view  style="width:3rem;height:100%; float:left;"><span style="height:30px;width:100%;display:inline-block;font-size:0.8rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align:center;">{{item.START_PLACE}}</span></view>
-                  <view class="jt_logo" style="width:2.2rem;display:inline-block;height:100%;float:left;">
-                     <img v-if="item.VEHICLE_TYPE==='汽车'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/taxi_logo.png" alt="">
-                     <img v-else-if="item.VEHICLE_TYPE==='飞机'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/fg_logo.png" alt="">
-                     <img v-else-if="item.VEHICLE_TYPE==='高铁'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/gt_logo.png" alt="">
-                     <img v-else-if="item.VEHICLE_TYPE==='火车'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/hc_logo.png" alt="">
-                     <img v-else-if="item.VEHICLE_TYPE==='轮船'"  style="width:0.6rem;margin:0 0.8rem; padding-bottom:0.7rem;"  src="../../static/img/lc_logo.png" alt="">
-                  </view>
-                  <view style="width:3rem;height:100%;float:left;"><span style="height:30px;width:100%;display:inline-block;font-size:0.8rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align:center;">{{item.ARRIVE_PLACE}}</span></view>
-                  <view style="width:7.5rem;height:100%;float:right; text-align:right; color:#6cc09c; text-align-left;font-size:0.7rem;">交通￥<span style="font-size:0.9rem; font-weight:bold; color:#ec8538;padding-left:0.3rem;">{{item.BILL_AMOUNT}}</span></view>
-                </view>
-                <view style="width:100%; height:26px;font-size:0.55rem;line-height:26px;margin-top:5px;">
-                    <span>{{item.START_DATE | cutDate}}</span><span style="padding-left:1.2rem;">{{item.ARRIVE_DATE | cutDate}}</span>
-                    <view style="float:right;height:100%;">
-                      <view style="height:100%; float:left;font-size:0.7rem;text-align:right; ">
-                        <img style="width:0.7rem;" src="../../static/img/rs_logo.png" alt=""><span style="padding:0.3rem;">{{item.SUBSIDY_POPULATION}}</span>
-                      </view>
-                      <view style="height:100%; float:right;font-size:0.7rem; text-align:right;">
-                        <span style="width:0.05rem;height:0.7rem; float:left;background-color:#ccc;margin-top:0.3rem;margin-right:0.4rem"></span>
-                        <img  style="width:1rem;"  src="../../static/img/pj_logo.png" alt=""><span style="padding-left:0.3rem;">{{item.BILL_COUNT}}</span>
-                      </view>
-                    </view>
-                </view>
-              </view>
-              <view style="width:100%; height:40px;">
-                <ul class="expenseDetail_ul" style="overflow:hidden;width:96%;font-size:0.6rem;line-height:30px;margin-left:2%;">
-                  <li style="width:32%;height:30px; float:left;"><span>补贴天数：</span><span>{{item.SUBSIDY_DAY}}</span></li>
-                  <li style="width:32%;height:30px; float:left;"><span>补贴标准：</span><span>{{item.URBAN_TRAFFIC_ALLOWANCE}}</span></li>
-                  <li style="width:34%;height:30px; float:left;"><span>补贴金额：</span><span>{{item.SUBSIDY_AMOUNT}}</span></li>
-                </ul>
-              </view>
-            </view>
-        </view>
-    </view>
-       <view class="contentTwo-head jiantouChange" style="overflow: hidden;padding-top:1.2rem;" v-bind:class="{isOpen:!show2,isClose:show2}" >
-        <h3 style="position: absolute; top: 6px;left: 20px;font-size:0.7rem;" >其他费用</h3>
-        <span class="financial-reimbursement-iconfont financial-reimbursement-jiantou8 jiantou" @click="showTravelDetails2()" v-bind:class="{rotate:show2}" style="position: absolute; top:5px;right: 20px;font-size:0.7rem;"></span>
+	   <view class="base-info">
+	   	<div class="uni-list-cell uni-collapse">
+	   		<div class="cat-box uni-list-cell-navigate" :class="cardShow ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow =!cardShow">
+	   			<b>行程详情</b>
+	   		</div>
+	   		<div class="process-box uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
+	   			<view class="travel-middle" v-for="item in ExpenseDetail" :key="item.EXPENSEDETAIL_ID">
+					<view class="trip_detail">
+					  <view style="width:96%; height:64px;border-bottom:1px dashed rgb(234, 234, 234); box-sizing:border-box;margin-left:2%; margin-top:2px;">
+						<view style="width:100%; height:30px;line-height:30px; margin-top:10px;">
+						  <view  style="width:3rem;height:100%; float:left;"><span style="height:30px;width:100%;display:inline-block;font-size:0.8rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align:center;">{{item.START_PLACE}}</span></view>
+						  <view class="jt_logo" style="width:2.2rem;display:inline-block;height:100%;float:left;">
+							 <img v-if="item.VEHICLE_TYPE==='汽车'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/taxi_logo.png" alt="">
+							 <img v-else-if="item.VEHICLE_TYPE==='飞机'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/fg_logo.png" alt="">
+							 <img v-else-if="item.VEHICLE_TYPE==='高铁'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/gt_logo.png" alt="">
+							 <img v-else-if="item.VEHICLE_TYPE==='火车'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/hc_logo.png" alt="">
+							 <img v-else-if="item.VEHICLE_TYPE==='轮船'"  style="width:0.6rem;margin:0 0.8rem; padding-bottom:0.7rem;"  src="../../static/img/lc_logo.png" alt="">
+						  </view>
+						  <view style="width:3rem;height:100%;float:left;"><span style="height:30px;width:100%;display:inline-block;font-size:0.8rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align:center;">{{item.ARRIVE_PLACE}}</span></view>
+						  <view style="width:7.5rem;height:100%;float:right; text-align:right; color:#6cc09c; text-align-left;font-size:0.7rem;">交通￥<span style="font-size:0.9rem; font-weight:bold; color:#ec8538;padding-left:0.3rem;">{{item.BILL_AMOUNT}}</span></view>
+						</view>
+						<view style="width:100%; height:26px;font-size:0.55rem;line-height:26px;margin-top:5px;">
+							<span>{{$util.cutDate(item.START_DATE)}}</span><span style="padding-left:1.2rem;">{{$util.cutDate(item.ARRIVE_DATE)}}</span>
+							<view style="float:right;height:100%;">
+							  <view style="height:100%; float:left;font-size:0.7rem;text-align:right; ">
+								<img style="width:0.7rem;" src="../../static/img/rs_logo.png" alt=""><span style="padding:0.3rem;">{{item.SUBSIDY_POPULATION}}</span>
+							  </view>
+							  <view style="height:100%; float:right;font-size:0.7rem; text-align:right;">
+								<span style="width:0.05rem;height:0.7rem; float:left;background-color:#ccc;margin-top:0.3rem;margin-right:0.4rem"></span>
+								<img  style="width:1rem;"  src="../../static/img/pj_logo.png" alt=""><span style="padding-left:0.3rem;">{{item.BILL_COUNT}}</span>
+							  </view>
+							</view>
+						</view>
+					  </view>
+					  <view style="width:100%; height:40px;">
+						<ul class="expenseDetail_ul" style="overflow:hidden;width:96%;font-size:0.6rem;line-height:30px;margin-left:2%;">
+						  <li style="width:32%;height:30px; float:left;"><span>补贴天数：</span><span>{{item.SUBSIDY_DAY}}</span></li>
+						  <li style="width:32%;height:30px; float:left;"><span>补贴标准：</span><span>{{item.URBAN_TRAFFIC_ALLOWANCE}}</span></li>
+						  <li style="width:34%;height:30px; float:left;"><span>补贴金额：</span><span>{{item.SUBSIDY_AMOUNT}}</span></li>
+						</ul>
+					  </view>
+					</view>
+				</view>
+	   		</div>
+	   	</div>
+	   </view>
+       <view class="contentTwo-head jiantouChange" style="overflow: hidden;padding-top:1.2rem;" >
+        <h3>其他费用</h3>
         <view   style="width:100%;border:1px solid rgb(234, 234, 234); box-shadow: 0px 1px 8px rgb(234, 234, 234) ; border-radius: 7px;margin-top:15px;">
         <view class="expenseDetail2" style="width:100%;">
 
@@ -155,6 +157,7 @@
 		data() {
 			return {
 				travelShow: false, // 控制页面显示
+				cardShow: true, // 控制折叠面板
 				ExpenseBill: {},
 				FinanceProinstList:{},
 				ApproveList:[],
@@ -196,32 +199,30 @@
 					this.travelShow = true
 					uni.hideLoading()
 					console.log(res.data)
-					if(res.data){
-						this.GetSubscribefee(res.data.FinanceProinstList[0].FINANCEPROINST_FIELD,false)
-						this.ExpenseBill = res.data.ExpenseBill[0];
-						this.FinanceProinstList= res.data.FinanceProinstList[0];
-						uni.setNavigationBarTitle({
-							title: this.$util.acceptState(this.FinanceProinstList.ACCEPT_TYPE)
-						});
-						this.ApproveList = res.data.ApproveList;
-						this.ExpenseDetail = res.data.ExpenseDetail;
-						this.PassportList = res.data.PassportList[0];
-						if (res.data.ImageList && res.data.ImageList.length > 0) {
-							let arr = res.data.ImageList.map(v => {
-								return v.IMAGE_URL.replace(/-/g,'/')
+					this.GetSubscribefee(res.data.FinanceProinstList[0].FINANCEPROINST_FIELD,false)
+					this.ExpenseBill = res.data.ExpenseBill[0];
+					this.FinanceProinstList= res.data.FinanceProinstList[0];
+					uni.setNavigationBarTitle({
+						title: this.$util.acceptState(this.FinanceProinstList.ACCEPT_TYPE)
+					});
+					this.ApproveList = res.data.ApproveList;
+					this.ExpenseDetail = res.data.ExpenseDetail;
+					this.PassportList = res.data.PassportList[0];
+					if (res.data.ImageList && res.data.ImageList.length > 0) {
+						let arr = res.data.ImageList.map(v => {
+							return v.IMAGE_URL.replace(/-/g,'/')
+						})
+						arr.forEach(v => {
+							_this.$util.getBase64(v).then(res => {
+							_this.ImageList.push(res)
+							_this.$previewRefresh()//图片放大功能
 							})
-							arr.forEach(v => {
-								_this.$util.getBase64(v).then(res => {
-								_this.ImageList.push(res)
-								_this.$previewRefresh()//图片放大功能
-								})
-							})
-						};
-						if(this.FinanceProinstList.NOWSTAFF_ID === this.PassportList.USER_ID){
-							_this.isExamine = true
-						}else {
-							_this.isExamine = false
-						}
+						})
+					};
+					if(this.FinanceProinstList.NOWSTAFF_ID === this.PassportList.USER_ID){
+						_this.isExamine = true
+					}else {
+						_this.isExamine = false
 					}
 				})
 			},
@@ -265,6 +266,7 @@
 	.travel-top{
 		margin-top: 21upx;
 		padding: 30upx;
+		padding-bottom: 60upx;
 		background-color: #fff;
 		position: relative;
 	}
@@ -380,5 +382,22 @@
 	.imgBox img {
 		width: 20%;
 		height: 100%;
+	}
+	.base-info {
+		background-color: #fff;
+		padding: 0 30upx;
+	}
+	.uni-list-cell:after {
+		height: 0;
+	}
+	.base-info{
+		margin-top: 30upx;
+	}
+	.trip_detail{
+		width:100%; 
+		border:1px solid rgb(234, 234, 234); 
+		box-shadow: 0px 1px 8px rgb(234, 234, 234); 
+		border-radius: 7px;
+		margin-bottom: 20upx;
 	}
 </style>
