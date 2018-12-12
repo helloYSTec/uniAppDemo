@@ -45,7 +45,7 @@
 						<template v-if="(baseData.ACCEPT_CODE!=='100200' && baseData.ACCEPT_CODE!=='100201')">
 							<li>进货价格：<text class="uni-text-gray">{{proUnit.COMMODITY_ORIPRICE}}</text></li>
 							<li>是否散装：<text class="uni-text-gray">{{proUnit.ISBULL ? '是' : '否'}}</text></li>
-							<li>称重方式：<text class="uni-text-gray">{{proUnit.F_METERINGMETHOD}}</text></li>
+							<li>称重方式：<text class="uni-text-gray">{{proUnit.METERINGMETHOD}}</text></li>
 						</template>
 						<template v-else>
 							<li v-for='(changeItem, i) in getChange[proUnit.COMMODITY_ID]' :key="i">
@@ -59,6 +59,16 @@
 				</div>
 			</div>
 		</div>
+		<view class="base-info" v-if="rejectApproved.length>0">
+			<div class="uni-list-cell uni-collapse">
+				<div class="cat-box uni-list-cell-navigate">
+					<b>驳回意见</b>
+				</div>
+				<div class="process-box uni-collapse-content">
+					<processUnit v-for="item in rejectApproved" :item="item" :key="item.APPROVED_DATE"/>
+				</div>
+			</div>
+		</view>
 		<view class="base-info">
 			<div class="uni-list-cell uni-collapse">
 				<div class="cat-box uni-list-cell-navigate" :class="cardShow ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow =!cardShow">
@@ -90,6 +100,28 @@
 		ISBULK: '是否散装',
 		METERINGMETHOD: '称重方式',
 	}
+	const transferKeys = {
+		METERINGMETHOD: {
+			1: '计价',
+			0: '散装称重'
+		},
+		ISBULK: {
+			1: '是',
+			0: '否'
+		},
+		COMMODITY_STATE: {
+			1: '有效',
+			0: '无效'
+		},
+		COMMODITY_GRADE: {
+			1000:'一等品',
+			2000:'二等品',
+			3000:'优等品',
+			4000:'合格品',
+			5000:'三等品'
+		},
+	}
+	
 	import processUnit from '../auditingProcess/item.vue'
 	import popModel from '../auditingPop/popModel.vue'
 	export default {
@@ -109,11 +141,11 @@
 			commodityList: { // 商品
 				required: true,
 				type: Array
+			},
+			rejectApproved: {
+				required: true,
+				type: Array
 			}
-			// cateArr: {
-			// 	required: true,
-			// 	type: Array
-			// }
 		},
 		components: {
 			processUnit,
@@ -124,6 +156,7 @@
 				let _this = this
 				let itemName = Object.keys(json);
 				let changeItem = {}
+				let _transferKeys = Object.keys(transferKeys)
 				_this.commodityList.forEach(item => {
 					itemName.forEach(el => {
 						let fName ='F_'+ el
@@ -131,10 +164,17 @@
 							if (!changeItem[item.COMMODITY_ID]) {
 								changeItem[item.COMMODITY_ID] = []
 							}
+							let originValue = item[fName]
+							let nowValue = item[el]
+							if (_transferKeys.indexOf(el)>-1) { 	// 转义有效值
+
+								originValue = transferKeys[el][originValue]
+								nowValue = transferKeys[el][nowValue]
+							}
 							changeItem[item.COMMODITY_ID].push({
 								changeName: json[el],
-								org: item[fName],
-								nowV: item[el]
+								org: originValue,
+								nowV: nowValue
 							})
 						}
 					})
@@ -159,7 +199,7 @@
 				}
 			}
 		},
-		methods :{
+		methods: {
 			closePop (val) {
 				this.popData.popShow = false;
 			},
@@ -255,6 +295,7 @@
 						popShow: false
 					}
 					if (_data.ResultCode===200) {
+						_this.$router.push('/pages/business/business')
 					}
 					console.log(_data.ResultDesc)
 				})

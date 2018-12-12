@@ -49,23 +49,23 @@
 <style>
 .nav-bar {
 	position: fixed;
-	top: 88upx;
+	top: 0;
 	left: 0;
 	width: 100%;
-	height: 110upx;
+	height: 96upx;
 	display: flex;
-	font-size: 25upx;
-	justify-content: space-around;
-	line-height: 110upx;
+	font-size: 28upx;
+	justify-content: flex-start;
+	line-height: 96upx;
 	background-color: #fff;
-	color: #999;
+	color: #666;
 	border-bottom: 1upx solid #eee;
 	border-top: 1upx solid #eee;
 	z-index: 1;
 	
 }
 .nav-unit {
-	padding: 0 10upx;
+	padding: 0 20upx;
 }
 
 </style>

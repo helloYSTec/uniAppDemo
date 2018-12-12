@@ -1,5 +1,5 @@
 <template>
-	<div class="content" @tap='goDetail'>
+	<div class="content" @tap='goDetail' v-if="item">
 		<p class="contentName">{{$util.dateEmpty(item.SERVERPART_NAME)}}</p>
 		<p class="contentState" :class="item.HIGHWAYPROINST_NEXTID!=='9000' ? 'text-org' : '' ">{{$util.businessStatus(item.ACCEPT_CODE)}}</p>
 		<img class="typeImg" :src="item.HIGHWAYPROINST_NEXTID==='9000' ? '../../static/img/Conclusion.png' : '../../static/img/examine.png'" alt="">
@@ -7,6 +7,10 @@
 		<view class="content-box">
 			<span class="L-icon">L</span>
 			<span class="contentText">{{item.PRODEF_NAME}}</span>
+		</view>
+		<view class="content-box">
+			<span class="B-icon A-icon"></span>
+			<span class="content-span">当前环节：{{item.ACTINST_NAME}}</span>
 		</view>
 		<view class="content-box">
 			<span class="G-icon A-icon"></span>
