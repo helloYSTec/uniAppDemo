@@ -93,7 +93,7 @@
 				if (this.choseType==='selectData') { //选择业务 则根据业务查询人员
 					this.saveData.NOWACTINST_IDS = e.value[0]
 					this.saveData.NOWACTINST_Name = e.label
-					_code===2000 && e.value[0] !== '5010' && this.getTransferUser() // 不是办结则查询人员
+					_code===2000 && e.value[0] !== 5010 && this.getTransferUser() // 不是办结则查询人员
 				}else {
 					this.saveData.NextSTAFF_ID = e.value[0]
 					this.saveData.NextSTAFF_Name = e.label
@@ -102,10 +102,8 @@
 			onCancel(e) {
 				// this.clearPopData()
 			},
-			// clearPopData () {
-			// 	this.$emit('clearPopData')
-			// },
 			postData() {
+				// debugger
 				let _this = this
 				let _code = _this.saveData.HIGHWAYPROINST_NEXTID
 				let _NOWACTINST_IDS = _this.saveData.NOWACTINST_IDS
@@ -134,17 +132,20 @@
 				let _data = _this.saveData
 				let _code = _data.HIGHWAYPROINST_NEXTID
 				let title = ''
-				switch (u) {
-					case 'NOWACTINST_IDS':
-						title="请选择转出业务。";
-						break;
-					case 'NextSTAFF_ID':
-						title = '请选择指定人员。'
-						break;
-					default:
-						title = '请填写'+_code===2000 ?'审核':'驳回'+'意见后再提交。'
+				if (!_data[u]) {
+					switch (u) {
+						case 'NOWACTINST_IDS':
+							title="请选择转出业务。";
+							break;
+						case 'NextSTAFF_ID':
+							title = '请选择指定人员。'
+							break;
+						default:
+							title = '请填写'+_code===2000 ?'审核':'驳回'+'意见后再提交。'
+							break;
+					}
 				}
-				if (!title) {
+				if (title) {
 					uni.showToast({
 						icon: 'none',
 						title: title,

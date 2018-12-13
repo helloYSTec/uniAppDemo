@@ -9,7 +9,7 @@
 				<text class="process-role">审核人员：{{item.APPROVED_STAFF}}</text>
 				<text>{{getTime(item.APPROVED_DATE)}}</text>
 			</div>
-			<p>{{item.APPROVED_NAME}}：{{item.APPROVED_INFO}}</p>
+			<p>{{approveType===1? item.APPROVED_NAME:'驳回意见'}}：{{item.APPROVED_INFO}}</p>
 		</div>
 	</div>
 </template>
@@ -20,7 +20,7 @@
 				required: true,
 				type: Object
 			},
-			approveType:{
+			approveType:{ // 1 通过
 				required: true,
 				type: Number
 			}
@@ -42,9 +42,10 @@
 		align-items: flex-start;
 		justify-content: space-between;
 		position: relative;
+		margin-bottom: 36upx;
 	}
 	.process-box .prosess-unit + .prosess-unit {
-		margin-top: 36upx;
+		
 	}
 	.process-status {
 		width: 80upx;

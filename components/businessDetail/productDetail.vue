@@ -75,8 +75,8 @@
 				<div class="cat-box uni-list-cell-navigate">
 					<b>驳回意见</b>
 				</div>
-				<div class="process-box uni-collapse-content">
-					<processUnit v-for="item in rejectApproved" :item="item" :key="item.APPROVED_DATE"/>
+				<div class="process-box uni-collapse-content uni-active">
+					<processUnit :item="rejectApproved[0]" :key="rejectApproved[0].APPROVED_DATE" :approveType="0"/>
 				</div>
 			</div>
 		</view>
@@ -86,7 +86,7 @@
 					<b>审批流程</b>
 				</div>
 				<div class="process-box uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
-					<processUnit v-for="item in approveList" :item="item" :key="item.APPROVED_DATE"/>
+					<processUnit v-for="item in approveList" :item="item" :key="item.APPROVED_DATE" :approveType="1"/>
 				</div>
 			</div>
 		</view>
@@ -352,7 +352,7 @@
 	.main-card {
 		border: 1upx solid #dcdcdc;
 		border-radius: 10upx;
-		box-shadow: 0 2upx 4upx rgba(0, 0, 0, 0.16); 
+		box-shadow: 0 1upx 8upx rgba(0, 0, 0, 0.16); 
 		margin-left: 30upx;
 		margin-right: 30upx;
 	}
@@ -428,7 +428,7 @@
 	    text-overflow: ellipsis;
 	    white-space: nowrap;
 	    overflow: hidden;
-	    width: 434upx;
+	    width: 400upx;
 		font-size: 30upx;
 	}	
 	.product-detail {
