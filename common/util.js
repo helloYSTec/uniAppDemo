@@ -186,22 +186,22 @@ function cutDate(date){
 }
 function businessStatus (val) { // 业务审批列表状态判断
   switch (val) {
-    case "0":
+    case 0:
       return "删除";
       break;
-    case "1":
+    case 1:
       return "正常";
       break;
-    case "1000":
+    case 1000:
       return "待受理";
       break;
-    case "2000":
+    case 2000:
       return "待审核";
       break;
-    case "3000":
+    case 3000:
       return "待复审";
       break;
-    case "9000":
+    case 9000:
       return "已审结";
       break;
     case "100100":

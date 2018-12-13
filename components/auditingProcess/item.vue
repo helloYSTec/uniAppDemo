@@ -1,15 +1,15 @@
 <template>
 	<div class="prosess-unit">
 		<div class="process-status">
-			<i class="ico-s" :class="item.APPROVED_TYPE===2 ? 'ico-bh' : (item.APPROVED_TYPE===1 ? 'ico-yj' : 'ico-tg')"></i>
-			<text :class="item.state===2 ? 'uni-text-red' : (item.APPROVED_TYPE===1 ? 'uni-text-blue' : 'uni-text-green')">{{item.APPROVED_TYPE}}</text>
+			<i class="ico-s" :class="item.APPROVED_MARK===1 ? 'ico-tg' :  'ico-bh'"></i>
+			<text :class="item.APPROVED_MARK===1 ? 'uni-text-green' : 'uni-text-red'">{{item.APPROVED_MARK===1 ? '通过': '驳回'}}</text>
 		</div>
 		<div class="process-adv">
 			<div>
 				<text class="process-role">审核人员：{{item.APPROVED_STAFF}}</text>
 				<text>{{getTime(item.APPROVED_DATE)}}</text>
 			</div>
-			<p>审核意见：{{item.APPROVED_INFO}}</p>
+			<p>{{item.APPROVED_NAME}}：{{item.APPROVED_INFO}}</p>
 		</div>
 	</div>
 </template>

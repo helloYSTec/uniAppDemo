@@ -2,7 +2,7 @@
 	<view id="expenses">
 		<header-nav />
 		<view class="page-body">
-			<view v-bind:class="{zd:zd}">
+			<view v-bind:class="{zd:zd}" v-if="list.length>0">
 				<list-unit class="content" v-for="(item, i) in list" :key="i" @goDetail="goDetail" :item='item'></list-unit>
 			</view>
 			<uni-load-more :loadingType="loadingType" :contentText="contentText"></uni-load-more>
@@ -17,7 +17,7 @@
 		data () {
 			return {
 				pageList: [],
-				list: [],
+				list: [{}],
 				loadingType: 0,
 				zd: false,
 				contentText: {

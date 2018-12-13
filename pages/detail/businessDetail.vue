@@ -1,10 +1,14 @@
 <template>
-	<view class="expense-detail">
-		<header-nav />
-		<view class="page-body">
-			<productDetail :baseData="baseData" :approveList="approveList" :commodityTree="commodityTree" :commodityList="commodityList"/>
-		</view>
+	<view>
+		<productDetail
+		 :baseData="baseData"
+		 :approveList="approveList"
+		 :rejectApproved="rejectApproved"
+		 :commodityTree="commodityTree"
+		 :commodityList="commodityList"
+		 />
 	</view>
+	
 </template>
 
 <script>
@@ -14,10 +18,10 @@
 			return {
 				expenseData:{} ,// 获取expenses页面参数
 				baseData: {}, // 业务信息
-				approveList: [] ,// 审批信息
+				approveList: [] ,// 审批通过信息
 				commodityTree: {},// 商品列表
 				commodityList: [],// 商品列表
-				// cateArr: []//分类列表
+				rejectApproved: [] //驳回意见列表
 			};
 		},
 		methods:{
@@ -34,6 +38,7 @@
 					_this.baseData = _data.HighWayRoinst[0]
 					_this.approveList = _data.ApproveList
 					_this.commodityList = _data.CommodityList
+					_this.rejectApproved = _data.RejectApproved
 					_this.getCommodityTree(_data.CommodityList)
 				})
 			},
