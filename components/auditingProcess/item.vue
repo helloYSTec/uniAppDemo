@@ -1,8 +1,8 @@
 <template>
 	<div class="prosess-unit">
 		<div class="process-status">
-			<i class="ico-s" :class="item.APPROVED_MARK===1 ? 'ico-tg' :  'ico-bh'"></i>
-			<text :class="item.APPROVED_MARK===1 ? 'uni-text-green' : 'uni-text-red'">{{item.APPROVED_MARK===1 ? '通过': '驳回'}}</text>
+			<i class="ico-s" :class="approveType===1 ? 'ico-tg' :  'ico-bh'"></i>
+			<text :class="approveType===1 ? 'uni-text-green' : 'uni-text-red'">{{approveType===1 ? '通过': '驳回'}}</text>
 		</div>
 		<div class="process-adv">
 			<div>
@@ -19,6 +19,10 @@
 			item:{
 				required: true,
 				type: Object
+			},
+			approveType:{
+				required: true,
+				type: Number
 			}
 		},
 		methods: {

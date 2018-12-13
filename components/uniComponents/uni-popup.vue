@@ -53,7 +53,7 @@
 	}
 
 	.uni-popup {
-		position: absolute;
+		position: fixed;
 		z-index: 999;
 		background-color: #ffffff;
 		box-shadow: 0 0 30upx rgba(0, 0, 0, .1);

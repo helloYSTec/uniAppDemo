@@ -92,7 +92,7 @@
 					  <view class="trip_detail_top">
 						<view class="trip_detail_traffic">
 							<view>
-								<view class="trip_addr" style="display: inline-block;margin-bottom: 16upx;">{{item.START_PLACE}}</view>
+								<view class="trip_addr" style="display: inline-block;">{{item.START_PLACE}}</view>
 								<view class="jt_logo" style="display: inline-block;">
 									<img v-if="item.VEHICLE_TYPE==='汽车'" class="img_traffic" src="../../static/img/taxi_logo.png" alt="">
 									<img v-else-if="item.VEHICLE_TYPE==='飞机'" class="img_traffic" src="../../static/img/fg_logo.png" alt="">
@@ -110,11 +110,11 @@
 								<view class="trip_price" style="margin-bottom: 16upx;">交通￥<span>{{item.BILL_AMOUNT}}</span></view>
 								<view class="trip_person">
 									<view>
-										<img style="width: 30upx;" src="../../static/img/rs_logo.png" alt=""><span>{{item.SUBSIDY_POPULATION}}</span>
+										<img style="width: 24upx;" src="../../static/img/rs_logo.png" alt=""><span>{{item.SUBSIDY_POPULATION}}</span>
 									</view>
 									<view>
 										<span></span>
-										<img style="width: 40upx;" src="../../static/img/pj_logo.png" alt=""><span>{{item.BILL_COUNT}}</span>
+										<img style="width: 36upx;" src="../../static/img/pj_logo.png" alt=""><span>{{item.BILL_COUNT}}</span>
 									</view>
 								</view>
 							</view>
@@ -145,7 +145,7 @@
 				                  <span style="padding-left:0.3rem;">{{item.OTHER_COST}}</span>
 				                </li>
 				                <li class="list_ticket">
-				                  <img v-if="item.OTHERBILL_COUNT!==''"  style="width:1rem;"  src="../../static/img/pj_logo.png" alt=""><span style="padding-left:0.3rem;">{{item.OTHERBILL_COUNT}}</span>
+				                  <img v-if="item.OTHERBILL_COUNT!==''"  style="width:36upx;"  src="../../static/img/pj_logo.png" alt=""><span style="padding-left:0.3rem;">{{item.OTHERBILL_COUNT}}</span>
 				                </li>
 				                <li class="list_price">
 									<view class="trip_price" v-if="item.OTHERBILL_COUNT!==''" style="margin-bottom: 16upx;">交通￥<span>{{item.OTHERBILL_AMOUNT}}</span></view>
@@ -156,7 +156,7 @@
 	   		</div>
 	   	</div>
 	   </view>
-	   
+	   <!-- 关联弹出框 -->
 	   <uni-popup :show="showPopupMiddle" :type="popType" v-on:hidePopup="hidePopup">
 	   	<view style="width: 100%;">
 	   		<h4>{{SubscribefeeTitle}}</h4>
@@ -199,12 +199,34 @@
 			</div>
 	   	</view>
 	   </uni-popup>
+	   <!-- 审批流程 -->
+	   <view class="base-info" v-if="rejectApproved.length>0">
+	   	<div class="uni-list-cell uni-collapse">
+	   		<div class="cat-box uni-list-cell-navigate">
+	   			<b>驳回意见</b>
+	   		</div>
+	   		<div class="process-box uni-collapse-content">
+	   			<processUnit v-for="item in rejectApproved" :item="item" :key="item.APPROVED_DATE" :approveType='0'/>
+	   		</div>
+	   	</div>
+	   </view>
+	   <view class="base-info" v-if="ApproveList.length > 0">
+	   	<div class="uni-list-cell uni-collapse">
+	   		<div class="cat-box uni-list-cell-navigate" :class="cardShow3 ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow3 =!cardShow3">
+	   			<b>审批流程</b>
+	   		</div>
+	   		<div class="process-box uni-collapse-content" :class="cardShow3 ? 'uni-active' : ''" v-show="cardShow3">
+	   			<processUnit v-for="item in ApproveList" :item="item" :key="item.APPROVED_DATE" :approveType='1'/>
+	   		</div>
+	   	</div>
+	   </view>
 	</view>
 </template>
 
 <script>
 	// import {mapState,mapGetters } from 'vuex';
 	import uniPopup from '../../components/uniComponents/uni-popup.vue';
+	import processUnit from '../auditingProcess/item.vue'
 	export default {
 		data() {
 			return {
@@ -213,12 +235,14 @@
 				travelShow: false, // 控制页面显示
 				cardShow: true, // 控制折叠面板
 				cardShow2: true,
+				cardShow3: true,
 				ExpenseBill: {},
 				FinanceProinstList:{},
 				ApproveList:[],
 				PassportList:{},
-				ImageList:[],
+				ImageList:[], // 附件图片列表
 				ExpenseDetail:[],
+				rejectApproved: [],//驳回意见列表
 				isExamine: false, // 按钮显示隐藏
 				SubscribefeeShow: false ,//已办结业务
 				SubscribefeeTitle:'',//业务标题
@@ -234,7 +258,8 @@
 			};
 		},
 		components: {
-			uniPopup
+			uniPopup,
+			processUnit
 		},
 		computed:{
 		},
@@ -264,6 +289,7 @@
 						title: this.$util.acceptState(this.FinanceProinstList.ACCEPT_TYPE)
 					});
 					this.ApproveList = res.data.ApproveList;
+					// this.rejectApproved = res.data.RejectApproved;
 					this.ExpenseDetail = res.data.ExpenseDetail;
 					this.PassportList = res.data.PassportList[0];
 					if (res.data.ImageList && res.data.ImageList.length > 0) {
@@ -482,7 +508,11 @@
 		justify-content: space-between;
 	}
 	.trip_addr{
-		font-size: 36upx;
+		font-size: 32upx;
+		width: 128upx;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 	.trip_date{
 		font-size: 24upx;
@@ -499,11 +529,12 @@
 		width: 50px;
 		text-align: center;
 		margin: 0 20upx;
+		vertical-align: top;
 	}
 	.img_traffic{
 		width: 44upx;
 		height: auto;
-		padding-bottom: 20upx;
+		padding-bottom: 8upx;
 	}
 	.trip_price{
 		color: #6cc09c;
@@ -519,8 +550,9 @@
 		display: flex;
 		justify-content: space-between;
 	}
-	.trip_person img{
-		vertical-align: middle;
+	.trip_person view{
+		display: flex;
+		align-items: center;
 	}
 	.trip_person view:first-child{
 		border-right: 1px solid #ccc;

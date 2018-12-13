@@ -171,7 +171,7 @@ function acceptState(val){
 function cutDate(date){
   if(date){
     var dd = new Date(date);
-    var type = 'YYYY年MM月DD日', daynum = 0
+    var type = 'YYYY.MM.DD', daynum = 0
     dd.setDate(dd.getDate() + daynum) // 获取AddDayCount天后的日期
     var y = dd.getFullYear()
     var m = (dd.getMonth() + 1) < 10 ? '0' + (dd.getMonth() + 1) : (dd.getMonth() + 1) // 获取当前月份的日期，不足10补0
