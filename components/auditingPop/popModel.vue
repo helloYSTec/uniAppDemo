@@ -12,7 +12,7 @@
 				<div class="textUnit" v-if="popData.type!==4000">
 					业务转出到：<span @tap="selectData('selectData')">{{saveData.NOWACTINST_Name}} <i class="uni-icon uni-icon-arrowright"></i></span>
 				</div>
-				<div class="textUnit">
+				<div class="textUnit" v-if="popData.type!==3000" v-show="saveData.NOWACTINST_IDS!=='5010'">
 					指定经办人：<span @tap="selectData('userData')">{{saveData.NextSTAFF_Name}} <i  class="uni-icon uni-icon-arrowright"></i></span>
 				</div>
 				<view >
@@ -58,7 +58,7 @@
 					HIGHWAYPROINST_NEXTID: '',
 					NextSTAFF_ID:'',
 					NOWACTINST_IDS:'',
-					APPROVED_INFO:''
+					APPROVED_INFO: ''
 				},
 				choseType: 1, // 1,移交,2审核,3驳回
 
@@ -75,35 +75,85 @@
             },
 			selectData (val) {
 				let _this = this
-				if (_this.saveData.HIGHWAYPROINST_NEXTID!==4000 && val==='userData' && !_this.saveData.NOWACTINST_IDS) {
-					uni.showToast({
-						icon: 'none',
-						title: '请先选择上一项',
-						duration: 1200
-					})
-				return false
+				// 如果是 审核和驳回 并且先选择人员 则检查 转出业务是否已选择（需求：先选择业务后选择人员）
+				if (_this.saveData.HIGHWAYPROINST_NEXTID!==4000 && val==='userData') {
+					if (!_this.checked('NOWACTINST_IDS')) {
+						return false 
+					}
 				}	
         		_this.choseType = val
 				_this.pickerValueArray = _this.popData[val]
 				_this.$refs.mpvuePicker.show()
 			},
+			getTransferUser () {
+				this.$emit('getTransferUser', this.saveData.NOWACTINST_IDS)
+			},
 			onConfirm(e) {
-				
-				if (this.choseType==='selectData') {
+				debugger
+				let _code = _this.saveData.HIGHWAYPROINST_NEXTID
+				if (this.choseType==='selectData') { //选择业务 则根据业务查询人员
 					this.saveData.NOWACTINST_IDS = e.value[0]
 					this.saveData.NOWACTINST_Name = e.label
-					this.$emit('getTransferUser',e.value[0])
+					_code===2000 && e.value[0] !== '5010' && this.getTransferUser() // 不是办结则查询人员
 				}else {
-					
 					this.saveData.NextSTAFF_ID = e.value[0]
 					this.saveData.NextSTAFF_Name = e.label
 				}
 			},
 			onCancel(e) {
-				this.$emit('clearPopData')
+				// this.clearPopData()
 			},
+			// clearPopData () {
+			// 	this.$emit('clearPopData')
+			// },
 			postData() {
-				this.$emit('postData', this.saveData)
+				let _this = this
+				let _code = _this.saveData.HIGHWAYPROINST_NEXTID
+				let _NOWACTINST_IDS = _this.saveData.NOWACTINST_IDS
+
+				if (_code!==4000) {
+					let _advTitle = _this.checked('APPROVED_INFO')
+					let _nowActnst = _this.checked('NOWACTINST_IDS')
+					let _nextStaff = _this.checked('NextSTAFF_ID')
+					if (!_advTitle || !_nowActnst) {
+						return false
+					}
+					// 如果是不是办结的审核 则验证 是否选择了人员
+					if (_code===2000 && _NOWACTINST_IDS!=='5010' && !_nextStaff) { 
+							return false
+						}
+				}else {
+					let _nextStaff = _this.checked('NextSTAFF_ID')
+					if (!_nextStaff) {
+						return false
+					}
+				}
+				this.$emit('postData', _this.saveData)
+			},
+			checked(u) {
+				let _this = this
+				let _data = _this.saveData
+				let _code = _data.HIGHWAYPROINST_NEXTID
+				let title = ''
+				switch (u) {
+					case 'NOWACTINST_IDS':
+						title="请选择转出业务。";
+						break;
+					case 'NextSTAFF_ID':
+						title = '请选择指定人员。'
+						break;
+					default:
+						title = '请填写'+_code===2000 ?'审核':'驳回'+'意见后再提交。'
+				}
+				if (!title) {
+					uni.showToast({
+						icon: 'none',
+						title: title,
+						duration: 1200
+					})
+					return false
+				}
+				return true
 			}
         }
     }

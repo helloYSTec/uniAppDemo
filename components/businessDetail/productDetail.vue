@@ -19,6 +19,8 @@
 			 @showPop="showPop"
 			 @closePop='closePop'
 			 @postData='postData'
+			 @getTransferUser='getTransferUser'
+			 @onCancel='clearPopData'
 			 />
 			
 		</view>
@@ -48,10 +50,19 @@
 							<li>称重方式：<text class="uni-text-gray">{{proUnit.METERINGMETHOD}}</text></li>
 						</template>
 						<template v-else>
+							<!-- 调整的商品参数 -->
 							<li v-for='(changeItem, i) in getChange[proUnit.COMMODITY_ID]' :key="i">
 								{{changeItem.changeName}}:
-								<text class="uni-text-gray">{{changeItem.nowV}}</text>
-								<text class="through-line">{{changeItem.org}}</text>
+								<template v-if="changeItem.changeName.indexOf('价')>-1">
+									<b class="product-price">￥{{changeItem.nowV}}</b>
+									<text class="through-line"> <span class="text-b9">￥{{changeItem.org}}</span></text>
+									<b class="uni-icon" :class="(changeItem.org < changeItem.nowV) ?'uni-icon-arrowthinup': ' uni-icon-arrowthindown'"></b>
+								</template>
+								<template v-else>
+									<text class="uni-text-gray">{{changeItem.nowV}}</text>
+									<text class="through-line">{{changeItem.org}}</text>
+								</template>
+								
 							</li>
 						</template>
 						<li v-if="baseData.HIGHWAYPROINST_NEXTID==='9000'">生效时间：<text class="uni-text-gray">{{proUnit.OPERATE_DATE}}</text></li>
@@ -180,6 +191,7 @@
 		methods: {
 			closePop (val) {
 				this.popData.popShow = false;
+				this.clearPopData()
 			},
 			showPop (value) {
 				let _this = this
@@ -216,6 +228,7 @@
 				let _this = this
 				this.$api.get({
 					action_type: 'GetHighNextActDef',
+					action_data: '4583E56BACB489F5',
 					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
 					HIGHWAYPROINST_NEXTID: type
 				}).then((res)=> {
@@ -233,13 +246,14 @@
 				})
 			},
 			getTransferUser(nextId) { // 获取人员信息
+				debugger
 				let _this = this
 				this.$api.get({
 					action_type: 'GetTransferUser',
+					action_data: '4583E56BACB489F5',
 					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
 					NextACTDEF_IDS: nextId
 				}).then((res)=> {
-					console.log(res.data.TransferUserList)
 					res.data.TransferUserList.forEach(el => {
 						// debugger
 						_this.popData.userData.push({
@@ -247,7 +261,7 @@
 							value: el.USER_ID
 						})
 					})
-					console.log(_this.popData.userData)
+					
 					
 				})
 			},
@@ -267,6 +281,7 @@
 				let _this = this
 				let arr = {
 					action_type: 'SubmitApproveInfo',
+					action_data: '4583E56BACB489F5',
 					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
 					NOWACTINST_IDS: _this.baseData.NOWACTINST_ID,
 					HIGHWAYPROINST_NEXTID: data.HIGHWAYPROINST_NEXTID,
@@ -295,6 +310,16 @@
 
 <style scoped>
 	@import '../../common/ico.css';
+	.uni-icon {
+		font-size: 28upx;
+		font-weight: bolder;
+	}
+	.uni-icon-arrowthindown {
+		color: #50b045;
+	}
+	.uni-icon-arrowthinup {
+		color: #ff4952;
+	}
 	.no-show {
 		display: none;
 	}
@@ -439,13 +464,16 @@
 	.card-change-detail li {
 		padding-top: 20upx;
 		line-height: 30upx;
-		font-size: 24upx;
+		font-size: 25upx;
 		padding-right: 20upx;
 	}
 	.card-change-detail .through-line {
 		text-decoration: line-through;
 		color: #cbcbcb;
-		margin-left: 10upx;
+		margin-left: 16upx;
+	}
+	.text-b9 {
+		color: #b9b9b9
 	}
 	.process-box {
 		padding: 0 20upx 0 30upx;
