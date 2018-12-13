@@ -9,11 +9,11 @@
 			<div class="pop-content">
 				<div class="pop-title">{{popData.title}}</div>
 				<textarea class="popText" value="拟同意" v-if="popData.type!==4000" v-model="saveData.APPROVED_INFO"></textarea>
-				<div class="textUnit" v-if="popData.type===2000">
-					业务转出到：<span @tap="selectData('selectData')">{{saveData.NextSTAFF_Name}} <i class="uni-icon uni-icon-arrowright"></i></span>
+				<div class="textUnit" v-if="popData.type!==4000">
+					业务转出到：<span @tap="selectData('selectData')">{{saveData.NOWACTINST_Name}} <i class="uni-icon uni-icon-arrowright"></i></span>
 				</div>
 				<div class="textUnit">
-					指定经办人：<span @tap="selectData('userData')">{{saveData.NOWACTINST_Name}} <i  class="uni-icon uni-icon-arrowright"></i></span>
+					指定经办人：<span @tap="selectData('userData')">{{saveData.NextSTAFF_Name}} <i  class="uni-icon uni-icon-arrowright"></i></span>
 				</div>
 				<view >
 					<button class="pop-btn" @tap="postData">{{popData.button}}</button>
@@ -74,22 +74,33 @@
 				this.$emit('closePop', false)
             },
 			selectData (val) {
-        		this.choseType = val
-				this.pickerValueArray = this.popData[val]
-				this.$refs.mpvuePicker.show()
+				let _this = this
+				if (_this.saveData.HIGHWAYPROINST_NEXTID!==4000 && val==='userData' && !_this.saveData.NOWACTINST_IDS) {
+					uni.showToast({
+						icon: 'none',
+						title: '请先选择上一项',
+						duration: 1200
+					})
+				return false
+				}	
+        		_this.choseType = val
+				_this.pickerValueArray = _this.popData[val]
+				_this.$refs.mpvuePicker.show()
 			},
 			onConfirm(e) {
+				
 				if (this.choseType==='selectData') {
-					this.saveData.NextSTAFF_ID = e.e.value[0]
-					this.saveData.NextSTAFF_Name = e.label
-					this.$emit('getTransferUser',e.value[0])
-				}else {
 					this.saveData.NOWACTINST_IDS = e.value[0]
 					this.saveData.NOWACTINST_Name = e.label
+					this.$emit('getTransferUser',e.value[0])
+				}else {
+					
+					this.saveData.NextSTAFF_ID = e.value[0]
+					this.saveData.NextSTAFF_Name = e.label
 				}
 			},
 			onCancel(e) {
-				console.log(e)
+				this.$emit('clearPopData')
 			},
 			postData() {
 				this.$emit('postData', this.saveData)

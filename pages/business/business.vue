@@ -2,6 +2,15 @@
 	<view id="expenses">
 		<header-nav />
 		<view class="page-body">
+			<div class="search-box">
+				<i class="iconfont icon-sousuo" @tap="showDrawer=!showDrawer"></i>
+				<uni-drawer :visible="showDrawer" mode="right" @close="closeRightDrawer">
+					<div>
+						<uni-tag :text="tag.name" v-for="tag in tagList" :key="tag.id"></uni-tag>
+					</div>
+					<button>确定</button>
+				</uni-drawer>
+			</div>
 			<view v-bind:class="{zd:zd}" v-if="list.length>0">
 				<list-unit class="content" v-for="(item, i) in list" :key="i" @goDetail="goDetail" :item='item'></list-unit>
 			</view>
@@ -13,6 +22,8 @@
 <script>
 	import listUnit from '../../components/listUnit/businessListUnit.vue'
 	import uniLoadMore from '../../components/uniComponents/uni-load-more.vue'
+	import uniDrawer from '../../components/uniComponents/uni-drawer.vue'
+	import uniTag from '../../components/uniComponents/uni-tag.vue'
 	export default {
 		data () {
 			return {
@@ -25,13 +36,31 @@
 					contentrefresh: "正在加载...",
 					contentnomore: "没有更多数据了"
 				},
+				showDrawer: false, // 是否打开侧搜索边栏
 				totalLength: 0,
-				pageRow: 10 // 每次下拉更新数据条数
+				pageRow: 10, // 每次下拉更新数据条数
+				tagList: [
+					{
+						id: 2000,
+						name: "办理中",
+					},{
+						id: 4000,
+						name: "已移交",
+					},{
+						id: 9000,
+						name: "已审结",
+					},{
+						id: 3000,
+						name: "已驳回",
+					}
+				]
 			}
 		},
 		components: {
 			listUnit,
-			uniLoadMore
+			uniLoadMore,
+			uniDrawer,
+			uniTag
 		},
 		methods: {
 			goDetail (item) {
@@ -98,5 +127,15 @@
 	.zd .content:first-child{
 		border: 1px solid #fb9154;
 	}
-	
+	.search-box {
+		display: flex;
+		justify-content: flex-end;
+		padding: 0 30upx;
+		height: 60upx;
+		line-height: 60upx;
+		margin-bottom: 10upx;
+	}
+	.search-box i {
+		font-size: 50upx;
+	}
 </style>

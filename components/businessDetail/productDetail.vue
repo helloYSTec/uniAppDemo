@@ -49,7 +49,7 @@
 						</template>
 						<template v-else>
 							<li v-for='(changeItem, i) in getChange[proUnit.COMMODITY_ID]' :key="i">
-								{{changeItem.changeName}}调整:
+								{{changeItem.changeName}}:
 								<text class="uni-text-gray">{{changeItem.nowV}}</text>
 								<text class="through-line">{{changeItem.org}}</text>
 							</li>
@@ -86,40 +86,19 @@
 
 <script>
 	const json = {
-		COMMODITYTYPE_NAME: '类别',
 		COMMODITY_NAME: '品名',
 		COMMODITY_BARCODE: '条码',
+		COMMODITYTYPE_NAME: '类别',
 		COMMODITY_UNIT: '单位',
 		COMMODITY_RULE: '规格',
+		COMMODITY_STATE_NAME: '状态',
 		COMMODITY_ORI: '产地',
-		COMMODITYTYPE_GRADE: '等级',
 		COMMODITY_CURRPRICE: '售价',
 		COMMODITY_PURCHASEPRICE: '进价',
-		COMMODITY_STATE: '状态',
-		BUSINESSTYPE: '业态',
-		ISBULK: '是否散装',
-		METERINGMETHOD: '称重方式',
-	}
-	const transferKeys = {
-		METERINGMETHOD: {
-			1: '计价',
-			0: '散装称重'
-		},
-		ISBULK: {
-			1: '是',
-			0: '否'
-		},
-		COMMODITY_STATE: {
-			1: '有效',
-			0: '无效'
-		},
-		COMMODITY_GRADE: {
-			1000:'一等品',
-			2000:'二等品',
-			3000:'优等品',
-			4000:'合格品',
-			5000:'三等品'
-		},
+		BUSINESSTYPE_NAME: '业态',
+		COMMODITY_GRADE_NAME: '质量等级',
+		ISBULK_NAME	: '是否散装',
+		METERINGMETHOD_NAME: '称重方式',
 	}
 	
 	import processUnit from '../auditingProcess/item.vue'
@@ -152,25 +131,24 @@
 			popModel
 		},
 		computed: {
-			getChange () {
+			getChange () { // 获取调整过的商品参数
 				let _this = this
-				let itemName = Object.keys(json);
-				let changeItem = {}
-				let _transferKeys = Object.keys(transferKeys)
+				let itemName = Object.keys(json) // 数据名称
+				let changeItem = {} // 
+				
 				_this.commodityList.forEach(item => {
 					itemName.forEach(el => {
-						let fName ='F_'+ el
-						if (item[el]!==item[fName]) {
+						let fName ='F_'+ el 
+
+						// item[el] 现参数值 item[fName] 原参数值
+						if (item[fName] && item[el]!==item[fName]) { 
+
 							if (!changeItem[item.COMMODITY_ID]) {
 								changeItem[item.COMMODITY_ID] = []
 							}
 							let originValue = item[fName]
 							let nowValue = item[el]
-							if (_transferKeys.indexOf(el)>-1) { 	// 转义有效值
-
-								originValue = transferKeys[el][originValue]
-								nowValue = transferKeys[el][nowValue]
-							}
+							
 							changeItem[item.COMMODITY_ID].push({
 								changeName: json[el],
 								org: originValue,
@@ -239,11 +217,11 @@
 				this.$api.get({
 					action_type: 'GetHighNextActDef',
 					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
-					HIGHWAYPROINST_NEXTID: _this.baseData.HIGHWAYPROINST_NEXTID
+					HIGHWAYPROINST_NEXTID: type
 				}).then((res)=> {
 					console.log(res)
 					let name = ['ActDef_Name', 'ActDef_ID'] //默认审核
-					if (type===3) { // 否则回退
+					if (type===3000) { // 否则回退
 						name = ['ActInst_Name', 'ActInst_ID']
 					}
 					res.data.NextActDefList.forEach(el => {
@@ -265,7 +243,6 @@
 					res.data.TransferUserList.forEach(el => {
 						// debugger
 						_this.popData.userData.push({
-
 							label: el.USER_NAME,
 							value: el.USER_ID
 						})
@@ -274,26 +251,35 @@
 					
 				})
 			},
+			clearPopData() {
+				let  _this= this
+				_this.popData = {
+					title: '',
+					button:'',
+					selectData: [],
+					userData: [],
+					popShow: false
+				}
+			},
 			postData (data) {
+				debugger
+
 				let _this = this
 				let arr = {
 					action_type: 'SubmitApproveInfo',
 					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
-					NOWACTINST_IDS: _this.baseData.NOWACTINST_IDS,
+					NOWACTINST_IDS: _this.baseData.NOWACTINST_ID,
 					HIGHWAYPROINST_NEXTID: data.HIGHWAYPROINST_NEXTID,
-					NextACTDEF_IDS: data.NextACTDEF_IDS,
+					NextACTDEF_IDS: data.NextACTDEF_ID,
 					NextSTAFF_ID: data.NextSTAFF_ID,
 					APPROVED_INFO: data.APPROVED_INFO,
 				}
+				if (arr.HIGHWAYPROINST_NEXTID===4000) {
+					delete arr.NextACTDEF_IDS
+				}
 				this.$api.post(arr).then((res)=> {
 					let _data = res.data.ResultObject
-					_this.popData = {
-						title: '',
-						button:'',
-						selectData: [],
-						userData: [],
-						popShow: false
-					}
+					_this.clearPopData()
 					if (_data.ResultCode===200) {
 						_this.$router.push('/pages/business/business')
 					}
@@ -447,6 +433,7 @@
 		border-top: 1upx dashed #eee;
 		padding: 0 20upx 20upx 20upx;
 		display: flex;
+		flex-direction: column;
 		flex-wrap: wrap;
 	}
 	.card-change-detail li {
