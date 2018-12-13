@@ -8,7 +8,7 @@ export default {
     // baseURL: 'http://cloud.eshangtech.com:6060',
     baseApiName: '/MobileServicePlatform/Handler/handler_ajax.ashx', // 接口
     
-    testURL: 'http://192.168.10.110:8010', // 测试ip
+    testURL: 'http://192.168.10.110:8010', // 测试ip	
     testApiName: '/MobileServicePlatform/Handler/handler_ajax.ashx', // 接口
  
 }

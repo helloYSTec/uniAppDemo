@@ -86,7 +86,7 @@
 	@import "./common/uni.css";
 	@import "./common/ico.css";
 	/*@import "./static/font/iconfont.css";*/
-	
+	/*每个页面公共css */
 	* {
 		box-sizing: border-box;	
 	}
@@ -104,7 +104,7 @@
 		line-height: 1.8;
 	}
 	.page-body {
-		margin-top: 110upx;
+		margin-top: 90upx;
 		padding-top: 20upx;
 		background-color: #f2f2f2;
 		color: #333;
@@ -112,7 +112,7 @@
 	.open-ico:before {
 		content: "\E60A";
 	}
-	/*每个页面公共css */
+	
 /* 	* {
 		box-sizing: border-box;
 		

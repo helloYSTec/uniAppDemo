@@ -131,7 +131,7 @@
 	
 </script>
 
-<style scoped lang="stylus">
+<style scoped>
 	.zd .content:first-child{
 		border: 1px solid #fb9154;
 	}
