@@ -89,7 +89,6 @@
 				this.$emit('getTransferUser', this.saveData.NOWACTINST_IDS)
 			},
 			onConfirm(e) {
-				debugger
 				let _code = _this.saveData.HIGHWAYPROINST_NEXTID
 				if (this.choseType==='selectData') { //选择业务 则根据业务查询人员
 					this.saveData.NOWACTINST_IDS = e.value[0]
@@ -163,7 +162,7 @@
 	.button-box {
 		padding-top: 20upx;
 		display: flex;
-		padding-bottom: 40upx;
+		/* padding-bottom: 40upx; */
 		justify-content: space-around;
 	}
 	.button-box span {
