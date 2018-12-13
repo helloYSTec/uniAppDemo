@@ -89,37 +89,42 @@
 	   		<div class="process-box uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
 	   			<view class="travel-middle" v-for="item in ExpenseDetail" :key="item.EXPENSEDETAIL_ID">
 					<view class="trip_detail">
-					  <view style="width:96%; height:64px;border-bottom:1px dashed rgb(234, 234, 234); box-sizing:border-box;margin-left:2%; margin-top:2px;">
-						<view style="width:100%; height:30px;line-height:30px; margin-top:10px;">
-						  <view  style="width:3rem;height:100%; float:left;"><span style="height:30px;width:100%;display:inline-block;font-size:0.8rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align:center;">{{item.START_PLACE}}</span></view>
-						  <view class="jt_logo" style="width:2.2rem;display:inline-block;height:100%;float:left;">
-							 <img v-if="item.VEHICLE_TYPE==='汽车'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/taxi_logo.png" alt="">
-							 <img v-else-if="item.VEHICLE_TYPE==='飞机'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/fg_logo.png" alt="">
-							 <img v-else-if="item.VEHICLE_TYPE==='高铁'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/gt_logo.png" alt="">
-							 <img v-else-if="item.VEHICLE_TYPE==='火车'"  style="width:0.7rem;margin:0 0.8rem; padding-bottom:0.5rem;"  src="../../static/img/hc_logo.png" alt="">
-							 <img v-else-if="item.VEHICLE_TYPE==='轮船'"  style="width:0.6rem;margin:0 0.8rem; padding-bottom:0.7rem;"  src="../../static/img/lc_logo.png" alt="">
-						  </view>
-						  <view style="width:3rem;height:100%;float:left;"><span style="height:30px;width:100%;display:inline-block;font-size:0.8rem;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align:center;">{{item.ARRIVE_PLACE}}</span></view>
-						  <view style="width:7.5rem;height:100%;float:right; text-align:right; color:#6cc09c; text-align-left;font-size:0.7rem;">交通￥<span style="font-size:0.9rem; font-weight:bold; color:#ec8538;padding-left:0.3rem;">{{item.BILL_AMOUNT}}</span></view>
-						</view>
-						<view style="width:100%; height:26px;font-size:0.55rem;line-height:26px;margin-top:5px;">
-							<span>{{$util.cutDate(item.START_DATE)}}</span><span style="padding-left:1.2rem;">{{$util.cutDate(item.ARRIVE_DATE)}}</span>
-							<view style="float:right;height:100%;">
-							  <view style="height:100%; float:left;font-size:0.7rem;text-align:right; ">
-								<img style="width:0.7rem;" src="../../static/img/rs_logo.png" alt=""><span style="padding:0.3rem;">{{item.SUBSIDY_POPULATION}}</span>
-							  </view>
-							  <view style="height:100%; float:right;font-size:0.7rem; text-align:right;">
-								<span style="width:0.05rem;height:0.7rem; float:left;background-color:#ccc;margin-top:0.3rem;margin-right:0.4rem"></span>
-								<img  style="width:1rem;"  src="../../static/img/pj_logo.png" alt=""><span style="padding-left:0.3rem;">{{item.BILL_COUNT}}</span>
-							  </view>
+					  <view class="trip_detail_top">
+						<view class="trip_detail_traffic">
+							<view>
+								<view class="trip_addr" style="display: inline-block;margin-bottom: 16upx;">{{item.START_PLACE}}</view>
+								<view class="jt_logo" style="display: inline-block;">
+									<img v-if="item.VEHICLE_TYPE==='汽车'" class="img_traffic" src="../../static/img/taxi_logo.png" alt="">
+									<img v-else-if="item.VEHICLE_TYPE==='飞机'" class="img_traffic" src="../../static/img/fg_logo.png" alt="">
+									<img v-else-if="item.VEHICLE_TYPE==='高铁'" class="img_traffic" src="../../static/img/gt_logo.png" alt="">
+									<img v-else-if="item.VEHICLE_TYPE==='火车'" class="img_traffic" src="../../static/img/hc_logo.png" alt="">
+									<img v-else-if="item.VEHICLE_TYPE==='轮船'" class="img_traffic" src="../../static/img/lc_logo.png" alt="">
+								</view>
+								<view class="trip_date">{{$util.cutDate(item.START_DATE)}}</view>
+							</view>
+							<view>
+								<div class="trip_addr" style="margin-bottom: 16upx;">{{item.ARRIVE_PLACE}}</div>
+								<div class="trip_date">{{$util.cutDate(item.ARRIVE_DATE)}}</div>
+							</view>
+							<view>
+								<view class="trip_price" style="margin-bottom: 16upx;">交通￥<span>{{item.BILL_AMOUNT}}</span></view>
+								<view class="trip_person">
+									<view>
+										<img style="width: 30upx;" src="../../static/img/rs_logo.png" alt=""><span>{{item.SUBSIDY_POPULATION}}</span>
+									</view>
+									<view>
+										<span></span>
+										<img style="width: 40upx;" src="../../static/img/pj_logo.png" alt=""><span>{{item.BILL_COUNT}}</span>
+									</view>
+								</view>
 							</view>
 						</view>
 					  </view>
-					  <view style="width:100%; height:40px;">
-						<ul class="expenseDetail_ul" style="overflow:hidden;width:96%;font-size:0.6rem;line-height:30px;margin-left:2%;">
-						  <li style="width:32%;height:30px; float:left;"><span>补贴天数：</span><span>{{item.SUBSIDY_DAY}}</span></li>
-						  <li style="width:32%;height:30px; float:left;"><span>补贴标准：</span><span>{{item.URBAN_TRAFFIC_ALLOWANCE}}</span></li>
-						  <li style="width:34%;height:30px; float:left;"><span>补贴金额：</span><span>{{item.SUBSIDY_AMOUNT}}</span></li>
+					  <view>
+						<ul class="trip_subsidies">
+						  <li><span>补贴天数：</span><span>{{item.SUBSIDY_DAY}}</span></li>
+						  <li><span>补贴标准：</span><span>{{item.URBAN_TRAFFIC_ALLOWANCE}}</span></li>
+						  <li><span>补贴金额：</span><span>{{item.SUBSIDY_AMOUNT}}</span></li>
 						</ul>
 					  </view>
 					</view>
@@ -127,37 +132,87 @@
 	   		</div>
 	   	</div>
 	   </view>
-       <view class="contentTwo-head jiantouChange" style="overflow: hidden;padding-top:1.2rem;" >
-        <h3>其他费用</h3>
-        <view   style="width:100%;border:1px solid rgb(234, 234, 234); box-shadow: 0px 1px 8px rgb(234, 234, 234) ; border-radius: 7px;margin-top:15px;">
-        <view class="expenseDetail2" style="width:100%;">
-
-              <ul class="expenseDetail_ul2" style="overflow:hidden;width:96%;font-size:0.6rem;line-height:30px;margin-left:2%;"  v-for="(item) in ExpenseDetail" :key="item.EXPENSEDETAIL_ID">
-                <li style="height:30px; float:left;width:40%; ">
-                  <span style="padding-left:0.3rem;">{{item.OTHER_COST}}</span>
-                </li>
-                <li style="width:30%; height:30px; float:left; text-align:left;">
-                  <img v-if="item.OTHERBILL_COUNT!==''"  style="width:1rem;"  src="../../static/img/pj_logo.png" alt=""><span style="padding-left:0.3rem;">{{item.OTHERBILL_COUNT}}</span>
-                </li>
-                <li style="width:30%;height:30px; float:right;text-align:left;">
-                   <span v-if="item.OTHERBILL_AMOUNT!==''" style="font-size:0.7rem;color:#6cc09c;padding-left:0.3rem;">金额￥</span>
-                  <span style="font-size:0.9rem; font-weight:bold; color:#ec8538;">{{item.OTHERBILL_AMOUNT}}</span>
-                </li>
-              </ul>
-            </view>
-        </view>
-    </view>
-	
+	   <view class="base-info">
+	   	<div class="uni-list-cell uni-collapse">
+	   		<div class="cat-box uni-list-cell-navigate" :class="cardShow2 ? ' uni-navigate-bottom' : 'uni-navigate-right'" @tap="cardShow2 =!cardShow2">
+	   			<b>其他费用</b>
+	   		</div>
+	   		<div class="process-box uni-collapse-content" :class="cardShow2 ? 'uni-active' : ''" v-show="cardShow2">
+				<view class="trip_detail">
+				        <view class="other_fees" style="width:100%;">
+				              <ul class="other_fees_list" v-for="(item) in ExpenseDetail" :key="item.EXPENSEDETAIL_ID">
+				                <li class="list_name">
+				                  <span style="padding-left:0.3rem;">{{item.OTHER_COST}}</span>
+				                </li>
+				                <li class="list_ticket">
+				                  <img v-if="item.OTHERBILL_COUNT!==''"  style="width:1rem;"  src="../../static/img/pj_logo.png" alt=""><span style="padding-left:0.3rem;">{{item.OTHERBILL_COUNT}}</span>
+				                </li>
+				                <li class="list_price">
+									<view class="trip_price" v-if="item.OTHERBILL_COUNT!==''" style="margin-bottom: 16upx;">交通￥<span>{{item.OTHERBILL_AMOUNT}}</span></view>
+				                </li>
+				              </ul>
+				            </view>
+				        </view>
+	   		</div>
+	   	</div>
+	   </view>
+	   
+	   <uni-popup :show="showPopupMiddle" :type="popType" v-on:hidePopup="hidePopup">
+	   	<view style="width: 100%;">
+	   		<h4>{{SubscribefeeTitle}}</h4>
+			<div v-if="SubscribefeeTitle !== ''" class="associated">
+				<div>
+				  <div class="lie-left">报销部门</div>
+				  <div class="lie_right">{{t_subscribefee2.DEPARTMENT_NAME}}</div>
+				  <br />
+				</div>
+				<div>
+				  <div class="lie-left">申请人员</div>
+				  <div class="lie_right">{{t_subscribefee2.STAFF_NAME}}</div>
+				  <br />
+				</div>
+				<div>
+				  <div class="lie-left">公司名称</div>
+				  <div class="lie_right">{{t_subscribefee2.DEPT_NAME}}</div>
+				  <br />
+				</div>
+				<div>
+				  <div class="lie-left">申请时间</div>
+				  <div class="lie_right">{{t_subscribefee2.FINANCEPROINST_CREATEDATE}}</div>
+				  <br />
+				</div>
+				<div>
+				  <div class="lie-left">出差人员</div>
+				  <div class="lie_right">{{t_subscribefee2.BUSINESS_PERSON}}</div>
+				  <br />
+				</div>
+				<div>
+				  <div class="lie-left">出差事由</div>
+				  <div class="lie_right">{{t_subscribefee2.BUSINESS_REASON}}</div>
+				  <br />
+				</div>
+				<div>
+				  <div class="lie-left">合计金额</div>
+				  <div class="lie_right">{{t_subscribefee2.PAYMENT_LOWER}}</div>
+				  <br />
+				</div>
+			</div>
+	   	</view>
+	   </uni-popup>
 	</view>
 </template>
 
 <script>
 	// import {mapState,mapGetters } from 'vuex';
+	import uniPopup from '../../components/uniComponents/uni-popup.vue';
 	export default {
 		data() {
 			return {
+				showPopupMiddle: false,
+				popType: 'middle',
 				travelShow: false, // 控制页面显示
 				cardShow: true, // 控制折叠面板
+				cardShow2: true,
 				ExpenseBill: {},
 				FinanceProinstList:{},
 				ApproveList:[],
@@ -177,6 +232,9 @@
 					PAYMENT_LOWER:'', // 合计金额
 				}
 			};
+		},
+		components: {
+			uniPopup
 		},
 		computed:{
 		},
@@ -247,11 +305,23 @@
 				  }
 				  isClick ? this.SubscribefeeShow = true : this.SubscribefeeShow = false
 				})
+				console.log(this.t_subscribefee2)
 			},
 			// 关联详情点击事件
 			clickGetSubscribefee(){
-				this.GetSubscribefee(this.FinanceProinstList.FINANCEPROINST_FIELD,true)
+				let body=document.getElementsByTagName('body')[0];
+				body.style.overflow="hidden";
+				this.GetSubscribefee(this.FinanceProinstList.FINANCEPROINST_FIELD,true);
+				this.popType = 'middle';
+				this.showPopupMiddle = true;
+				console.log(this.showPopupMiddle)
 			},
+			// 关联详情隐藏
+			hidePopup(){
+				let body=document.getElementsByTagName('body')[0];
+				body.style.overflow="auto";
+				this.showPopupMiddle=false;
+			}
 		},
 		created() {
 			this.getExpenseData();
@@ -399,5 +469,111 @@
 		box-shadow: 0px 1px 8px rgb(234, 234, 234); 
 		border-radius: 7px;
 		margin-bottom: 20upx;
+		padding: 20upx 24upx;
+	}
+	.trip_detail_top{
+		width:100%;
+		border-bottom:1px dashed rgb(234, 234, 234); 
+		box-sizing:border-box;
+		padding-bottom: 10upx;
+	}
+	.trip_detail_traffic{ 
+		display: flex;
+		justify-content: space-between;
+	}
+	.trip_addr{
+		font-size: 36upx;
+	}
+	.trip_date{
+		font-size: 24upx;
+	}
+	/* .trip_detail_traffic>view{
+		display: flex;
+	} */
+	/* .trip_detail_traffic span{
+		font-size: 36upx;
+	} */
+	.jt_logo{
+		background: url(../../static/img/jc_logo.png) no-repeat center 36upx;
+		background-size: 100%;
+		width: 50px;
+		text-align: center;
+		margin: 0 20upx;
+	}
+	.img_traffic{
+		width: 44upx;
+		height: auto;
+		padding-bottom: 20upx;
+	}
+	.trip_price{
+		color: #6cc09c;
+		font-size: 28upx;
+	}
+	.trip_price span{
+		font-weight:bold;
+		color:#ec8538;
+		font-size: 32upx;
+		margin-left: 10upx;
+	}
+	.trip_person{
+		display: flex;
+		justify-content: space-between;
+	}
+	.trip_person img{
+		vertical-align: middle;
+	}
+	.trip_person view:first-child{
+		border-right: 1px solid #ccc;
+	}
+	.trip_person view:last-child{
+		text-align: right;
+	}
+	.trip_person span{
+		padding: 0 12upx;;
+	}
+	.trip_subsidies{
+		display: flex;
+		justify-content: space-between;
+		margin-top: 10upx;
+	}
+	.trip_subsidies span{
+		font-size: 24upx;
+	}
+	.other_fees>ul:nth-child(n+2){
+		border-top:1px dashed #ccc;
+		padding-top: 20upx;;
+	}
+	.other_fees>ul.other_fees_list{
+		display: flex;
+		justify-content: space-between;
+		
+	}
+	.other_fees_list li.list_name{
+		width: 40%;
+	}
+	.other_fees_list li.list_ticket{
+		width: 30%;
+	}
+	.other_fees_list li.list_price{
+		width: 30%;
+	}
+	.other_fees_list img{
+		width: 40upx;
+		vertical-align: middle;
+	}
+	.associated>div{
+		display: flex;
+		justify-content: space-between;
+	}
+	.lie-left{
+		width: 25%;
+		font-size: 28upx;
+		line-height: 60upx;
+	}
+	.lie_right{
+		width: 75%;
+		color: #999999;
+		font-size: 28upx;
+		text-align: right;
 	}
 </style>

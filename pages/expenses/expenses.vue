@@ -19,23 +19,23 @@
 			return {
 				FinanceList:[
 					{
-						ACCEPT_CODE: "201811-401202-0046",
-						ACCEPT_NAME: "山东泰安服务区现在调研考察，是否智慧服务区的效果会比浙江的更好。学习对方优势。",
+						ACCEPT_CODE: "",
+						ACCEPT_NAME: "差旅费不必要",
 						ACCEPT_TYPE: 401202,
 						ACTDEF_NAME: "部门经理意见",
 						DEPT_ID: 1000,
 						DEPT_NAME: "浙江省交通投资集团实业发展有限公司",
-						FINANCEPROINST_CREATEDATE: "2018/11/28 15:45:59",
+						FINANCEPROINST_CREATEDATE: "2018/11/22 16:40:47",
 						FINANCEPROINST_DESC: "",
 						FINANCEPROINST_ENDDATE: "",
-						FINANCEPROINST_ID: 637,
+						FINANCEPROINST_ID: 1487,
 						FINANCEPROINST_NEXTID: 2000,
-						NOWACTDEF_IDS: "469910",
-						NOWSTAFF_ID: 5603,
-						NOWSTAFF_NAME: "胡书香",
-						PRODEF_ID: 305,
+						NOWACTDEF_IDS: "199520",
+						NOWSTAFF_ID: 1,
+						NOWSTAFF_NAME: "系统开发者",
+						PRODEF_ID: 313,
 						PRODEF_NAME: "差旅费报销",
-						PROINST_ID: 171484,
+						PROINST_ID: 116017,
 						STAFF_ID: 1,
 						STAFF_NAME: "系统开发者",
 						USER_ID: 1,
@@ -131,7 +131,7 @@
 	
 </script>
 
-<style scoped lang="stylus">
+<style scoped>
 	.zd .content:first-child{
 		border: 1px solid #fb9154;
 	}
