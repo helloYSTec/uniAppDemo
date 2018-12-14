@@ -1,8 +1,12 @@
 <template>
 	<div class="content" @tap='goDetail' v-if="item">
 		<p class="contentName">{{$util.dateEmpty(item.SERVERPART_NAME)}}</p>
-		<p class="contentState" :class="item.HIGHWAYPROINST_NEXTID!=='9000' ? 'text-org' : '' ">{{$util.businessStatus(item.ACCEPT_CODE)}}</p>
-		<img class="typeImg" :src="item.HIGHWAYPROINST_NEXTID==='9000' ? '../../static/img/Conclusion.png' : '../../static/img/examine.png'" alt="">
+		<!-- <p class="contentState" :class="item.HIGHWAYPROINST_NEXTID!=='9000' ? 'text-org' : '' ">{{$util.businessStatus(item.ACCEPT_CODE)}}</p> -->
+		<!-- <img
+		 class="typeImg" 
+		 :src="item.HIGHWAYPROINST_NEXTID==='9000' ? '../../static/img/Conclusion.png' : '../../static/img/examine.png'" 
+		 alt=""> -->
+		 <i class="typeImg ico" :class="item.HIGHWAYPROINST_NEXTID==='9000' ? 'ico-conclusion' : 'ico-examine'"></i>
 		<p class="typeText">{{$util.businessStatus(item.HIGHWAYPROINST_NEXTID)}}</p>
 		<view class="content-box">
 			<span class="L-icon">L</span>
@@ -46,4 +50,8 @@
 
 <style scoped>
 	@import '../../static/css/listUnit.css';
+	.typeImg:before {
+		width: 106upx;
+		height: 80upx;
+	}
 </style>

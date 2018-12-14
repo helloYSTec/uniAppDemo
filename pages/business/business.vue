@@ -78,7 +78,6 @@
 		},
 		methods: {
 			goDetail (item) {
-				console.log(item)
 				uni.navigateTo({
 					url: "../detail/businessDetail?HIGHWAYPROINST_ID="+item.HIGHWAYPROINST_ID+"&HIGHWAYPROINST_NEXTID="+item.HIGHWAYPROINST_NEXTID
 				});
@@ -86,7 +85,10 @@
 			},
 			getList () {
 				let _this = this
-				
+				uni.showToast({
+					title: "loading",
+					icon: "loading"
+				})
 				let json = {
 					action_type: 'GetHighWayProinstList',
 					action_data: '4583E56BACB489F5',
@@ -94,6 +96,7 @@
 					ActinstState: _this.searchKeys.join(',')
 				}
 				this.$api.post(json).then(res => {
+					uni.hideLoading()
 					let _data = res.data.HighwayPoinstList
 					if (_data.length>0){
 						_this.pageList = _this.pageList.concat(_data)
@@ -113,8 +116,9 @@
 			needKeys(id) {
 				let _this = this
 				let newKeys = _this.searchKeys
-				if (_this.searchKeys.indexOf(id)>-1) {
-					newKeys = newKeys.filter(el => {el!==id})
+				let index = _this.searchKeys.indexOf(id)
+				if (index !== -1) {
+					newKeys.splice(index,1)
 				} else {
 					newKeys.push(id)
 				}
