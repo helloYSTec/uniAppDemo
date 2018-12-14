@@ -71,21 +71,7 @@
 	line-height: 81upx;
 	border-bottom: 1upx dashed #ccc;
 }
-/*.detail-top-base:before, .detail-top-base:after{
-	content: '';
-	width: 30upx;
-	height: 34upx;
-	background-color: #fff;
-	box-shadow: -4upx 0upx 6upx rgb(234, 234, 234);
-	border-radius: 50%;
-	position: absolute;
-	bottom: -20upx;
-    right: -40upx;
-}
-.detail-top-base:before {
-	bottom: -20upx;
-    left: -40upx;
-}*/
+
 .detail_top_name .detail-top-base{
 	display: flex;
 	text-align: left;
