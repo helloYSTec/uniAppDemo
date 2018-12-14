@@ -4,15 +4,12 @@
 .ico-date:before {
   background: url("../static/img/cjrq_logo.png");
 }
-/*.ico-shenhe:before {
-  background: url("../static/img/shenhe.png");
+.ico-conclusion:before {
+  background: url("../static/img/Conclusion.png");
 }
-.ico-yijiao:before {
-  background: url("../static/img/yijiao.png");
+.ico-examine:before {
+  background: url("../static/img/examine.png");
 }
-.ico-bohui:before {
-  background: url("../static/img/bohui.png");
-}*/
 .ico-bh:before {
   background: url("../static/img/bh_logo.png");
 }
@@ -24,6 +21,27 @@
 }
 .ico-cate:before {
   background: url("../static/img/txm_logo.png");
+}
+.ico-bxbm:before {
+  background: url("../static/img/bxbm_logo.png");
+}
+.ico-bxje:before {
+  background: url("../static/img/bxje_logo.png");
+}
+.ico-rzlx:before {
+  background: url("../static/img/rzlx_logo.png");
+}
+.ico-fj:before {
+  background: url("../static/img/fj_logo.png");
+}
+.ico-ndbz:before {
+  background: url("../static/img/ndbz_logo.png");
+}
+.ico-qtyq:before {
+  background: url("../static/img/qtyq_logo.png");
+}
+.ico-bz:before {
+  background: url("../static/img/bz_logo.png");
 }
 .ico,
 .ico-s {

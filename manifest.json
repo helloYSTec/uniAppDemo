@@ -45,6 +45,12 @@
     },
     /* SDK配置 */
     "quickapp" : {},
+	"h5": {
+		"router": {
+			"mode": "history", //路由跳转模式，支持 hash|history ,默认 hash
+			"base": "/BusinessApp/"
+		}
+	},
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 小程序特有相关 */
