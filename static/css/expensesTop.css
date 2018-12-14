@@ -11,7 +11,7 @@
 	box-shadow: 0upx -6upx 1upx #cfcfcf;
 }
 
-.left_circle {
+.left_circle,.left_circle2{
 	width: 30upx;
 	height: 34upx;
 	background-color: #fff;
@@ -21,8 +21,7 @@
 	top: 228upx;
 	left: -15upx;
 }
-
-.right_circle {
+.right_circle,.right_circle2 {
 	width: 30upx;
 	height: 34upx;
 	background-color: #fff;
@@ -32,7 +31,9 @@
 	top: 228upx;
 	right: -15upx;
 }
-
+.left_circle2,.right_circle2{
+	top: 290upx;
+}
 .detail_top_box {
 	background-color: #fff;
 	margin-top: 24upx;
@@ -71,7 +72,7 @@
 .detail-top-base {
 	color: #989898;
 	font-size: 24upx;
-	padding-top: 48upx;
+	padding-top: 56upx;
 	text-align: right;
 	line-height: 48upx;
 }
