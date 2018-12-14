@@ -8,11 +8,11 @@
 		<uni-popup :show="popData.popShow" v-on:hidePopup="closePop">
 			<div class="pop-content">
 				<div class="pop-title">{{popData.title}}</div>
-				<textarea class="popText" value="拟同意" v-if="popData.type!==4000" v-model="saveData.APPROVED_INFO"></textarea>
+				<textarea class="popText" v-if="popData.type!==4000" v-model="saveData.APPROVED_INFO"></textarea>
 				<div class="textUnit" v-if="popData.type!==4000">
-					业务转出到：<span @tap="selectData('selectData')">{{saveData.NOWACTINST_Name}} <i class="uni-icon uni-icon-arrowright"></i></span>
+					业务转出到：<span @tap="selectData('selectData')">{{saveData.NextACTDEF_Name}} <i class="uni-icon uni-icon-arrowright"></i></span>
 				</div>
-				<div class="textUnit" v-if="popData.type!==3000" v-show="saveData.NOWACTINST_IDS!=='5010'">
+				<div class="textUnit" v-if="popData.type!==3000" v-show="saveData.NextACTDEF_IDS!=='5010'">
 					指定经办人：<span @tap="selectData('userData')">{{saveData.NextSTAFF_Name}} <i  class="uni-icon uni-icon-arrowright"></i></span>
 				</div>
 				<view >
@@ -54,13 +54,13 @@
 				pickerValueDefault: [0],
 				saveData: {
 					NextSTAFF_Name: '请选择',
-					NOWACTINST_Name: '请选择',
-					HIGHWAYPROINST_NEXTID: '',
-					NextSTAFF_ID:'',
-					NOWACTINST_IDS:'',
-					APPROVED_INFO: ''
+					NextACTDEF_Name: '请选择',
+					HIGHWAYPROINST_NEXTID: '', //触发当前的按钮状态
+					NextSTAFF_ID:'', // 指定人员
+					NextACTDEF_IDS:'', // 指定业务
+					APPROVED_INFO: '' // 意见
 				},
-				choseType: 1, // 1,移交,2审核,3驳回
+				choseType: '', // selectData,指定业务,userData指定人员
 
 
             }
@@ -68,6 +68,9 @@
         methods: {
         	showPop (type) {
         		this.saveData.HIGHWAYPROINST_NEXTID = type
+        		if (type===2000) {
+        			this.saveData.APPROVED_INFO='拟同意'
+        		}
         		this.$emit('showPop',type)
         	},
             closePop() {
@@ -77,7 +80,7 @@
 				let _this = this
 				// 如果是 审核和驳回 并且先选择人员 则检查 转出业务是否已选择（需求：先选择业务后选择人员）
 				if (_this.saveData.HIGHWAYPROINST_NEXTID!==4000 && val==='userData') {
-					if (!_this.checked('NOWACTINST_IDS')) {
+					if (!_this.checked('NextACTDEF_IDS')) {
 						return false 
 					}
 				}	
@@ -92,9 +95,11 @@
 				let _this = this
 				let _code = _this.saveData.HIGHWAYPROINST_NEXTID
 				if (this.choseType==='selectData') { //选择业务 则根据业务查询人员
-					this.saveData.NOWACTINST_IDS = e.value[0]
-					this.saveData.NOWACTINST_Name = e.label
-					_code===2000 && e.value[0] !== 5010 && this.getTransferUser() // 不是办结则查询人员
+					this.saveData.NextACTDEF_IDS = e.value[0]
+					this.saveData.NextACTDEF_Name = e.label
+					if (_code===2000 && e.value[0] !== 5010) {
+						_this.$emit('getTransferUser', e.value[0]) // 不是办结则查询人员
+					}
 				}else {
 					this.saveData.NextSTAFF_ID = e.value[0]
 					this.saveData.NextSTAFF_Name = e.label
@@ -107,17 +112,17 @@
 				// debugger
 				let _this = this
 				let _code = _this.saveData.HIGHWAYPROINST_NEXTID
-				let _NOWACTINST_IDS = _this.saveData.NOWACTINST_IDS
+				let _NextACTDEF_IDS = _this.saveData.NOWACTINST_IDS
 
 				if (_code!==4000) {
 					let _advTitle = _this.checked('APPROVED_INFO')
-					let _nowActnst = _this.checked('NOWACTINST_IDS')
+					let _nowActnst = _this.checked('NextACTDEF_IDS')
 					let _nextStaff = _this.checked('NextSTAFF_ID')
 					if (!_advTitle || !_nowActnst) {
 						return false
 					}
 					// 如果是不是办结的审核 则验证 是否选择了人员
-					if (_code===2000 && _NOWACTINST_IDS!=='5010' && !_nextStaff) { 
+					if (_code===2000 && _NextACTDEF_IDS!=='5010' && !_nextStaff) { 
 							return false
 						}
 				}else {
@@ -135,7 +140,7 @@
 				let title = ''
 				if (!_data[u]) {
 					switch (u) {
-						case 'NOWACTINST_IDS':
+						case 'NextACTDEF_IDS':
 							title="请选择转出业务。";
 							break;
 						case 'NextSTAFF_ID':

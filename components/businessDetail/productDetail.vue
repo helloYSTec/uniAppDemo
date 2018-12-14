@@ -206,7 +206,7 @@
 					case 4000:
 						popData.title= "请选择移交人员"
 						popData.button= "移交"
-						_this.getTransferUser(_this.baseData.NOWACTDEF_ID,1)
+						_this.getTransferUser(_this.baseData.NOWACTINST_ID,1)
 						break;
 					case 2000: 
 						popData.title= "请确认审核当前业务到下一个环节"
@@ -245,7 +245,8 @@
 					})
 				})
 			},
-			getTransferUser(nextId, type) { // 获取人员信息
+			getTransferUser(nextId, type) { // 获取人员信息d
+			
 				let _this = this
 				let _data = {
 					action_type: 'GetFlowTransferUser',
@@ -277,6 +278,7 @@
 					userData: [],
 					popShow: false
 				}
+				console.log('close pop')
 			},
 			postData (data) {
 				let _this = this
@@ -286,7 +288,7 @@
 					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
 					NOWACTINST_IDS: _this.baseData.NOWACTINST_ID,
 					HIGHWAYPROINST_NEXTID: data.HIGHWAYPROINST_NEXTID,
-					NextACTDEF_IDS: data.NextACTDEF_ID,
+					NextACTDEF_IDS: data.NextACTDEF_IDS,
 					NextSTAFF_ID: data.NextSTAFF_ID,
 					APPROVED_INFO: data.APPROVED_INFO,
 				}
