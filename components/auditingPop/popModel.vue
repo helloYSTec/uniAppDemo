@@ -89,6 +89,7 @@
 				this.$emit('getTransferUser', this.saveData.NOWACTINST_IDS)
 			},
 			onConfirm(e) {
+				let _this = this
 				let _code = _this.saveData.HIGHWAYPROINST_NEXTID
 				if (this.choseType==='selectData') { //选择业务 则根据业务查询人员
 					this.saveData.NOWACTINST_IDS = e.value[0]
@@ -213,7 +214,7 @@
 		border-bottom: 1upx solid #eee;
 	}
 	.textUnit span {
-		width: 180upx;
+		
 		text-align: right;
 		color: #2890e8;
 	}
