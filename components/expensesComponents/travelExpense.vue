@@ -10,8 +10,8 @@
 						<h3>{{FinanceProinstList.DEPT_NAME}}</h3>
 						<h4>{{$util.acceptState(FinanceProinstList.ACCEPT_TYPE)}}</h4>
 						<p>{{$util.cutDate(ExpenseBill.EXPENDBILL_DATE)}}</p>
-						<view>
-							<ul class="detail_top_bottom">
+						<view class="detail_top_bottom">
+							<ul>
 								<li>
 									<img class="icon_img" src="../../static/img/sqr_logo.png" alt="">申 &nbsp;请 &nbsp;人: <span>{{FinanceProinstList.STAFF_NAME}}</span>
 								</li>
@@ -19,7 +19,7 @@
 									<img class="icon_img" src="../../static/img/bxbm_logo.png" alt="">报销部门: <span>{{ExpenseBill.DEPARTMENT_NAME}}</span>
 								</li>
 							</ul>
-							<ul class="detail_top_bottom" style="border:none">
+							<ul>
 								<li>
 									<img class="icon_img" src="../../static/img/bxje_logo.png" alt="">报销金额: <span>{{ExpenseBill.PAYMENT_LOWER}}</span>
 								</li>
@@ -76,8 +76,8 @@
 					</ul>
 				</view>
 			</view>
-			<popModel v-if="FinanceProinstList.NOWSTAFF_ID === PassportList.USER_ID" :popData="popData" @showPop="showPop" @closePop='closePop' @postData='postData' @getTransferUser='getTransferUser'
-			 @onCancel='clearPopData' />
+			<popModel v-if="FinanceProinstList.NOWSTAFF_ID === PassportList.USER_ID" :popData="popData" @showPop="showPop"
+			 @closePop='closePop' @postData='postData' @getTransferUser='getTransferUser' @onCancel='clearPopData' />
 		</view>
 		<view class="base-info">
 			<div class="uni-list-cell uni-collapse">
@@ -257,15 +257,15 @@
 				required: true,
 				type: Array
 			},
-			travelShow:{
+			travelShow: {
 				required: true,
 				type: Boolean
 			},
-			SubscribefeeShow:{
+			SubscribefeeShow: {
 				required: true,
 				type: Boolean
 			},
-			SubscribefeeTitle:{
+			SubscribefeeTitle: {
 				required: true,
 				type: String
 			},
@@ -328,7 +328,7 @@
 					case 4000:
 						popData.title = "请选择移交人员"
 						popData.button = "移交"
-						_this.getTransferUser(_this.FinanceProinstList.NOWACTDEF_IDS)
+						_this.getTransferUser(_this.FinanceProinstList.NOWACTDEF_IDS,1)
 						break;
 					case 2000:
 						popData.title = "请确认审核当前业务到下一个环节"
@@ -348,33 +348,37 @@
 			},
 			getHighNextActDef(type) { // 获取下一环节 type:2000 审核,3000驳回,4000移交
 				let _this = this
-					this.$api.get({
-						action_type: 'GetFlowNextActDef',
-						action_data: '4583E56BACB489F5',
-						FINANCEPROINST_ID: _this.FinanceProinstList.FINANCEPROINST_ID,
-						FINANCEPROINST_NEXTID: type
-					}).then((res)=> {
-						console.log(res)
-						let name = ['ActDef_Name', 'ActDef_ID'] //默认审核
-						if (type===3000) { // 否则回退
-							name = ['ActInst_Name', 'ActInst_ID']
-						}
-						res.data.NextActDefList.forEach(el => {
-							_this.popData.selectData.push({
-								label: el[name[0]],
-								value: el[name[1]]
-							})
-						})
-					})
-			},
-			getTransferUser(nextId) { // 获取人员信息
-				let _this = this
 				this.$api.get({
-					action_type: 'GetFlowTransferUser',
+					action_type: 'GetFlowNextActDef',
 					action_data: '4583E56BACB489F5',
 					FINANCEPROINST_ID: _this.FinanceProinstList.FINANCEPROINST_ID,
-					FINANCEPROINST_NEXTID: nextId
+					FINANCEPROINST_NEXTID: type
 				}).then((res) => {
+					console.log(res)
+					let name = ['ActDef_Name', 'ActDef_ID'] //默认审核
+					if (type === 3000) { // 否则回退
+						name = ['ActInst_Name', 'ActInst_ID']
+					}
+					res.data.NextActDefList.forEach(el => {
+						_this.popData.selectData.push({
+							label: el[name[0]],
+							value: el[name[1]]
+						})
+					})
+				})
+			},
+			getTransferUser(nextId,type) { // 获取人员信息
+				let _this = this
+				let arr={
+					action_type: 'GetFlowTransferUser',
+					action_data: '4583E56BACB489F5',
+					// FINANCEPROINST_ID: _this.FinanceProinstList.FINANCEPROINST_ID,
+					NextACTDEF_IDS: nextId,
+				}
+				if(type){
+					arr.TransferType = type
+				}
+				this.$api.get(arr).then((res) => {
 					res.data.TransferUserList.forEach(el => {
 						// debugger
 						_this.popData.userData.push({
@@ -395,14 +399,46 @@
 				}
 			},
 			postData(data) {
-				this.$api.post({
+				let _this = this
+				let arr = {
 					action_type: 'SubmitFinaceInfo',
-					
+					action_data: 'o6rT6vuvZRSWKlsiu6N1zuqKSLUI',
+					FINANCEPROINST_ID: _this.FinanceProinstList.FINANCEPROINST_ID,
+					FINANCEPROINST_NEXTID: data.HIGHWAYPROINST_NEXTID,
+					Handover_UserID: data.NextSTAFF_ID,
+					NOWACTDEF_IDS: _this.FinanceProinstList.NOWACTDEF_IDS,
+					OPERATION_TYPE: _this.FinanceProinstList.ACCEPT_TYPE,
+					APPROVED_INFO: data.APPROVED_INFO,
+					NextSTAFF_ID: data.NextSTAFF_ID,
+					NextACTDEF_IDS: data.NextACTDEF_IDS
+				}
+				if (arr.FINANCEPROINST_NEXTID === 4000) {
+					delete arr.NextACTDEF_IDS
+					delete arr.NextSTAFF_ID
+					delete arr.APPROVED_INFO
+					delete arr.OPERATION_TYPE
+				} else {
+					delete arr.Handover_UserID
+				}
+				this.$api.post(arr).then(res => {
+					let _data = res.data.ResultObject[0]
+					_this.clearPopData()
+					if (_data.ResultCode === '100') {
+						uni.showToast({
+							title: _data.ResultDesc,
+							success() {
+								uni.redirectTo({
+									url: '/pages/expenses/expenses'
+								})
+							}
+						})
+
+					}
 				})
 			}
 		},
 		created() {
-			
+
 		},
 		onLoad() {
 

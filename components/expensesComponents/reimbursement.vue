@@ -27,8 +27,8 @@
 								<span v-if="ExpenseBill.EXPENDBILL_TYPE === 4000">公对公转账</span>
 							</div>
 						</div>
-						<view>
-							<ul class="detail_top_bottom">
+						<view class="detail_top_bottom">
+							<ul >
 								<li>
 									<img class="icon_img" src="../../static/img/sqr_logo.png" alt="">申 &nbsp;请 &nbsp;人: <span>{{FinanceProinstList.STAFF_NAME}}</span>
 								</li>
