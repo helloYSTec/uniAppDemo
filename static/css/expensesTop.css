@@ -1,0 +1,144 @@
+.travel-top {
+	margin-top: 21upx;
+	padding: 30upx;
+	padding-bottom: 60upx;
+	background-color: #fff;
+	position: relative;
+}
+
+.detail_top {
+	width: 100%;
+	display: table;
+	position: relative;
+}
+
+.left_circle {
+	width: 30upx;
+	height: 34upx;
+	background-color: #fff;
+	box-shadow: 2px 0px 3px rgb(234, 234, 234);
+	border-radius: 50%;
+	position: absolute;
+	top: 126px;
+	left: -15upx;
+}
+
+.right_circle {
+	width: 30upx;
+	height: 34upx;
+	background-color: #fff;
+	box-shadow: -2px 0px 3px rgb(234, 234, 234);
+	border-radius: 50%;
+	position: absolute;
+	top: 126px;
+	right: -15upx;
+}
+
+.detail_top_box {
+	background-color: #fff;
+	margin-top: 24upx;
+	border-bottom: 6px solid #eee;
+	overflow: hidden;
+	box-shadow: 0px -2px 3px rgb(234, 234, 234);
+}
+
+.detail_top_name {
+	background-color: #fff;
+	margin-top: 0.6rem;
+	padding: 0 24upx;
+}
+
+
+.detail_top_name h3 {
+	color: #333333;
+	line-height: 40px;
+	font-size: 36upx;
+	text-align: center;
+	padding-top: 10px;
+}
+
+.detail_top_name h4 {
+	color: #333333;
+	font-size: 36upx;
+	text-align: center;
+	line-height: 20px;
+}
+
+.detail_top_name p {
+	color: #989898;
+	font-size: 24upx;
+	padding-top: 10px;
+	text-align: right;
+	line-height: 30px;
+}
+
+.detail_top_bottom {
+	width: 100%;
+	border-bottom: 1px dashed #ccc;
+	border-top: 1px dashed #ccc;
+	font-size: 20upx;
+	line-height: 45px;
+	color: #777;
+	overflow: hidden;
+	display: flex;
+}
+
+.detail_top_bottom li {
+	width: 50%;
+	font-size: 26upx;
+}
+
+.detail_top_bottom li img.icon_img,
+.detail_middle_box li img.icon_img {
+	width: 24upx;
+	margin-right: 10upx;
+}
+
+.detail_top_bottom li span {
+	padding-left: 12upx;
+	color: #333;
+}
+
+.detail_middle {
+	overflow: hidden;
+	box-shadow: 0px 4px 8px rgb(234, 234, 234);
+}
+
+.detail_middle_box {
+	padding: 20upx 0;
+	width: 100%;
+	font-size: 26upx;
+	color: #777;
+}
+
+.detail_middle_box li {
+	overflow: hidden;
+	padding: 10upx 0;
+	display: flex;
+}
+
+.detail_middle_box li div:first-child,
+.detail_middle_box .attachment div:first-child {
+	width: 25%;
+}
+
+.detail_middle_box li div:last-child,
+.detail_middle_box .attachment div:last-child {
+	width: 75%;
+	color: #333;
+}
+
+.detail_middle_box .attachment {
+	display: flex;
+}
+
+.imgBox {
+	display: flex;
+	align-items: center;
+	/* justify-content: space-around; */
+}
+
+.imgBox img {
+	width: 20%;
+	height: 100%;
+}
