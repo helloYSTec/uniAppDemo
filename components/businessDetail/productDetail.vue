@@ -146,7 +146,7 @@
 				let _this = this
 				let itemName = Object.keys(json) // 数据名称
 				let changeItem = {} // 
-				
+
 				_this.commodityList.forEach(item => {
 					itemName.forEach(el => {
 						let fName ='F_'+ el 
@@ -227,7 +227,7 @@
 			getHighNextActDef(type) { // 获取下一环节
 				let _this = this
 				this.$api.get({
-					action_type: 'GetHighNextActDef',
+					action_type: 'GetFlowNextActDef',
 					action_data: '4583E56BACB489F5',
 					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
 					HIGHWAYPROINST_NEXTID: type
@@ -246,10 +246,9 @@
 				})
 			},
 			getTransferUser(nextId) { // 获取人员信息
-				debugger
 				let _this = this
 				this.$api.get({
-					action_type: 'GetTransferUser',
+					action_type: 'GetFlowTransferUser',
 					action_data: '4583E56BACB489F5',
 					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
 					NextACTDEF_IDS: nextId
@@ -276,8 +275,6 @@
 				}
 			},
 			postData (data) {
-				debugger
-
 				let _this = this
 				let arr = {
 					action_type: 'SubmitApproveInfo',
@@ -296,7 +293,7 @@
 					let _data = res.data.ResultObject
 					_this.clearPopData()
 					if (_data.ResultCode===200) {
-						_this.$router.push('/pages/business/business')
+						uni.redirectTo({url:'/pages/business/business'})
 					}
 					console.log(_data.ResultDesc)
 				})

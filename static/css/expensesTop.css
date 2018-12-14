@@ -75,18 +75,17 @@
 	padding-top: 56upx;
 	text-align: right;
 	line-height: 48upx;
+	display: flex;
+	justify-content: space-between;
+	padding-left: 20upx;
+	padding-right: 20upx;
 }
 
-.detail_top_name .detail-top-base{
-	display: flex;
-	text-align: left;
-	justify-content: space-between;
-}
 .detail-top-base + .detail-top-base{
 	padding-top: 0;
 	padding-bottom: 16upx;
 }
-.detail-top-base .detail_base_name{
+.detail-top-base .detail_base_name {
 	color: #333;
 	font-size: 26upx;
 }
@@ -100,18 +99,23 @@
 	line-height: 90upx;
 	color: #777;
 	overflow: hidden;
+	
+	border-top: 1upx dashed #ccc;
+	padding: 0 20upx;
+}
+.detail_top_bottom + .detail_top_bottom , .detail_top_bottom ul + ul{
+	border-top: 1upx dashed #ccc;
+}
+.detail_top_bottom ul{
 	display: flex;
 	justify-content: space-between;
-	border-top: 1upx dashed #ccc;
 }
-.detail_top_bottom + .detail_top_bottom {
-	border-top: 1upx dashed #ccc;
-}
+
 .detail_top_bottom li {
-	flex: 50%;
 	font-size: 26upx;
 	display: flex;
 	align-items: center;
+	line-height: 80upx;
 }
 
 .detail_top_bottom li img.icon_img,
