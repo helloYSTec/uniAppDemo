@@ -16,10 +16,10 @@
 	width: 30upx;
 	height: 34upx;
 	background-color: #fff;
-	box-shadow: 2px 0px 3px rgb(234, 234, 234);
+	box-shadow: 4upx 0upx 6upx rgb(234, 234, 234);
 	border-radius: 50%;
 	position: absolute;
-	top: 126px;
+	top: 252upx;
 	left: -15upx;
 }
 
@@ -27,34 +27,33 @@
 	width: 30upx;
 	height: 34upx;
 	background-color: #fff;
-	box-shadow: -2px 0px 3px rgb(234, 234, 234);
+	box-shadow: -4upx 0upx 6upx rgb(234, 234, 234);
 	border-radius: 50%;
 	position: absolute;
-	top: 126px;
+	top: 252upx;
 	right: -15upx;
 }
 
 .detail_top_box {
 	background-color: #fff;
 	margin-top: 24upx;
-	border-bottom: 6px solid #eee;
+	border-bottom: 8upx solid #eee;
 	overflow: hidden;
-	box-shadow: 0px -2px 3px rgb(234, 234, 234);
+	box-shadow: 0px -8upx 8upx rgb(234, 234, 234);
 }
 
 .detail_top_name {
 	background-color: #fff;
-	margin-top: 0.6rem;
+	margin-top: 30upx;
 	padding: 0 24upx;
 }
 
 
 .detail_top_name h3 {
 	color: #333333;
-	line-height: 40px;
+	line-height: auto;
 	font-size: 36upx;
 	text-align: center;
-	padding-top: 10px;
 }
 
 .detail_top_name h4 {
@@ -64,28 +63,51 @@
 	line-height: 20px;
 }
 
-.detail_top_name p {
+.detail_top_name p, .detail-top-base {
 	color: #989898;
 	font-size: 24upx;
-	padding-top: 10px;
+	padding-top: 25upx;
 	text-align: right;
-	line-height: 30px;
+	line-height: 81upx;
+	border-bottom: 1upx dashed #ccc;
 }
-
+/*.detail-top-base:before, .detail-top-base:after{
+	content: '';
+	width: 30upx;
+	height: 34upx;
+	background-color: #fff;
+	box-shadow: -4upx 0upx 6upx rgb(234, 234, 234);
+	border-radius: 50%;
+	position: absolute;
+	bottom: -20upx;
+    right: -40upx;
+}
+.detail-top-base:before {
+	bottom: -20upx;
+    left: -40upx;
+}*/
+.detail_top_name .detail-top-base{
+	display: flex;
+	text-align: left;
+	justify-content: space-between;
+}
 .detail_top_bottom {
 	width: 100%;
-	border-bottom: 1px dashed #ccc;
-	border-top: 1px dashed #ccc;
 	font-size: 20upx;
-	line-height: 45px;
+	line-height: 90upx;
 	color: #777;
 	overflow: hidden;
 	display: flex;
+	justify-content: space-between;
 }
-
+.detail_top_bottom + .detail_top_bottom {
+	border-top: 1upx dashed #ccc;
+}
 .detail_top_bottom li {
-	width: 50%;
+	flex: 50%;
 	font-size: 26upx;
+	display: flex;
+	align-items: center;
 }
 
 .detail_top_bottom li img.icon_img,
