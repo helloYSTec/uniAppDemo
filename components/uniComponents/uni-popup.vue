@@ -66,7 +66,7 @@
 		min-width: 600upx;
 		min-height: 394upx;
 		border-radius: 10upx;
-		top: 40%;
+		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
 		justify-content: center;

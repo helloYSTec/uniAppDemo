@@ -3,7 +3,19 @@
 		<header-nav />
 		<view style="margin-top: 30upx;">
 			<template v-if="expenseParam.ACCEPT_TYPE==='401202'">
-				<travel-expense></travel-expense>
+				<travel-expense 
+				:ExpenseBill="ExpenseBill" 
+				:FinanceProinstList="FinanceProinstList" 
+				:ApproveList="ApproveList"
+				:PassportList="PassportList" 
+				:ImageList="ImageList"
+				:ExpenseDetail="ExpenseDetail"
+				:rejectApproved="rejectApproved"
+				:travelShow="travelShow"
+				:SubscribefeeShow="SubscribefeeShow"
+				:SubscribefeeTitle="SubscribefeeTitle"
+				:subscribefee="subscribefee"
+				></travel-expense>
 			</template>
 			<template v-if="expenseParam.ACCEPT_TYPE==='401101'">
 				<administrative></administrative>
@@ -12,7 +24,19 @@
 				<official-entertaining></official-entertaining>
 			</template>
 			<template v-if="expenseParam.ACCEPT_TYPE==='401201'">
-				<reimbursement></reimbursement>
+				<reimbursement
+				:ExpenseBill="ExpenseBill" 
+				:FinanceProinstList="FinanceProinstList" 
+				:ApproveList="ApproveList"
+				:PassportList="PassportList" 
+				:ImageList="ImageList"
+				:ExpenseDetail="ExpenseDetail"
+				:rejectApproved="rejectApproved"
+				:travelShow="travelShow"
+				:SubscribefeeShow="SubscribefeeShow"
+				:SubscribefeeTitle="SubscribefeeTitle"
+				:subscribefee="subscribefee"
+				></reimbursement>
 			</template>
 			<template v-if="expenseParam.ACCEPT_TYPE==='401203'">
 				<engineering></engineering>
@@ -63,26 +87,112 @@
 		data() {
 			return {
 				expenseParam: {}, // 页面参数
+				ExpenseBill: {}, //费用账单
+				FinanceProinstList: {},
+				ApproveList: [], //同意意见列表
+				PassportList: {},
+				ImageList: [], // 附件图片列表
+				ExpenseDetail: [], //费用详情
+				rejectApproved: [] ,//驳回意见列表
+				SubscribefeeShow: false, //已办结业务
+				SubscribefeeTitle: '', //业务标题
+				subscribefee: { //差旅费超标准列表详情
+					DEPARTMENT_NAME: '', // 报销部门
+					STAFF_NAME: '', // 申请人员
+					DEPT_NAME: '', // 公司名称
+					FINANCEPROINST_CREATEDATE: '', // 申请时间
+					BUSINESS_PERSON: '', // 出差人员
+					BUSINESS_REASON: '', // 出差事由
+					PAYMENT_LOWER: '', // 合计金额
+				}
 			};
 		},
-		methods:{
+		methods: {
+			// 获取页面数据
+			getExpenseData() {
+				this.travelShow = false
+				uni.showToast({
+					title: "loading",
+					icon: "loading"
+				})
+				let _this = this
+				this.$api.post({
+					action_type: 'GetExpenseDetail',
+					action_data: 'o6rT6vuvZRSWKlsiu6N1zuqKSLUI',
+					FINANCEPROINST_ID: this.$route.query['FINANCEPROINST_ID'], //业务内码
+					OPERATION_TYPE: this.$route.query['ACCEPT_TYPE'], //业务类型
+					FINANCEPROINST_NEXTID: this.$route.query['FINANCEPROINST_NEXTID'] //流程状态
+				}).then(res => {
+					this.travelShow = true
+					uni.hideLoading()
+					console.log(res.data)
+					this.ExpenseBill = res.data.ExpenseBill[0];
+					this.FinanceProinstList = res.data.FinanceProinstList[0];
+					// this.title = this.$util.acceptState(this.FinanceProinstList.ACCEPT_TYPE)
+					uni.setNavigationBarTitle({
+						title: this.$util.acceptState(this.FinanceProinstList.ACCEPT_TYPE)
+					});			
+					this.ApproveList = res.data.ApproveList;
+					// this.rejectApproved = res.data.RejectApproved;
+					this.ExpenseDetail = res.data.ExpenseDetail;
+					this.PassportList = res.data.PassportList[0];
+					if (res.data.ImageList && res.data.ImageList.length > 0) {
+						let arr = res.data.ImageList.map(v => {
+							return v.IMAGE_URL.replace(/-/g, '/')
+						})
+						arr.forEach(v => {
+							_this.$util.getBase64(v).then(res => {
+								_this.ImageList.push(res)
+								_this.$previewRefresh() //图片放大功能
+							})
+						})
+					};
+					// 获取关联
+					if(res.data.FinanceProinstList[0].FINANCEPROINST_FIELD!==""){
+						this.GetSubscribefee(res.data.FinanceProinstList[0].FINANCEPROINST_FIELD, false)
+					}
+				})
+			},
+			// 获取关联详情
+			GetSubscribefee(id,isClick) {
+				this.$api.post({
+					action_type: 'GetTravelExpenseDetail',
+					FINANCEPROINST_ID: id
+				}).then(res => {
+					if (res && res.data && res.data.ExpenseBill && res.data.FinanceProinstList) {
+						console.log(res.data)
+						this.SubscribefeeTitle = res.data.FinanceProinstList[0].ACCEPT_NAME
+						this.subscribefee = {
+							DEPARTMENT_NAME: res.data.ExpenseBill[0].DEPARTMENT_NAME, // 报销部门
+							STAFF_NAME: res.data.FinanceProinstList[0].STAFF_NAME, // 申请人员
+							DEPT_NAME: res.data.FinanceProinstList[0].DEPT_NAME, // 公司名称
+							FINANCEPROINST_CREATEDATE: res.data.FinanceProinstList[0].FINANCEPROINST_CREATEDATE, // 申请时间
+							BUSINESS_PERSON: res.data.ExpenseBill[0].BUSINESS_PERSON, // 出差人员
+							BUSINESS_REASON: res.data.ExpenseBill[0].BUSINESS_REASON, // 出差事由
+							PAYMENT_LOWER: res.data.ExpenseBill[0].PAYMENT_LOWER, // 合计金额
+						}
+					}
+					isClick ? this.SubscribefeeShow = true : this.SubscribefeeShow = false
+				})
+			},
 		},
-		components:{
+		components: {
 			travelExpense,
-            administrative,
-            bigPay,
-            budget,
-            checkRecipients,
-            engineering,
-            fixedAssets,
-            getPayment,
-            internalTransfer,
-            officialEntertaining,
-            publicTransportation,
-            reimbursement,
-            travelExcessive
+			administrative,
+			bigPay,
+			budget,
+			checkRecipients,
+			engineering,
+			fixedAssets,
+			getPayment,
+			internalTransfer,
+			officialEntertaining,
+			publicTransportation,
+			reimbursement,
+			travelExcessive
 		},
 		created() {
+			this.getExpenseData();
 		},
 		onLoad(option) {
 			this.expenseParam = option;

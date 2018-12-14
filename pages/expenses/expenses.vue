@@ -32,7 +32,8 @@
 				})
 				this.$api.post({
 					 action_type: 'GetFinanceList',
-					 action_data: 'o6rT6vuvZRSWKlsiu6N1zuqKSLUI'
+					 action_data: 'o6rT6vuvZRSWKlsiu6N1zuqKSLUI',
+					 IncludeAcceptance: 0
 				}).then(res=>{
 					uni.hideLoading()
 					this.FinanceList = res.data.FinanceList

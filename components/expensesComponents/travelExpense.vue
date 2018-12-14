@@ -76,7 +76,7 @@
 					</ul>
 				</view>
 			</view>
-			<popModel :popData="popData" @showPop="showPop" @closePop='closePop' @postData='postData' @getTransferUser='getTransferUser'
+			<popModel v-if="FinanceProinstList.NOWSTAFF_ID === PassportList.USER_ID" :popData="popData" @showPop="showPop" @closePop='closePop' @postData='postData' @getTransferUser='getTransferUser'
 			 @onCancel='clearPopData' />
 		</view>
 		<view class="base-info">
@@ -162,37 +162,37 @@
 				<div v-if="SubscribefeeTitle !== ''" class="associated">
 					<div>
 						<div class="lie-left">报销部门</div>
-						<div class="lie_right">{{t_subscribefee2.DEPARTMENT_NAME}}</div>
+						<div class="lie_right">{{subscribefee.DEPARTMENT_NAME}}</div>
 						<br />
 					</div>
 					<div>
 						<div class="lie-left">申请人员</div>
-						<div class="lie_right">{{t_subscribefee2.STAFF_NAME}}</div>
+						<div class="lie_right">{{subscribefee.STAFF_NAME}}</div>
 						<br />
 					</div>
 					<div>
 						<div class="lie-left">公司名称</div>
-						<div class="lie_right">{{t_subscribefee2.DEPT_NAME}}</div>
+						<div class="lie_right">{{subscribefee.DEPT_NAME}}</div>
 						<br />
 					</div>
 					<div>
 						<div class="lie-left">申请时间</div>
-						<div class="lie_right">{{t_subscribefee2.FINANCEPROINST_CREATEDATE}}</div>
+						<div class="lie_right">{{subscribefee.FINANCEPROINST_CREATEDATE}}</div>
 						<br />
 					</div>
 					<div>
 						<div class="lie-left">出差人员</div>
-						<div class="lie_right">{{t_subscribefee2.BUSINESS_PERSON}}</div>
+						<div class="lie_right">{{subscribefee.BUSINESS_PERSON}}</div>
 						<br />
 					</div>
 					<div>
 						<div class="lie-left">出差事由</div>
-						<div class="lie_right">{{t_subscribefee2.BUSINESS_REASON}}</div>
+						<div class="lie_right">{{subscribefee.BUSINESS_REASON}}</div>
 						<br />
 					</div>
 					<div>
 						<div class="lie-left">合计金额</div>
-						<div class="lie_right">{{t_subscribefee2.PAYMENT_LOWER}}</div>
+						<div class="lie_right">{{subscribefee.PAYMENT_LOWER}}</div>
 						<br />
 					</div>
 				</div>
@@ -228,6 +228,52 @@
 	import processUnit from '../auditingProcess/item.vue'
 	import popModel from '../auditingPop/popModel.vue'
 	export default {
+		props: {
+			ExpenseBill: {
+				required: true,
+				type: Object
+			},
+			FinanceProinstList: {
+				required: true,
+				type: Object
+			},
+			ApproveList: {
+				required: true,
+				type: Array
+			},
+			PassportList: {
+				required: true,
+				type: Object
+			},
+			ImageList: {
+				required: true,
+				type: Array
+			},
+			ExpenseDetail: {
+				required: true,
+				type: Array
+			},
+			rejectApproved: {
+				required: true,
+				type: Array
+			},
+			travelShow:{
+				required: true,
+				type: Boolean
+			},
+			SubscribefeeShow:{
+				required: true,
+				type: Boolean
+			},
+			SubscribefeeTitle:{
+				required: true,
+				type: String
+			},
+			subscribefee: {
+				required: true,
+				type: Object
+			},
+		},
 		data() {
 			return {
 				popData: { //审批驳回移交字段
@@ -239,29 +285,10 @@
 				},
 				showPopupMiddle: false,
 				popType: 'middle',
-				travelShow: false, // 控制页面显示
 				cardShow: true, // 控制折叠面板
 				cardShow2: true,
 				cardShow3: true,
-				ExpenseBill: {},
-				FinanceProinstList: {},
-				ApproveList: [],
-				PassportList: {},
-				ImageList: [], // 附件图片列表
-				ExpenseDetail: [],
-				rejectApproved: [], //驳回意见列表
 				isExamine: false, // 按钮显示隐藏
-				SubscribefeeShow: false, //已办结业务
-				SubscribefeeTitle: '', //业务标题
-				t_subscribefee2: { //差旅费超标准列表详情
-					DEPARTMENT_NAME: '', // 报销部门
-					STAFF_NAME: '', // 申请人员
-					DEPT_NAME: '', // 公司名称
-					FINANCEPROINST_CREATEDATE: '', // 申请时间
-					BUSINESS_PERSON: '', // 出差人员
-					BUSINESS_REASON: '', // 出差事由
-					PAYMENT_LOWER: '', // 合计金额
-				}
 			};
 		},
 		components: {
@@ -271,83 +298,12 @@
 		},
 		computed: {},
 		methods: {
-			// 获取页面数据
-			getExpenseData() {
-				this.travelShow = false
-				uni.showToast({
-					title: "loading",
-					icon: "loading"
-				})
-				let _this = this
-				this.$api.post({
-					action_type: 'GetExpenseDetail',
-					action_data: 'o6rT6vuvZRSWKlsiu6N1zuqKSLUI',
-					FINANCEPROINST_ID: this.$route.query['FINANCEPROINST_ID'], //业务内码
-					OPERATION_TYPE: this.$route.query['ACCEPT_TYPE'], //业务类型
-					FINANCEPROINST_NEXTID: this.$route.query['FINANCEPROINST_NEXTID'] //流程状态
-				}).then(res => {
-					this.travelShow = true
-					uni.hideLoading()
-					console.log(res.data)
-					this.GetSubscribefee(res.data.FinanceProinstList[0].FINANCEPROINST_FIELD, false)
-					this.ExpenseBill = res.data.ExpenseBill[0];
-					this.FinanceProinstList = res.data.FinanceProinstList[0];
-					uni.setNavigationBarTitle({
-						title: this.$util.acceptState(this.FinanceProinstList.ACCEPT_TYPE)
-					});
-					this.ApproveList = res.data.ApproveList;
-					// this.rejectApproved = res.data.RejectApproved;
-					this.ExpenseDetail = res.data.ExpenseDetail;
-					this.PassportList = res.data.PassportList[0];
-					if (res.data.ImageList && res.data.ImageList.length > 0) {
-						let arr = res.data.ImageList.map(v => {
-							return v.IMAGE_URL.replace(/-/g, '/')
-						})
-						arr.forEach(v => {
-							_this.$util.getBase64(v).then(res => {
-								_this.ImageList.push(res)
-								_this.$previewRefresh() //图片放大功能
-							})
-						})
-					};
-					if (this.FinanceProinstList.NOWSTAFF_ID === this.PassportList.USER_ID) {
-						_this.isExamine = true
-					} else {
-						_this.isExamine = false
-					}
-				})
-			},
-			// 获取关联详情
-			GetSubscribefee(id, isClick) {
-				this.$api.post({
-					action_type: 'GetTravelExpenseDetail',
-					FINANCEPROINST_ID: id
-				}).then(res => {
-					if (res && res.data && res.data.ExpenseBill && res.data.FinanceProinstList) {
-						console.log(res.data)
-						this.SubscribefeeTitle = res.data.FinanceProinstList[0].ACCEPT_NAME
-						this.t_subscribefee2 = {
-							DEPARTMENT_NAME: res.data.ExpenseBill[0].DEPARTMENT_NAME, // 报销部门
-							STAFF_NAME: res.data.FinanceProinstList[0].STAFF_NAME, // 申请人员
-							DEPT_NAME: res.data.FinanceProinstList[0].DEPT_NAME, // 公司名称
-							FINANCEPROINST_CREATEDATE: res.data.FinanceProinstList[0].FINANCEPROINST_CREATEDATE, // 申请时间
-							BUSINESS_PERSON: res.data.ExpenseBill[0].BUSINESS_PERSON, // 出差人员
-							BUSINESS_REASON: res.data.ExpenseBill[0].BUSINESS_REASON, // 出差事由
-							PAYMENT_LOWER: res.data.ExpenseBill[0].PAYMENT_LOWER, // 合计金额
-						}
-					}
-					isClick ? this.SubscribefeeShow = true : this.SubscribefeeShow = false
-				})
-				console.log(this.t_subscribefee2)
-			},
 			// 关联详情点击事件
 			clickGetSubscribefee() {
 				let body = document.getElementsByTagName('body')[0];
 				body.style.overflow = "hidden";
-				this.GetSubscribefee(this.FinanceProinstList.FINANCEPROINST_FIELD, true);
 				this.popType = 'middle';
 				this.showPopupMiddle = true;
-				console.log(this.showPopupMiddle)
 			},
 			// 关联详情隐藏
 			hidePopup() {
@@ -372,7 +328,7 @@
 					case 4000:
 						popData.title = "请选择移交人员"
 						popData.button = "移交"
-						_this.getTransferUser(_this.baseData.NOWACTDEF_ID)
+						_this.getTransferUser(_this.FinanceProinstList.NOWACTDEF_IDS)
 						break;
 					case 2000:
 						popData.title = "请确认审核当前业务到下一个环节"
@@ -392,33 +348,32 @@
 			},
 			getHighNextActDef(type) { // 获取下一环节 type:2000 审核,3000驳回,4000移交
 				let _this = this
-
-				// 				this.$api.get({
-				// 					action_type: 'GetHighNextActDef',
-				// 					action_data: '4583E56BACB489F5',
-				// 					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
-				// 					HIGHWAYPROINST_NEXTID: type
-				// 				}).then((res)=> {
-				// 					console.log(res)
-				// 					let name = ['ActDef_Name', 'ActDef_ID'] //默认审核
-				// 					if (type===3000) { // 否则回退
-				// 						name = ['ActInst_Name', 'ActInst_ID']
-				// 					}
-				// 					res.data.NextActDefList.forEach(el => {
-				// 						_this.popData.selectData.push({
-				// 							label: el[name[0]],
-				// 							value: el[name[1]]
-				// 						})
-				// 					})
-				// 				})
+					this.$api.get({
+						action_type: 'GetFlowNextActDef',
+						action_data: '4583E56BACB489F5',
+						FINANCEPROINST_ID: _this.FinanceProinstList.FINANCEPROINST_ID,
+						FINANCEPROINST_NEXTID: type
+					}).then((res)=> {
+						console.log(res)
+						let name = ['ActDef_Name', 'ActDef_ID'] //默认审核
+						if (type===3000) { // 否则回退
+							name = ['ActInst_Name', 'ActInst_ID']
+						}
+						res.data.NextActDefList.forEach(el => {
+							_this.popData.selectData.push({
+								label: el[name[0]],
+								value: el[name[1]]
+							})
+						})
+					})
 			},
 			getTransferUser(nextId) { // 获取人员信息
 				let _this = this
 				this.$api.get({
-					action_type: 'GetTransferUser',
+					action_type: 'GetFlowTransferUser',
 					action_data: '4583E56BACB489F5',
-					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
-					NextACTDEF_IDS: nextId
+					FINANCEPROINST_ID: _this.FinanceProinstList.FINANCEPROINST_ID,
+					FINANCEPROINST_NEXTID: nextId
 				}).then((res) => {
 					res.data.TransferUserList.forEach(el => {
 						// debugger
@@ -442,12 +397,12 @@
 			postData(data) {
 				this.$api.post({
 					action_type: 'SubmitFinaceInfo',
-
+					
 				})
 			}
 		},
 		created() {
-			this.getExpenseData();
+			
 		},
 		onLoad() {
 
@@ -456,149 +411,7 @@
 </script>
 
 <style scoped>
-	.travel-top {
-		margin-top: 21upx;
-		padding: 30upx;
-		padding-bottom: 60upx;
-		background-color: #fff;
-		position: relative;
-	}
-
-	.detail_top {
-		width: 100%;
-		display: table;
-		position: relative;
-	}
-
-	.left_circle {
-		width: 30upx;
-		height: 34upx;
-		background-color: #fff;
-		box-shadow: 2px 0px 3px rgb(234, 234, 234);
-		border-radius: 50%;
-		position: absolute;
-		top: 126px;
-		left: -15upx;
-	}
-
-	.right_circle {
-		width: 30upx;
-		height: 34upx;
-		background-color: #fff;
-		box-shadow: -2px 0px 3px rgb(234, 234, 234);
-		border-radius: 50%;
-		position: absolute;
-		top: 126px;
-		right: -15upx;
-	}
-
-	.detail_top_box {
-		background-color: #fff;
-		margin-top: 24upx;
-		border-bottom: 6px solid #eee;
-		overflow: hidden;
-		box-shadow: 0px -2px 3px rgb(234, 234, 234);
-	}
-
-	.detail_top_name {
-		background-color: #fff;
-		margin-top: 0.6rem;
-		padding: 0 24upx;
-	}
-
-	.detail_top_name h3 {
-		color: #333333;
-		line-height: 40px;
-		font-size: 36upx;
-		text-align: center;
-		padding-top: 10px;
-	}
-
-	.detail_top_name h4 {
-		color: #333333;
-		font-size: 36upx;
-		text-align: center;
-		line-height: 20px;
-	}
-
-	.detail_top_name p {
-		color: #989898;
-		font-size: 24upx;
-		padding-top: 10px;
-		text-align: right;
-		line-height: 30px;
-	}
-
-	.detail_top_bottom {
-		width: 100%;
-		border-bottom: 1px dashed #ccc;
-		border-top: 1px dashed #ccc;
-		font-size: 20upx;
-		line-height: 45px;
-		color: #777;
-		overflow: hidden;
-		display: flex;
-	}
-
-	.detail_top_bottom li {
-		width: 50%;
-		font-size: 26upx;
-	}
-
-	.detail_top_bottom li img.icon_img,
-	.detail_middle_box li img.icon_img {
-		width: 24upx;
-		margin-right: 10upx;
-	}
-
-	.detail_top_bottom li span {
-		padding-left: 12upx;
-		color: #333;
-	}
-
-	.detail_middle {
-		overflow: hidden;
-		box-shadow: 0px 4px 8px rgb(234, 234, 234);
-	}
-
-	.detail_middle_box {
-		padding: 20upx 0;
-		width: 100%;
-		font-size: 26upx;
-		color: #777;
-	}
-
-	.detail_middle_box li {
-		overflow: hidden;
-		padding: 10upx 0;
-		display: flex;
-	}
-
-	.detail_middle_box li div:first-child,
-	.detail_middle_box .attachment div:first-child {
-		width: 25%;
-	}
-
-	.detail_middle_box li div:last-child,
-	.detail_middle_box .attachment div:last-child {
-		width: 75%;
-		color: #333;
-	}
-
-	.detail_middle_box .attachment {
-		display: flex;
-	}
-
-	.imgBox {
-		display: flex;
-		align-items: center;
-		/* justify-content: space-around; */
-	}
-
-	.imgBox img {
-		width: 20%;
-		height: 100%;
-	}
+	@import '../../static/css/expensesTop.css';
 
 	.base-info {
 		background-color: #fff;
