@@ -43,6 +43,9 @@
 .ico-bz:before {
   background: url("../static/img/bz_logo.png");
 }
+.ico-gzk:before {
+  background: url("../static/img/rzlx_logo.png");
+}
 .ico,
 .ico-s {
   display: inline-block;
