@@ -206,7 +206,7 @@
 					case 4000:
 						popData.title= "请选择移交人员"
 						popData.button= "移交"
-						_this.getTransferUser(_this.baseData.NOWACTDEF_ID)
+						_this.getTransferUser(_this.baseData.NOWACTDEF_ID,1)
 						break;
 					case 2000: 
 						popData.title= "请确认审核当前业务到下一个环节"
@@ -245,14 +245,18 @@
 					})
 				})
 			},
-			getTransferUser(nextId) { // 获取人员信息
+			getTransferUser(nextId, type) { // 获取人员信息
 				let _this = this
-				this.$api.get({
+				let _data = {
 					action_type: 'GetFlowTransferUser',
 					action_data: '4583E56BACB489F5',
 					HIGHWAYPROINST_ID: _this.baseData.HIGHWAYPROINST_ID,
 					NextACTDEF_IDS: nextId
-				}).then((res)=> {
+				}
+				if (type) {
+					_data.TransferType = type
+				}
+				this.$api.get(_data).then((res)=> {
 					res.data.TransferUserList.forEach(el => {
 						// debugger
 						_this.popData.userData.push({
@@ -290,10 +294,15 @@
 					delete arr.NextACTDEF_IDS
 				}
 				this.$api.post(arr).then((res)=> {
-					let _data = res.data.ResultObject
+					let _data = res.data.ResultObject[0]
 					_this.clearPopData()
-					if (_data.ResultCode===200) {
-						uni.redirectTo({url:'/pages/business/business'})
+					if (_data.ResultCode==='100') {
+						uni.showToast({
+							title: _data.ResultDesc,
+							success () {
+								uni.redirectTo({url:'/pages/business/business'})
+							}
+						})
 					}
 					console.log(_data.ResultDesc)
 				})

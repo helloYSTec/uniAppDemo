@@ -93,6 +93,7 @@
 					action_type: 'GetHighWayProinstList',
 					action_data: '4583E56BACB489F5',
 					pageIndex: _this.pageData.pageIndex,
+					pageSize: _this.pageData.pageSize,
 					ActinstState: _this.searchKeys.join(',')
 				}
 				this.$api.post(json).then(res => {
