@@ -12,7 +12,7 @@
 				<div class="textUnit" v-if="popData.type!==4000">
 					业务转出到：<span @tap="selectData('selectData')">{{saveData.NextACTDEF_Name}} <i class="uni-icon uni-icon-arrowright"></i></span>
 				</div>
-				<div class="textUnit" v-if="popData.type!==3000" v-show="saveData.NextACTDEF_IDS!=='5010'">
+				<div class="textUnit" v-if="popData.type!==3000" v-show="!popData.notUserData">
 					指定经办人：<span @tap="selectData('userData')">{{saveData.NextSTAFF_Name}} <i  class="uni-icon uni-icon-arrowright"></i></span>
 				</div>
 				<view >
@@ -74,6 +74,14 @@
         		this.$emit('showPop',type)
         	},
             closePop() {
+            	this.saveData = {
+					NextSTAFF_Name: '请选择',
+					NextACTDEF_Name: '请选择',
+					HIGHWAYPROINST_NEXTID: '', //触发当前的按钮状态
+					NextSTAFF_ID:'', // 指定人员
+					NextACTDEF_IDS:'', // 指定业务
+					APPROVED_INFO: '' // 意见
+				}
 				this.$emit('closePop', false)
             },
 			selectData (val) {
@@ -97,7 +105,7 @@
 				if (this.choseType==='selectData') { //选择业务 则根据业务查询人员
 					this.saveData.NextACTDEF_IDS = e.value[0]
 					this.saveData.NextACTDEF_Name = e.label
-					if (_code===2000 && e.value[0] !== 5010) {
+					if (_code===2000 && !_this.popData.notUserData) {
 						_this.$emit('getTransferUser', e.value[0]) // 不是办结则查询人员
 					}
 				}else {
@@ -109,7 +117,6 @@
 				// this.clearPopData()
 			},
 			postData() {
-				// debugger
 				let _this = this
 				let _code = _this.saveData.HIGHWAYPROINST_NEXTID
 				let _NextACTDEF_IDS = _this.saveData.NOWACTINST_IDS
@@ -117,14 +124,16 @@
 				if (_code!==4000) {
 					let _advTitle = _this.checked('APPROVED_INFO')
 					let _nowActnst = _this.checked('NextACTDEF_IDS')
-					let _nextStaff = _this.checked('NextSTAFF_ID')
 					if (!_advTitle || !_nowActnst) {
 						return false
 					}
-					// 如果是不是办结的审核 则验证 是否选择了人员
-					if (_code===2000 && _NextACTDEF_IDS!=='5010' && !_nextStaff) { 
+					if (_code===2000 && !_this.popData.notUserData) {
+						let _nextStaff = _this.checked('NextSTAFF_ID')
+						// 如果是不是办结的审核 则验证 是否选择了人员
+						if (!_nextStaff) { 
 							return false
 						}
+					}
 				}else {
 					let _nextStaff = _this.checked('NextSTAFF_ID')
 					if (!_nextStaff) {

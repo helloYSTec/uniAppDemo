@@ -14,7 +14,7 @@
 							<span>{{$util.cutDate(ExpenseBill.EXPENDBILL_DATE)}}2018.01.12</span>
 						</div>
 						<div class="detail_top_bottom">
-							<ul class="">
+							<ul>
 								<li>
 									<i class="ico ico-user"></i>
 									领款人员: 

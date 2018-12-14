@@ -184,6 +184,7 @@
 					button:'',
 					selectData: [],
 					userData: [],
+					notUserData: false,
 					popShow: false
 				}
 			}
@@ -200,6 +201,7 @@
 					button:'',
 					selectData: [],
 					userData: [],
+					notUserData: false,
 					popShow: false
 				}
 				switch (value) {
@@ -238,6 +240,9 @@
 						name = ['ActInst_Name', 'ActInst_ID']
 					}
 					res.data.NextActDefList.forEach(el => {
+						if (el.ActDef_Type && el.ActDef_Type===5010) {
+							_this.popData.notUserData = true
+						}
 						_this.popData.selectData.push({
 							label: el[name[0]],
 							value: el[name[1]]
@@ -246,7 +251,7 @@
 				})
 			},
 			getTransferUser(nextId, type) { // 获取人员信息d
-			
+
 				let _this = this
 				let _data = {
 					action_type: 'GetFlowTransferUser',
@@ -295,6 +300,9 @@
 				if (arr.HIGHWAYPROINST_NEXTID===4000) {
 					delete arr.NextACTDEF_IDS
 				}
+				if (arr.HIGHWAYPROINST_NEXTID===3000 || (arr.HIGHWAYPROINST_NEXTID===2000 && _this.popData.notUserData)) {
+					delete arr.NextSTAFF_ID
+				}
 				this.$api.post(arr).then((res)=> {
 					let _data = res.data.ResultObject[0]
 					_this.clearPopData()
@@ -302,11 +310,13 @@
 						uni.showToast({
 							title: _data.ResultDesc,
 							success () {
-								uni.redirectTo({url:'/pages/business/business'})
+								setTimeout(()=> {
+									uni.redirectTo({url:'/pages/business/business'})
+								},300)
+								
 							}
 						})
 					}
-					console.log(_data.ResultDesc)
 				})
 			}
 		},
