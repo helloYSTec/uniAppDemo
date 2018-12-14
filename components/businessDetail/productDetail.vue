@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="base-info">
+		<view class="base-info pb20">
 			<view class="content-title">{{baseData.PRODEF_NAME}}</view>
 			<view class="main-card">
 				<div class="card-title">
@@ -302,6 +302,10 @@
 				})
 			}
 		},
+		created () {
+			let _this = this
+			console.log(_this.approveList)
+		},
 		onLoad (options) {
 			console.log(options)
 		}
@@ -322,6 +326,9 @@
 	}
 	.no-show {
 		display: none;
+	}
+	.pb20 {
+		padding-bottom: 40upx;
 	}
 	.lh28 {
 		line-height: 54upx;
@@ -351,8 +358,8 @@
 	}
 	.main-card {
 		border: 1upx solid #dcdcdc;
-		border-radius: 10upx;
-		box-shadow: 0 1upx 8upx rgba(0, 0, 0, 0.16); 
+		border-radius: 6upx;
+		box-shadow: 0 2upx 6upx rgba(0, 0, 0, 0.1); 
 		margin-left: 30upx;
 		margin-right: 30upx;
 	}
@@ -422,7 +429,7 @@
 	.card-top {
 		display: flex;
 		justify-content: space-between;
-		padding: 20upx 20upx 16upx 20upx;
+		padding: 24upx;
 	}
 	.card-top .product-name {
 	    text-overflow: ellipsis;
@@ -446,7 +453,7 @@
 		border-top: 1upx dashed #eee;
 		display: flex;
 		flex-wrap: wrap;
-		padding: 0 20upx 20upx 20upx;
+		padding: 0 24upx 24upx 24upx;
 	}
 	.card-detail li {
 		padding-top: 20upx;
