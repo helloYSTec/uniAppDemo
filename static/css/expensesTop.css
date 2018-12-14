@@ -3,13 +3,12 @@
 	padding: 30upx;
 	padding-bottom: 60upx;
 	background-color: #fff;
-	position: relative;
 }
 
 .detail_top {
 	width: 100%;
-	display: table;
 	position: relative;
+	box-shadow: 0upx -6upx 1upx #cfcfcf;
 }
 
 .left_circle {
@@ -19,7 +18,7 @@
 	box-shadow: 4upx 0upx 6upx rgb(234, 234, 234);
 	border-radius: 50%;
 	position: absolute;
-	top: 252upx;
+	top: 228upx;
 	left: -15upx;
 }
 
@@ -30,7 +29,7 @@
 	box-shadow: -4upx 0upx 6upx rgb(234, 234, 234);
 	border-radius: 50%;
 	position: absolute;
-	top: 252upx;
+	top: 228upx;
 	right: -15upx;
 }
 
@@ -39,43 +38,60 @@
 	margin-top: 24upx;
 	border-bottom: 8upx solid #eee;
 	overflow: hidden;
-	box-shadow: 0px -8upx 8upx rgb(234, 234, 234);
+	box-shadow: 0 4upx 16upx #dfdfdf inset;
 }
 
 .detail_top_name {
 	background-color: #fff;
-	margin-top: 30upx;
+	margin-top: 16upx;
 	padding: 0 24upx;
 }
-
 
 .detail_top_name h3 {
 	color: #333333;
 	line-height: auto;
 	font-size: 36upx;
 	text-align: center;
+	padding-top: 20upx;
 }
 
 .detail_top_name h4 {
 	color: #333333;
 	font-size: 36upx;
 	text-align: center;
-	line-height: 20px;
+	line-height: 40upx;
 }
-
-.detail_top_name p, .detail-top-base {
+.detail_top_name p{
+	line-height: 64upx;
 	color: #989898;
 	font-size: 24upx;
-	padding-top: 25upx;
+	padding-top: 40upx;
 	text-align: right;
-	line-height: 81upx;
-	border-bottom: 1upx dashed #ccc;
+}
+.detail-top-base {
+	color: #989898;
+	font-size: 24upx;
+	padding-top: 48upx;
+	text-align: right;
+	line-height: 48upx;
 }
 
 .detail_top_name .detail-top-base{
 	display: flex;
 	text-align: left;
 	justify-content: space-between;
+}
+.detail-top-base + .detail-top-base{
+	padding-top: 0;
+	padding-bottom: 16upx;
+}
+.detail-top-base .detail_base_name{
+	color: #333;
+	font-size: 26upx;
+}
+.detail-top-base .detail_base_price{
+	color: #f4904e;
+	font-size: 26upx;
 }
 .detail_top_bottom {
 	width: 100%;
@@ -85,6 +101,7 @@
 	overflow: hidden;
 	display: flex;
 	justify-content: space-between;
+	border-top: 1upx dashed #ccc;
 }
 .detail_top_bottom + .detail_top_bottom {
 	border-top: 1upx dashed #ccc;
