@@ -281,6 +281,7 @@
 					button: '',
 					selectData: [],
 					userData: [],
+					notUserData:false,
 					popShow: false
 				},
 				showPopupMiddle: false,
@@ -322,6 +323,7 @@
 					button: '',
 					selectData: [],
 					userData: [],
+					notUserData: false,
 					popShow: false
 				}
 				switch (value) {
@@ -360,6 +362,9 @@
 						name = ['ActInst_Name', 'ActInst_ID']
 					}
 					res.data.NextActDefList.forEach(el => {
+						if (el.ActDef_Type && el.ActDef_Type===5010) {
+							_this.popData.notUserData = true
+						}
 						_this.popData.selectData.push({
 							label: el[name[0]],
 							value: el[name[1]]

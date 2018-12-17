@@ -133,7 +133,8 @@
 						title: this.$util.acceptState(this.FinanceProinstList.ACCEPT_TYPE)
 					});			
 					this.ApproveList = res.data.ApproveList;
-					// this.rejectApproved = res.data.RejectApproved;
+					this.rejectApproved = res.data.RejectApproved;
+					console.log(this.rejectApproved)
 					this.ExpenseDetail = res.data.ExpenseDetail;
 					this.PassportList = res.data.PassportList[0];
 					if (res.data.ImageList && res.data.ImageList.length > 0) {
