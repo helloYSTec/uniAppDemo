@@ -32,7 +32,7 @@
 				<b>{{item}}</b>
 			</div>
 			<div class="uni-collapse-content" :class="commodityTree[item].cardShow ? 'uni-active' : ''" v-show="commodityTree[item].cardShow">
-				<div class="main-card" v-for="proUnit in commodityTree[item].child" :key="proUnit.COMMODITY_ID">
+				<div class="main-card" v-for="(proUnit, cardIndex) in commodityTree[item].child" :key="index+'-'+'-'+cardIndex">
 					<div class="card-top">
 						<div>
 							<p class="product-name">{{proUnit.COMMODITY_NAME}}</p>
@@ -51,7 +51,7 @@
 						</template>
 						<template v-else>
 							<!-- 调整的商品参数 -->
-							<li v-for='(changeItem, i) in getChange[proUnit.COMMODITY_ID]' :key="i">
+							<li v-for='(changeItem, i) in getChange[proUnit.COMMODITY_ID]' :key="proUnit.COMMODITY_ID+'-'+i">
 								{{changeItem.changeName}}:
 								<template v-if="changeItem.changeName.indexOf('价')>-1">
 									<b class="product-price">￥{{changeItem.nowV}}</b>
@@ -76,7 +76,7 @@
 					<b>驳回意见</b>
 				</div>
 				<div class="process-box uni-collapse-content uni-active">
-					<processUnit :item="rejectApproved[0]" :key="rejectApproved[0].APPROVED_DATE" :approveType="0"/>
+					<processUnit :item="rejectApproved[0]" :approveType="0"/>
 				</div>
 			</div>
 		</view>
@@ -86,7 +86,7 @@
 					<b>审批流程</b>
 				</div>
 				<div class="process-box uni-collapse-content" :class="cardShow ? 'uni-active' : ''" v-show="cardShow">
-					<processUnit v-for="item in approveList" :item="item" :key="item.APPROVED_DATE" :approveType="1"/>
+					<processUnit v-for="item in approveList" :item="item" :key="item.APPROVED_ID" :approveType="1"/>
 				</div>
 			</div>
 		</view>
@@ -483,7 +483,8 @@
 		border-top: 1upx dashed #eee;
 		padding: 0 20upx 20upx 20upx;
 		display: flex;
-		flex-direction: column;
+		// flex-direction: column;
+		justify-content: space-between;
 		flex-wrap: wrap;
 	}
 	.card-change-detail li {

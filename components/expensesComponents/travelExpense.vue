@@ -507,7 +507,7 @@
 		font-size: 36upx;
 	} */
 	.jt_logo {
-		background: url(../../static/img/jc_logo.png) no-repeat center 36upx;
+		background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGkAAAAICAYAAAD6KtHFAAAAjElEQVRIie3WIQoCQRQG4G/FIggWi9Fm9hpewCu4V7CKeBejBxCr7Aab51AQ29oMslOdCe+L//zhwYPhVV3XCfm0bXvAHo9UZ/C/cUJCjTPmqUIsKb83lrhi1VeIJZVjihO2vw+xpLJU2OGIyTdsmibbRAE8Me7J71jjNkScd3m9EvkCF2ziuyvbCLMPK6EWTFmpDO0AAAAASUVORK5CYII=") no-repeat center 36upx;
 		background-size: 100%;
 		width: 50px;
 		text-align: center;

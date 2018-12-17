@@ -1,7 +1,7 @@
 <template>
 	<view class="expense-detail">
 		<header-nav />
-		<view style="margin-top: 30upx;">
+		<view class="mt30">
 			<template v-if="expenseParam.ACCEPT_TYPE==='401202'">
 				<travel-expense 
 				:ExpenseBill="ExpenseBill" 
@@ -201,6 +201,8 @@
 	}
 </script>
 
-<style>
-
+<style scoped>
+	.mt30{
+		margin-top: 30upx;
+	}
 </style>

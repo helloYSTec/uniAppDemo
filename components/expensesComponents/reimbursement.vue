@@ -54,7 +54,7 @@
 			</view>
 
 			<view class="detail_middle">
-				<view style="padding: 0 24upx">
+				<view class="pt24">
 					<ul class="detail_middle_box">
 						<li>
 							<div>
@@ -262,4 +262,7 @@
 
 <style scoped>
 	@import '../../static/css/expensesTop.css';
+	.pt24 {
+		padding: 0 24upx;
+	}
 </style>
