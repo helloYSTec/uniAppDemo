@@ -41,7 +41,7 @@
 				</div>
 			</div>
 			<div class="detail_middle">
-				<div style="padding: 0 24upx">
+				<div>
 					<ul class="detail_middle_box">
 						<li>
 							<i class="ico ico-bz"></i>

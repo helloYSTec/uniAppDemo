@@ -134,27 +134,5 @@
 	.open-ico:before {
 		content: "\E60A";
 	}
-	
-/* 	* {
-		box-sizing: border-box;
-		
-	}
-	ul {
-		padding: 0;
-		margin: 0;
-	}
-	li {
-		list-style: none;
-	}
-	html {
-		font-size: 20px !important;
-	}
-	.page-body {
-		margin-top: 2rem;
-		padding: .5rem 0;
-		background-color: #f2f2f2;
-		color: #333;
-		font-size: .7rem;
-	} */
 	@import "./static/icon/iconfont.css";
 </style>

@@ -7,7 +7,10 @@
     "transformPx" : false,
     "app-plus" : {
         /* 5+App特有相关 */
-        "modules" : {},
+        "modules" : {
+            "Share" : {},
+            "Push" : {}
+        },
         /* 模块配置 */
         "distribute" : {
             /* 应用发布信息 */
@@ -45,18 +48,21 @@
     },
     /* SDK配置 */
     "quickapp" : {},
-	"h5": {
-		"router": {
-			"mode": "history", //路由跳转模式，支持 hash|history ,默认 hash
-			"base": "/BusinessApp/"
-		}
-	},
+    "h5" : {
+        "router" : {
+            "mode" : "history", //路由跳转模式，支持 hash|history ,默认 hash
+            "base" : "/BusinessApp/"
+        }
+    },
     /* 快应用特有相关 */
     "mp-weixin" : {
         /* 小程序特有相关 */
-        "appid" : "",
+        "appid" : "wxa99ef047735c031e",
         "setting" : {
-            "urlCheck" : true
+            "urlCheck" : true,
+            "es6" : true,
+            "postcss" : true,
+            "minified" : true
         }
     }
 }

@@ -59,6 +59,6 @@
 
 <style scoped>
 	.zd .content:first-child{
-		border: 1px solid #fb9154;
+		border: 1upx solid #fb9154;
 	}
 </style>
